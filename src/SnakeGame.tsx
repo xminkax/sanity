@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 
 const unitSize = 20;
 const numberOfCells = 20;
-const canvasWidth = unitSize * numberOfCells;
+const canvasWidth = unitSize * 30;
 const canvasHeight = unitSize * numberOfCells;
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
