@@ -5,7 +5,9 @@ import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 // import {CSS3DRenderer} from 'three/addons/renderers/CSS3DRenderer.js';
 import "./fireworks.css";
-
+function getColor() {
+    return [parseFloat(Math.random().toFixed(2)), parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)), parseFloat(((50 + 20 * Math.random()) / 100).toFixed(2))];
+}
 function makeElementObject(type, width, height) {
     const obj = new THREE.Object3D();
 
@@ -125,7 +127,7 @@ const Fireworks: React.FC = () => {
         if (!canvasRef.current) return;
 
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, canvasRef.current?.width /  canvasRef.current?.height, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
         let textMesh;
 
@@ -150,6 +152,7 @@ const Fireworks: React.FC = () => {
             // const bla = [[naa, 0, 0], [0, naa, 0], [0, 0, naa]];
             const bla = [[naa, 1, 1], [1, naa, 1], [1, 1, naa]];
             const span = bla[Math.floor(Math.random() * 3)];
+            const [h, s, l] = getColor();
             for (let i = 0; i < pos.count; i++) {
 
                 const pointBasicCoordinate = 2 * Math.PI / PARTICLE_COUNT * i;
@@ -181,11 +184,15 @@ const Fireworks: React.FC = () => {
                 // debugger;
                 // colorlala.setXYZ(i, color.r, color.g, color.b);
                 // console.log(bla[Math.floor(Math.random() * 3)]);
-                const [newR, newG, newB] = generateSimilarHueColor(span, 40);
-                particles.attributes.color.setXYZ(i, newR, newG, newB);
+
+                // const [newR, newG, newB] = generateSimilarHueColor(span, 40);
+                const col = new THREE.Color().setHSL(h, s, l);
+                // 0.78,0.9,0.72
+                particles.attributes.color.setXYZ(i, col.r - 0.3 + Math.random() * 0.3, col.g, col.b);
+
                 // particles.attributes.color.setXYZ(i, span[]);
 
-                console.log(newR, newG, newB);
+                // console.log(newR, newG, newB);
                 // debugger
                 // colors.push(color.r, color.g, color.b);
             }
@@ -196,9 +203,11 @@ const Fireworks: React.FC = () => {
 
             // particles.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
             textMesh.position.set(-3.5, -0.3, 0); // Center the text
-            textMesh.material.color.r = span[0];
-            textMesh.material.color.g = span[1];
-            textMesh.material.color.b = span[2];
+            // textMesh.material.color.r = span[0];
+            textMesh.material.color.setHSL(h,s+0.1,l);
+            // textMesh.material.color.setHex(0x3acfd5);
+            // textMesh.material.color.g = span[1];
+            // textMesh.material.color.b = span[2];
 
             particles.attributes.color.needsUpdate = true;
             pos.needsUpdate = true;
@@ -328,7 +337,7 @@ const Fireworks: React.FC = () => {
                 depth: 0.1,
             });
             textGeometry.computeBoundingBox();
-            const textMaterial = new THREE.MeshBasicMaterial({color: "#24242e", opacity: 0.65, transparent: true});
+            const textMaterial = new THREE.MeshBasicMaterial({color: "#24242e", opacity: 0.7, transparent: true});
             textMesh = new THREE.Mesh(textGeometry, textMaterial);
             // debugger;
             textMesh.position.set(-3.5, -0.3, 0); // Center the text
@@ -358,6 +367,20 @@ const Fireworks: React.FC = () => {
         // button.position.set(0, -1, 2); // Position in front of the camera
         // scene.add(button);
 
+
+        // const canvas = document.createElement('canvas');
+        // const context = canvas.getContext('2d');
+        // canvas.width = 256;
+        // canvas.height = 64;
+        // context.fillStyle = 'white';
+        // context.font = '20px Arial';
+        // context.fillText(book.title, 10, 40);
+        //
+        // const texture = new THREE.CanvasTexture(canvas);
+        // const titleMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        // const titleMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.25), titleMaterial);
+        // titleMesh.position.set(0, 1, 0.26);
+        // bookMesh.add(titleMesh);
 
         // const root = new THREE.Object3D()
         // root.position.y = 20
@@ -464,8 +487,8 @@ const Fireworks: React.FC = () => {
     }, []);
 
     return <>
-        <button className="btn btn-game-over">Play again</button>
-        <canvas ref={canvasRef} width="600" height="400" style={{
+        {/*<button className="btn btn-game-over">Play again</button>*/}
+        <canvas ref={canvasRef} width="370" height="244" style={{
             border: "0.2rem solid",
             borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
         }}

@@ -6,37 +6,6 @@ import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 // import {CSS3DRenderer} from 'three/addons/renderers/CSS3DRenderer.js';
 import "./fireworks.css";
 
-function makeElementObject(type, width, height) {
-    const obj = new THREE.Object3D();
-
-    const element = document.createElement(type);
-    element.style.width = width + 'px';
-    element.style.height = height + 'px';
-    element.style.opacity = 0.999;
-    element.style.boxSizing = 'border-box'
-
-    const css3dObject = new CSS3DRenderer(element);
-    // obj.css3dObject = css3dObject
-    obj.add(css3dObject)
-
-    // make an invisible plane for the DOM element to chop
-    // clip a WebGL geometry with it.
-    const material = new THREE.MeshPhongMaterial({
-        opacity: 0.15,
-        color: new THREE.Color(0x111111),
-        blending: THREE.NoBlending,
-        // side	: THREE.DoubleSide,
-    });
-    // const geometry = new THREE.BoxGeometry( width, height, 1 );
-    // const mesh = new THREE.Mesh( geometry, material );
-    // mesh.castShadow = true;
-    // mesh.receiveShadow = true;
-    // obj.lightShadowMesh = mesh
-    // obj.add( mesh );
-
-    return obj
-}
-
 function generateSimilarHueColor(baseColor, hueVariation = 10) {
     // Helper to convert RGB to HSL
     function rgbToHsl(r, g, b) {
@@ -125,16 +94,18 @@ const Fireworks: React.FC = () => {
         if (!canvasRef.current) return;
 
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        scene.fog = new THREE.FogExp2( 0x000000, 0.025 );
+        const camera = new THREE.PerspectiveCamera(75, canvasRef.current?.width / canvasRef.current?.height, 0.1, 1000);
+        // camera.aspect = canvasRef.current?.height
         const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
-        let textMesh;
+        let textMesh, textMesh2;
 
         // renderer.setSize(600, 400);
         // document.body.appendChild(renderer.domElement);
         const myReference = canvasRef.current; // The DOM element
         // myReference.style.backgroundColor = "gray";
 
-        var PARTICLE_COUNT = 1000;
+        var PARTICLE_COUNT = 800;
         var particles = new THREE.BufferGeometry();
         const resetParticles = () => {
             // console.log(particles)
@@ -150,16 +121,17 @@ const Fireworks: React.FC = () => {
             // const bla = [[naa, 0, 0], [0, naa, 0], [0, 0, naa]];
             const bla = [[naa, 1, 1], [1, naa, 1], [1, 1, naa]];
             const span = bla[Math.floor(Math.random() * 3)];
+            const [h, s, l] = getColor();
             for (let i = 0; i < pos.count; i++) {
 
                 const pointBasicCoordinate = 2 * Math.PI / PARTICLE_COUNT * i;
-                const velocity = 0.5 + Math.random() * 1.5;
-                const x = velocity * Math.cos(pointBasicCoordinate);
+                const velocity = Math.random()*3 + Math.random() * 1.5;
+                const y = velocity * Math.cos(pointBasicCoordinate);
                 // const x = -pos.getX(i) - Math.random() * .05;
-                const y = velocity * Math.sin(pointBasicCoordinate);
+                const x = velocity * Math.sin(pointBasicCoordinate);
                 // const y = pos.getY(i) - Math.random() * .05;
-                // const z = pos.getZ(i);
-                const z = (Math.random() * DISTRIBZ - FLOOR_REPEAT * 2);
+                // const z = -10 + Math.random()*10;
+                const z = Math.random() * 5 - 10;
                 // console.log(i, x, y);
                 pos.setXYZ(i, x, y, z);
 
@@ -181,11 +153,12 @@ const Fireworks: React.FC = () => {
                 // debugger;
                 // colorlala.setXYZ(i, color.r, color.g, color.b);
                 // console.log(bla[Math.floor(Math.random() * 3)]);
-                const [newR, newG, newB] = generateSimilarHueColor(span, 40);
-                particles.attributes.color.setXYZ(i, newR, newG, newB);
+                const [newR, newG, newB] = generateSimilarHueColor(span, 70);
+                const col = new THREE.Color().setHSL(h, s, l);
+                particles.attributes.color.setXYZ(i, col.r - 0.3 + Math.random() * 0.3, col.g, col.b);
                 // particles.attributes.color.setXYZ(i, span[]);
 
-                console.log(newR, newG, newB);
+                // console.log(newR, newG, newB);
                 // debugger
                 // colors.push(color.r, color.g, color.b);
             }
@@ -195,14 +168,27 @@ const Fireworks: React.FC = () => {
             // particleMaterial.color.setRGB(Math.random(), Math.random(), Math.random());
 
             // particles.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            textMesh.position.set(-3.5, -0.3, 0); // Center the text
-            textMesh.material.color.r = span[0];
-            textMesh.material.color.g = span[1];
-            textMesh.material.color.b = span[2];
+            textMesh.position.set(-5, -0.8, 0); // Center the text
+
+            textMesh.material.color.setHSL(h, s+0.2, l);
+            // textMesh.material.color.r = span[0];
+            // textMesh.material.color.g = span[1];
+            // textMesh.material.color.b = span[2];
+
+            textMesh2.position.set(0.6, -0.8, 0); // Center the text
+            textMesh2.material.color.setHSL(h, s+0.2, l);
+            // textMesh2.material.color.r = span[0];
+            // textMesh2.material.color.g = span[1];
+            // textMesh2.material.color.b = span[2];
+
 
             particles.attributes.color.needsUpdate = true;
             pos.needsUpdate = true;
             // particles.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        }
+
+        function getColor() {
+            return [parseFloat(Math.random().toFixed(2)), parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)), parseFloat(((50 + 20 * Math.random()) / 100).toFixed(2))];
         }
 
         const animateParticles = () => {
@@ -210,28 +196,31 @@ const Fireworks: React.FC = () => {
             const pos = particles.getAttribute('position');
 
             if (typeof textMesh !== 'undefined') {
-                textMesh.position.z = textMesh.position.z + 0.02;
+                textMesh.position.z = textMesh.position.z + 0.04;
+            }
+            if (typeof textMesh2 !== 'undefined') {
+                textMesh2.position.z = textMesh2.position.z + 0.04;
             }
 
             // console.log(posText);
 
             for (let i = 0; i < pos.count; i++) {
-                if (pos.getX(i) > 4) {
+                if (pos.getX(i) > 22) {
                     resetParticles();
                     break;
                 }
                 // const pointBasicCoordinate = 2 * Math.PI / PARTICLE_COUNT * i;
-                const velocity = 0.008 + Math.random() * 0.003;
+                const velocity = 0.008 + Math.random() * 0.2;
                 const pointBasicCoordinate = 2 * Math.PI / PARTICLE_COUNT * i;
 
                 const x = pos.getX(i) + Math.cos(pointBasicCoordinate) * velocity;
                 // const x = 9;
-                const y = pos.getY(i) + Math.sin(pointBasicCoordinate) * velocity;
+                const y = pos.getY(i) + Math.sin(pointBasicCoordinate) * Math.cos(pointBasicCoordinate) * velocity;
                 // const y = 5;
-                const z = pos.getZ(i) + 0.005;
+                // const z = pos.getZ(i) + Math.random()*0.05;
                 // const z = -8;
                 // console.log(i, x, y, z);
-                pos.setXYZ(i, x, y, z);
+                pos.setXY(i, x, y);
             }
 
             pos.needsUpdate = true;
@@ -244,14 +233,14 @@ const Fireworks: React.FC = () => {
 
         for (let a = 0; a < PARTICLE_COUNT; a++) {
             const pointBasicCoordinate = 2 * Math.PI / PARTICLE_COUNT * a;
-            const velocity = 0.5 + Math.random() * 1.5;
+            const velocity = 0.008 + Math.random() * 0.8;
             // point.x = 6;
             point.x = velocity * Math.cos(pointBasicCoordinate);
             // point.y = 0;
             point.y = velocity * Math.sin(pointBasicCoordinate);
             // console.log("one", point);
             // point.z = -4;
-            point.z = (Math.random() * DISTRIBZ - FLOOR_REPEAT * 2);
+            point.z = Math.random() * 10 - 20;
 
             const color = new THREE.Color();
 
@@ -268,9 +257,10 @@ const Fireworks: React.FC = () => {
             const vy = 0.2;
             const vz = 1;
 
-            color.setRGB(Math.random(), Math.random(), Math.random(), THREE.SRGBColorSpace);
+            const [h, s, l] = getColor();
+            color.setHSL(h, s, l, THREE.SRGBColorSpace);
 
-            colors.push(color.r, color.g, color.b);
+            colors.push(1, 1, 1);
 
             points.push(point.x, point.y, point.z);
         }
@@ -306,37 +296,66 @@ const Fireworks: React.FC = () => {
         // const material = new THREE.MeshLambertMaterial({transparent: true});
         // material.color.setRGB(Math.random(), Math.random(), Math.random());
 
+        const sprite = new THREE.TextureLoader().load('/disc.png');
+        sprite.colorSpace = THREE.SRGBColorSpace;
+
         const particleMaterial = new THREE.PointsMaterial({
-            size: 0.05,
-            vertexColors: true
+            size: 1,
+            vertexColors: true,
+            sizeAttenuation: true,
+            alphaTest: 0.5,
+            map: sprite,
+            transparent: true,
         });
 
         // particleMaterial.color.setRGB(Math.random(), Math.random(), Math.random());
 
         const particleSystem = new THREE.Points(particles, particleMaterial);
 
-        scene.background = new THREE.Color().setRGB(0.002, 0.002, 0.002);
+        // scene.background = new THREE.Color().setRGB(0.002, 0.002, 0.002);
         // scene.fog =  new THREE.Fog( "red", 10, 15 );
 
         scene.add(particleSystem);
 
         const loader = new FontLoader();
         loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-            const textGeometry = new TextGeometry('Game Over', {
+            const textGeometry = new TextGeometry('Congrats', {
                 font: font,
-                size: 1,
+                size: 0.8,
                 depth: 0.1,
             });
             textGeometry.computeBoundingBox();
-            const textMaterial = new THREE.MeshBasicMaterial({color: "#24242e", opacity: 0.65, transparent: true});
+            const textMaterial = new THREE.MeshBasicMaterial({color: "#24242e", opacity: 0.8, transparent: true});
+            const [h, s, l] = getColor();
+            textMaterial.color.setHSL(h, s, l);
+            // textMaterial.color.setHex(0xddb0de);
+            console.log(h, s, l);
             textMesh = new THREE.Mesh(textGeometry, textMaterial);
             // debugger;
-            textMesh.position.set(-3.5, -0.3, 0); // Center the text
+            textMesh.position.set(-5, -0.8, 0); // Center the text
             textMesh.rotation.x = 99.8;
             // textMesh.rotation.z = 1
 
-            camera.position.z = 6;
+            camera.position.z = 12;
             scene.add(textMesh);
+
+            const textGeometry2 = new TextGeometry('Level up', {
+                font: font,
+                size: 0.8,
+                depth: 0.1,
+            });
+            textGeometry2.computeBoundingBox();
+            const textMaterial2 = new THREE.MeshBasicMaterial({color: "#24242e", opacity: 0.8, transparent: true});
+            textMaterial2.color.setHSL(h, s, l);
+            textMesh2 = new THREE.Mesh(textGeometry2, textMaterial2);
+            // debugger;
+            textMesh2.position.set(0.6, -0.8, 0); // Center the text
+            textMesh2.rotation.x = 99.8;
+            // textMesh.rotation.z = 1
+
+            camera.position.z = 12;
+            scene.add(textMesh2);
+
         });
 
         // const canvas = document.createElement('canvas');
@@ -456,6 +475,7 @@ const Fireworks: React.FC = () => {
             // resetParticles();
 
             // update scene.children[0].geometry.getAttribute("position")
+            camera.lookAt( scene.position );
 
             renderer.render(scene, camera);
         };
@@ -463,15 +483,19 @@ const Fireworks: React.FC = () => {
         render();
     }, []);
 
-    return <>
-        <button className="btn btn-game-over">Play again</button>
-        <canvas ref={canvasRef} width="600" height="400" style={{
+    const test = () => {
+        e.preventDefault();
+    }
+
+    return <div className="next-level">
+        <button className="btn btn-next-level">Next level</button>
+        <canvas ref={canvasRef} width="370" height="244" style={{
             border: "0.2rem solid",
             borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
         }}
         />
 
-    </>
+    </div>
 
 };
 
