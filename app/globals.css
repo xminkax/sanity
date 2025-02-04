@@ -2,18 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-.typewriter h1 {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: 0.15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.15em; /* Adjust as needed */
-  animation:
-          typing 3.5s steps(40, end),
-          blink-caret 0.75s step-end infinite;
+
+@keyframes cursor {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
 }
 
-/* The typing effect */
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange }
+}
+
+@keyframes cursor {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}
+
+@keyframes slide {
+  33.333333% {
+    font-size: 3.75rem;
+  }
+  to {
+    font-size: 0;
+  }
+}
+
+@keyframes slide2 {
+  33.333333% {
+    font-size: 3.75rem;
+  }
+  to {
+    font-size: 3.75rem;
+  }
+}
+
 @keyframes typing {
   from {
     width: 0;
@@ -23,16 +54,35 @@
   }
 }
 
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: orange;
-  }
+
+.typewriter h1 {
+  position: relative;
+  font-size: 0;
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  width: max-content;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: 0.15em solid orange; /* The typwriter cursor */
+  white-space: nowrap;
+  text-transform: uppercase;
+  /*letter-spacing: 0;*/
+  animation: slide 15s step-start, typing 3.5s steps(30, end) 1, blink-caret .5s step-end infinite;
 }
+
+.typewriter h1:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typewriter h1:nth-child(2) {
+  animation-delay: 5s;
+}
+
+.typewriter h1:nth-child(3) {
+  animation: slide2 15s step-start infinite, typing 3.5s steps(30, end) 1, blink-caret .5s step-end infinite;
+  animation-delay: 10s;
+
+}
+
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -49,9 +99,17 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  /*color: rgb(var(--foreground-rgb));*/
+  color: rgb(255, 254, 250);
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
   rgb(var(--background-start-rgb));
+}
+
+.canvas-background {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @layer utilities {
