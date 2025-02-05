@@ -130,6 +130,7 @@ body {
 
 .stars-container {
   position: absolute;
+  z-index: 1;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -142,15 +143,31 @@ body {
   opacity: 0;
   border-radius: 50%;
   animation: fall linear infinite;
+  transition: all 1s ease;
 }
 
 @keyframes fall {
   from {
-    transform: translateY(0);
     opacity: 1;
   }
   to {
     transform: translateY(100vh);
     opacity: 0;
   }
+}
+
+.star:hover, .star:active, .star:focus {
+  transform: scale(10);
+  background-color: rgba(255,255,255, 0.2);
+  clip-path: polygon(
+          50% 0%, 61% 35%, 98% 35%,
+          68% 57%, 79% 91%, 50% 70%,
+          21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+
+}
+
+.yellow-star:hover, .yellow-star:active{
+  transform: scale(20);
+  background-color: rgb(255, 234, 0);
 }
