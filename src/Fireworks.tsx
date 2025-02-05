@@ -1,151 +1,33 @@
 "use client"
-import React, {useEffect, useRef} from 'react';
+import React, {MutableRefObject, useEffect, useRef} from 'react';
 import * as THREE from 'three';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
-// import {CSS3DRenderer} from 'three/addons/renderers/CSS3DRenderer.js';
 import "./fireworks.css";
+import {PerspectiveCamera, Scene, WebGLRenderer, BufferGeometry, NormalBufferAttributes} from "three";
+
 function getColor() {
     return [parseFloat(Math.random().toFixed(2)), parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)), parseFloat(((50 + 20 * Math.random()) / 100).toFixed(2))];
 }
-function makeElementObject(type, width, height) {
-    const obj = new THREE.Object3D();
-
-    const element = document.createElement(type);
-    element.style.width = width + 'px';
-    element.style.height = height + 'px';
-    element.style.opacity = 0.999;
-    element.style.boxSizing = 'border-box'
-
-    const css3dObject = new CSS3DRenderer(element);
-    // obj.css3dObject = css3dObject
-    obj.add(css3dObject)
-
-    // make an invisible plane for the DOM element to chop
-    // clip a WebGL geometry with it.
-    const material = new THREE.MeshPhongMaterial({
-        opacity: 0.15,
-        color: new THREE.Color(0x111111),
-        blending: THREE.NoBlending,
-        // side	: THREE.DoubleSide,
-    });
-    // const geometry = new THREE.BoxGeometry( width, height, 1 );
-    // const mesh = new THREE.Mesh( geometry, material );
-    // mesh.castShadow = true;
-    // mesh.receiveShadow = true;
-    // obj.lightShadowMesh = mesh
-    // obj.add( mesh );
-
-    return obj
-}
-
-function generateSimilarHueColor(baseColor, hueVariation = 10) {
-    // Helper to convert RGB to HSL
-    function rgbToHsl(r, g, b) {
-        // r /= 255;
-        // g /= 255;
-        // b /= 255;
-
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-
-        if (max === min) {
-            h = s = 0; // achromatic
-        } else {
-            const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-
-            h /= 6;
-        }
-
-        return [h * 360, s, l];
-    }
-
-    // Helper to convert HSL to RGB
-    function hslToRgb(h, s, l) {
-        let r, g, b;
-
-        function hue2rgb(p, q, t) {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
-            if (t < 1 / 6) return p + (q - p) * 6 * t;
-            if (t < 1 / 2) return q;
-            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-            return p;
-        }
-
-        h /= 360;
-
-        if (s === 0) {
-            r = g = b = l; // achromatic
-        } else {
-            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            const p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
-        }
-
-        return [(r), (g), (b)];
-    }
-
-    // Extract HSL from base color
-    const [baseR, baseG, baseB] = baseColor;
-    const [baseH, baseS, baseL] = rgbToHsl(baseR, baseG, baseB);
-
-    // Generate a new hue with variation
-    const newH = (baseH + (Math.random() * 2 - 1) * hueVariation + 360) % 360;
-
-    // Convert back to RGB
-    const [newR, newG, newB] = hslToRgb(newH, baseS, baseL);
-
-    return [newR, newG, newB];
-}
-
 
 const Fireworks: React.FC = () => {
-    var DISTRIBX = 30;
-    var DISTRIBZ = 30;
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    var ELEV = 25;
-    var DELTA_ELEV = 10;
-    var FLOOR_REPEAT = 5;
+    const DISTRIBZ: number = 30;
+    const canvasRef: MutableRefObject<object> = useRef<HTMLCanvasElement | null>(null);
+    const FLOOR_REPEAT: number = 5;
+    const PARTICLE_COUNT: number = 1000;
 
     useEffect(() => {
         if (!canvasRef.current) return;
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, canvasRef.current?.width /  canvasRef.current?.height, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
+        const scene: Scene = new THREE.Scene();
+        const camera: PerspectiveCamera = new THREE.PerspectiveCamera(75, canvasRef.current?.width / canvasRef.current?.height, 0.1, 1000);
+        const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
         let textMesh;
 
-        // renderer.setSize(600, 400);
-        // document.body.appendChild(renderer.domElement);
-        const myReference = canvasRef.current; // The DOM element
-        // myReference.style.backgroundColor = "gray";
-
-        var PARTICLE_COUNT = 1000;
-        var particles = new THREE.BufferGeometry();
+        const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
         const resetParticles = () => {
             // console.log(particles)
             const pos = particles.getAttribute('position');
-            const colorlala = particles.getAttribute('color');
-            // debugger;
-
-
-            // const span = Math.random();
             const naa = Math.floor(Math.random() * 1);
             // const naa = Math.random();
 
@@ -204,7 +86,7 @@ const Fireworks: React.FC = () => {
             // particles.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
             textMesh.position.set(-3.5, -0.3, 0); // Center the text
             // textMesh.material.color.r = span[0];
-            textMesh.material.color.setHSL(h,s+0.1,l);
+            textMesh.material.color.setHSL(h, s + 0.1, l);
             // textMesh.material.color.setHex(0x3acfd5);
             // textMesh.material.color.g = span[1];
             // textMesh.material.color.b = span[2];
