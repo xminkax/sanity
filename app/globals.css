@@ -127,3 +127,30 @@ body {
 .btn-blue:hover {
   @apply bg-purple-800;
 }
+
+.stars-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  opacity: 0;
+  border-radius: 50%;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
