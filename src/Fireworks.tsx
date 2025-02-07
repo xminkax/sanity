@@ -1,8 +1,9 @@
 "use client";
-import React, { MutableRefObject, useEffect, useRef } from "react";
+// const, paint and reset abstract, can I abstract colors and position to function star? delta vs floor repeat
+import React, {MutableRefObject, useEffect, useRef} from "react";
 import * as THREE from "three";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
+import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 import "./fireworks.css";
 import {
   PerspectiveCamera,
@@ -46,7 +47,7 @@ const Fireworks: React.FC = () => {
       0.1,
       1000,
     );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ canvas: canvasRef.current });
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
     let textMesh,
       pointBasicCoordinate: number,
       velocity: number,
