@@ -10,13 +10,26 @@ import {
   Color,
   MeshBasicMaterial,
   NormalBufferAttributes,
-  PerspectiveCamera,
+  PerspectiveCamera, Points,
   PointsMaterial,
   Scene,
   Texture,
   Vector3,
   WebGLRenderer,
 } from "three";
+import {ColorHSL, getColorHSL, getPastelColor, getTextColor, Position} from "@/lib/snake/color";
+
+const PARTICLE_COUNT: number = 800;
+
+function getPosition(index): Position {
+  const pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * index;
+  const velocity = Math.random() * 3 + Math.random() * 1.5;
+  return {
+    x: velocity * Math.sin(pointBasicCoordinate),
+    y: velocity * Math.cos(pointBasicCoordinate),
+    z: Math.random() * 5 - 10
+  };
+}
 
 const Fireworks: React.FC = () => {
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
@@ -43,40 +56,29 @@ const Fireworks: React.FC = () => {
       z: number,
       color: Color;
 
-    const PARTICLE_COUNT: number = 800;
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
     const resetParticles = () => {
       const pos = particles.getAttribute("position");
-      const [h, s, l] = getColor();
-      for (let i = 0; i < pos.count; i++) {
-        pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * i;
-        velocity = Math.random() * 3 + Math.random() * 1.5;
-        y = velocity * Math.cos(pointBasicCoordinate);
-        x = velocity * Math.sin(pointBasicCoordinate);
-        z = Math.random() * 5 - 10;
-        pos.setXYZ(i, x, y, z);
+      const {h, s, l}: ColorHSL = getColorHSL();
+      const color = new THREE.Color().setHSL(h, s, l);
 
-        color = new THREE.Color().setHSL(h, s, l);
-        particles.attributes.color.setXYZ(i, color.r - 0.3 + Math.random() * 0.3, color.g, color.b);
+      for (let i = 0; i < pos.count; i++) {
+        const position: Position = getPosition(i);
+        pos.setXYZ(i, position.x, position.y, position.z);
+
+        const pastelColor: Color = getPastelColor(color);
+        particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
       }
 
       textMesh.position.set(-5, -0.8, 0);
-      textMesh.material.color.setHSL(h, s + 0.2, l);
-
+      const textColor: ColorHSL = getTextColor({h, s, l});
+      textMesh.material.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh2.position.set(0.6, -0.8, 0);
-      textMesh2.material.color.setHSL(h, s + 0.2, l);
+      textMesh2.material.color.setHSL(textColor.h, textColor.s, textColor.l);
 
       particles.attributes.color.needsUpdate = true;
       pos.needsUpdate = true;
     };
-
-    function getColor() {
-      return [
-        parseFloat(Math.random().toFixed(2)),
-        parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)),
-        parseFloat(((50 + 20 * Math.random()) / 100).toFixed(2)),
-      ];
-    }
 
     const animateParticles = () => {
       const pos = particles.getAttribute("position");
@@ -109,21 +111,15 @@ const Fireworks: React.FC = () => {
 
     const points: number[] = [];
     const colors: number[] = [];
-    const point: Vector3 = new THREE.Vector3();
+    const colorHSL: ColorHSL = getColorHSL();
+    color = new THREE.Color().setHSL(colorHSL.h, colorHSL.s, colorHSL.l);
 
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
-      pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * a;
-      velocity = 0.008 + Math.random() * 0.8;
-      x = velocity * Math.cos(pointBasicCoordinate);
-      y = velocity * Math.sin(pointBasicCoordinate);
-      z = Math.random() * 10 - 20;
+      const position: Position = getPosition(a);
+      points.push(position.x, position.y, position.z);
 
-      const color = new THREE.Color();
-      const [h, s, l] = getColor();
-      color.setHSL(h, s, l, THREE.SRGBColorSpace);
-      colors.push(1, 1, 1);
-
-      points.push(point.x, point.y, point.z);
+      const pastelColor: Color = getPastelColor(color);
+      colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
     }
 
     particles.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
@@ -141,8 +137,7 @@ const Fireworks: React.FC = () => {
       transparent: true,
     });
 
-    const particleSystem = new THREE.Points(particles, particleMaterial);
-
+    const particleSystem: Points<BufferGeometry> = new THREE.Points(particles, particleMaterial);
     scene.add(particleSystem);
 
     const loader = new FontLoader();
@@ -154,13 +149,13 @@ const Fireworks: React.FC = () => {
       });
       textGeometry.computeBoundingBox();
       const textMaterial = new THREE.MeshBasicMaterial({
-        color: "#24242e",
         opacity: 0.8,
         transparent: true,
       });
-      const [h, s, l] = getColor();
-      textMaterial.color.setHSL(h, s, l);
-      console.log(h, s, l);
+      let textColor: ColorHSL;
+      textColor = getTextColor(colorHSL);
+      textMaterial.color.setHSL(textColor.h, textColor.s, textColor.l);
+
       textMesh = new THREE.Mesh(textGeometry, textMaterial);
       textMesh.position.set(-5, -0.8, 0);
       textMesh.rotation.x = 99.8;
@@ -175,11 +170,11 @@ const Fireworks: React.FC = () => {
       });
       textGeometry2.computeBoundingBox();
       const textMaterial2: MeshBasicMaterial = new THREE.MeshBasicMaterial({
-        color: "#24242e",
         opacity: 0.8,
         transparent: true,
       });
-      textMaterial2.color.setHSL(h, s, l);
+      textColor = getTextColor(colorHSL);
+      textMaterial2.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh2 = new THREE.Mesh(textGeometry2, textMaterial2);
       textMesh2.position.set(0.6, -0.8, 0);
       textMesh2.rotation.x = 99.8;

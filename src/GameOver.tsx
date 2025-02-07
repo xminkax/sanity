@@ -1,7 +1,7 @@
 "use client";
 // const, paint and reset abstract, can I abstract colors and position to function star? delta vs floor repeat
 import React, {MutableRefObject, useEffect, useRef} from "react";
-import {getColorHSL, ColorHSL} from "@/lib/snake/color";
+import {getColorHSL, ColorHSL, Position, getTextColor} from "@/lib/snake/color";
 import * as THREE from "three";
 import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
@@ -32,17 +32,7 @@ interface Color {
 }
 
 function getPastelColor(color): Color {
-  return {r: color.r - 0.3 + Math.random() * 0.3, g: color.g, b: color.b} as Color;
-}
-
-function getTextColor(colorHSL: ColorHSL) {
-  return {...colorHSL, s: colorHSL.s + 0.1};
-}
-
-interface Position {
-  x: number,
-  y: number,
-  z: number
+  return {r: color.r - 0.5 + Math.random() * 0.5, g: color.g, b: color.b} as Color;
 }
 
 function getPosition(index: number, velocityA?: number): Position {
@@ -57,7 +47,7 @@ function getPosition(index: number, velocityA?: number): Position {
   };
 }
 
-const Fireworks: React.FC = () => {
+const GameOver: React.FC = () => {
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
     null,
   );
@@ -177,8 +167,8 @@ const Fireworks: React.FC = () => {
     <>
       <canvas
         ref={canvasRef}
-        width="370"
-        height="244"
+        width="600"
+        height="400"
         style={{
           border: "0.2rem solid",
           borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
@@ -188,4 +178,4 @@ const Fireworks: React.FC = () => {
   );
 };
 
-export default Fireworks;
+export default GameOver;

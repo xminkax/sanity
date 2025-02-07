@@ -1,7 +1,15 @@
+import {Color} from 'three';
+
 export interface ColorHSL {
   h: number,
   s: number,
   l: number
+}
+
+export interface Position {
+  x: number,
+  y: number,
+  z: number
 }
 
 export function getColorHSL(): ColorHSL {
@@ -10,4 +18,12 @@ export function getColorHSL(): ColorHSL {
     s: parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)),
     l: parseFloat(((50 + 20 * Math.random()) / 100).toFixed(2)),
   };
+}
+
+export function getTextColor(colorHSL: ColorHSL) {
+  return {...colorHSL, s: colorHSL.s + 0.1};
+}
+
+export function getPastelColor(color): Color {
+  return {r: color.r - 0.5 + Math.random() * 0.5, g: color.g, b: color.b} as Color;
 }
