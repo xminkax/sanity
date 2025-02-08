@@ -14,7 +14,6 @@ import {
   PointsMaterial,
   Scene,
   Texture,
-  Vector3,
   WebGLRenderer,
 } from "three";
 import {ColorHSL, getColorHSL, getPastelColor, getTextColor, Position} from "@/lib/snake/color";
@@ -49,12 +48,6 @@ const Fireworks: React.FC = () => {
     );
     const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
     let textMesh, textMesh2;
-    let pointBasicCoordinate: number,
-      velocity: number,
-      x: number,
-      y: number,
-      z: number,
-      color: Color;
 
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
     const resetParticles = () => {
@@ -91,9 +84,9 @@ const Fireworks: React.FC = () => {
       }
 
       let pointBasicCoordinate: number, velocity: number, x: number, y: number;
-
+      const EDGE_X = 22;
       for (let i = 0; i < pos.count; i++) {
-        if (pos.getX(i) > 22) {
+        if (pos.getX(i) > EDGE_X) {
           resetParticles();
           break;
         }
@@ -112,7 +105,7 @@ const Fireworks: React.FC = () => {
     const points: number[] = [];
     const colors: number[] = [];
     const colorHSL: ColorHSL = getColorHSL();
-    color = new THREE.Color().setHSL(colorHSL.h, colorHSL.s, colorHSL.l);
+    const color: Color = new THREE.Color().setHSL(colorHSL.h, colorHSL.s, colorHSL.l);
 
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
       const position: Position = getPosition(a);
