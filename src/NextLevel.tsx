@@ -22,6 +22,8 @@ import {
   generateSimilarShadeColorForText, Position,
 } from "@/lib/snake/color";
 
+const PARTICLE_COUNT: number = 800;
+
 const generateTextMesh = (font: Font, text: string, position: Position) => {
   const textGeometry: TextGeometry = new TextGeometry(text, {
     font: font,
@@ -40,8 +42,6 @@ const generateTextMesh = (font: Font, text: string, position: Position) => {
 
   return textMesh;
 }
-
-const PARTICLE_COUNT: number = 800;
 
 const Fireworks: React.FC = () => {
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(

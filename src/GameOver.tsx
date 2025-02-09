@@ -1,6 +1,12 @@
 "use client";
 import React, {MutableRefObject, useEffect, useRef} from "react";
-import {generatePastelColor, ColorHSL, Position, generateSimilarShadeColorForText} from "@/lib/snake/color";
+import {
+  generatePastelColor,
+  ColorHSL,
+  Position,
+  generateSimilarShadeColorForText,
+  generateSimilarShadeColorForParticles
+} from "@/lib/snake/color";
 import * as THREE from "three";
 import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
@@ -16,22 +22,13 @@ import {
   Color,
   PointsMaterial,
   Points,
-  MeshBasicMaterial, Mesh,
+  MeshBasicMaterial,
+  Mesh,
 } from "three";
 
 const PARTICLE_COUNT: number = 1000;
 const textMeshPosition: Position = {
   x: -3.5, y: -0.3, z: 0
-}
-
-interface Color {
-  r: number,
-  g: number,
-  b: number
-}
-
-function getPastelColor(color): Color {
-  return {r: color.r - 0.5 + Math.random() * 0.5, g: color.g, b: color.b} as Color;
 }
 
 function getPosition(index: number, velocityA?: number): Position {
@@ -68,13 +65,13 @@ const GameOver: React.FC = () => {
     const resetParticles = (): void => {
       const particlesPosition: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
       const colorHsl: ColorHSL = generatePastelColor();
-      const color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
+      const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
       for (let i: number = 0; i < particlesPosition.count; i++) {
         const position: Position = getPosition(i);
         particlesPosition.setXYZ(i, position.x, position.y, position.z);
 
-        const pastelColor: Color = getPastelColor(color);
+        const pastelColor: Color = generateSimilarShadeColorForParticles(color);
         particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
       }
 
@@ -112,7 +109,7 @@ const GameOver: React.FC = () => {
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
       const position: Position = getPosition(a);
       points.push(position.x, position.y, position.z);
-      const pastelColor: Color = getPastelColor(color);
+      const pastelColor: Color = generateSimilarShadeColorForParticles(color);
       colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
     }
 
