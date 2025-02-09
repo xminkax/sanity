@@ -25,5 +25,5 @@ export function generateSimilarShadeColorForText(colorHSL: ColorHSL) {
 }
 
 export function generateSimilarShadeColorForParticles(color): Color {
-  return {r: color.r - 0.5 + Math.random() * 0.5, g: color.g, b: color.b} as Color;
+  return {r: color.r - 0.4 + Math.random() * 0.4, g: color.g, b: color.b} as Color;
 }

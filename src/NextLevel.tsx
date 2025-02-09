@@ -5,8 +5,9 @@ import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 import "./fireworks.css";
 import {
+  BufferAttribute,
   BufferGeometry,
-  Color, Mesh,
+  Color, InterleavedBufferAttribute, Mesh,
   MeshBasicMaterial,
   NormalBufferAttributes,
   PerspectiveCamera, Points,
@@ -61,60 +62,67 @@ const Fireworks: React.FC = () => {
     );
     const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
     const textMesh: Mesh<TextGeometry, MeshBasicMaterial>[] = [];
-    const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
+    const textMeshSetup = [
+        {position: {x: -5, y: -0.8, z: 0}, text: "Congrats"},
+        {
+          position: {x: 0.6, y: -0.8, z: 0}, text: "Level up"
+        }
+      ]
+    ;
+    const particles: BufferGeometry = new THREE.BufferGeometry();
 
     const resetParticles = () => {
-      const pos = particles.getAttribute("position");
+      const particlesPosition: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
       const {h, s, l}: ColorHSL = generatePastelColor();
       const color = new THREE.Color().setHSL(h, s, l);
       let pointBasicCoordinate: number;
       let velocity: number;
 
-      for (let i = 0; i < pos.count; i++) {
+      for (let i = 0; i < particlesPosition.count; i++) {
         pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * i;
         velocity = Math.random() * 2 + Math.random() * 1.5;
-        pos.setXYZ(i, velocity * Math.sin(pointBasicCoordinate), velocity * Math.cos(pointBasicCoordinate), Math.random() * 5 - 10);
+        particlesPosition.setXYZ(i, velocity * Math.sin(pointBasicCoordinate), velocity * Math.cos(pointBasicCoordinate), Math.random() * 5 - 10);
 
         const pastelColor: Color = generateSimilarShadeColorForParticles(color);
         particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
       }
 
-      textMesh[0].position.set(-5, -0.8, 0);
-      textMesh[1].position.set(0.6, -0.8, 0);
       const textColor: ColorHSL = generateSimilarShadeColorForText({h, s, l});
-      textMesh[0].material.color.setHSL(textColor.h, textColor.s, textColor.l);
-      textMesh[1].material.color.setHSL(textColor.h, textColor.s, textColor.l);
+      for (let i: number = 0; i < textMesh.length; i++) {
+        textMesh[i].position.set(textMeshSetup[i].position.x, textMeshSetup[i].position.y, textMeshSetup[i].position.z);
+        textMesh[i].material.color.setHSL(textColor.h, textColor.s, textColor.l);
+      }
 
       particles.attributes.color.needsUpdate = true;
-      pos.needsUpdate = true;
+      particlesPosition.needsUpdate = true;
     };
 
     const animateParticles = () => {
-      const pos = particles.getAttribute("position");
+      const particlesPosition: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
 
       if (textMesh.length > 0) {
-        for (let i = 0; i < textMesh.length; i++) {
+        for (let i: number = 0; i < textMesh.length; i++) {
           textMesh[i].position.z = textMesh[i].position.z + 0.04;
         }
       }
 
       let pointBasicCoordinate: number, velocity: number, x: number, y: number;
-      const EDGE_X = 22;
-      for (let i = 0; i < pos.count; i++) {
-        if (pos.getX(i) > EDGE_X) {
+      const EDGE_X: number = 22;
+      for (let i: number = 0; i < particlesPosition.count; i++) {
+        if (particlesPosition.getX(i) > EDGE_X) {
           resetParticles();
           break;
         }
         velocity = 0.008 + Math.random() * 0.2;
         pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * i;
 
-        x = pos.getX(i) + Math.cos(pointBasicCoordinate) * velocity;
+        x = particlesPosition.getX(i) + Math.cos(pointBasicCoordinate) * velocity;
         y =
-          pos.getY(i) + Math.sin(pointBasicCoordinate) * Math.cos(pointBasicCoordinate) * velocity;
-        pos.setXY(i, x, y);
+          particlesPosition.getY(i) + Math.sin(pointBasicCoordinate) * Math.cos(pointBasicCoordinate) * velocity;
+        particlesPosition.setXY(i, x, y);
       }
 
-      pos.needsUpdate = true;
+      particlesPosition.needsUpdate = true;
     };
 
     const points: number[] = [];
@@ -145,10 +153,10 @@ const Fireworks: React.FC = () => {
 
     const loader = new FontLoader();
     loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
-      textMesh[0] = generateTextMesh(font, "Congrats", {x: -5, y: -0.8, z: 0});
-      scene.add(textMesh[0]);
-      textMesh[1] = generateTextMesh(font, "Level up", {x: 0.6, y: -0.8, z: 0});
-      scene.add(textMesh[1]);
+      for (let i: number = 0; i < textMeshSetup.length; i++) {
+        textMesh[i] = generateTextMesh(font, textMeshSetup[i].text, textMeshSetup[i].position);
+        scene.add(textMesh[i]);
+      }
 
       camera.position.z = 12;
       resetParticles();
