@@ -16,7 +16,7 @@ import {
   Texture,
   WebGLRenderer,
 } from "three";
-import {ColorHSL, getColorHSL, getPastelColor, getTextColor, Position} from "@/lib/snake/color";
+import {ColorHSL, generatePastelColor, generateSimilarShadeColorForParticles, generateSimilarShadeColorForText, Position} from "@/lib/snake/color";
 
 const PARTICLE_COUNT: number = 800;
 
@@ -52,19 +52,19 @@ const Fireworks: React.FC = () => {
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
     const resetParticles = () => {
       const pos = particles.getAttribute("position");
-      const {h, s, l}: ColorHSL = getColorHSL();
+      const {h, s, l}: ColorHSL = generatePastelColor();
       const color = new THREE.Color().setHSL(h, s, l);
 
       for (let i = 0; i < pos.count; i++) {
         const position: Position = getPosition(i);
         pos.setXYZ(i, position.x, position.y, position.z);
 
-        const pastelColor: Color = getPastelColor(color);
+        const pastelColor: Color = generateSimilarShadeColorForParticles(color);
         particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
       }
 
       textMesh.position.set(-5, -0.8, 0);
-      const textColor: ColorHSL = getTextColor({h, s, l});
+      const textColor: ColorHSL = generateSimilarShadeColorForText({h, s, l});
       textMesh.material.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh2.position.set(0.6, -0.8, 0);
       textMesh2.material.color.setHSL(textColor.h, textColor.s, textColor.l);
@@ -104,14 +104,14 @@ const Fireworks: React.FC = () => {
 
     const points: number[] = [];
     const colors: number[] = [];
-    const colorHSL: ColorHSL = getColorHSL();
+    const colorHSL: ColorHSL = generatePastelColor();
     const color: Color = new THREE.Color().setHSL(colorHSL.h, colorHSL.s, colorHSL.l);
 
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
       const position: Position = getPosition(a);
       points.push(position.x, position.y, position.z);
 
-      const pastelColor: Color = getPastelColor(color);
+      const pastelColor: Color = generateSimilarShadeColorForParticles(color);
       colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
     }
 
@@ -146,7 +146,7 @@ const Fireworks: React.FC = () => {
         transparent: true,
       });
       let textColor: ColorHSL;
-      textColor = getTextColor(colorHSL);
+      textColor = generateSimilarShadeColorForText(colorHSL);
       textMaterial.color.setHSL(textColor.h, textColor.s, textColor.l);
 
       textMesh = new THREE.Mesh(textGeometry, textMaterial);
@@ -166,7 +166,7 @@ const Fireworks: React.FC = () => {
         opacity: 0.8,
         transparent: true,
       });
-      textColor = getTextColor(colorHSL);
+      textColor = generateSimilarShadeColorForText(colorHSL);
       textMaterial2.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh2 = new THREE.Mesh(textGeometry2, textMaterial2);
       textMesh2.position.set(0.6, -0.8, 0);

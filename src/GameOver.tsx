@@ -1,7 +1,7 @@
 "use client";
 // const, paint and reset abstract, can I abstract colors and position to function star? delta vs floor repeat
 import React, {MutableRefObject, useEffect, useRef} from "react";
-import {getColorHSL, ColorHSL, Position, getTextColor} from "@/lib/snake/color";
+import {generatePastelColor, ColorHSL, Position, generateSimilarShadeColorForText} from "@/lib/snake/color";
 import * as THREE from "three";
 import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
@@ -68,7 +68,7 @@ const GameOver: React.FC = () => {
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
     const resetParticles = (): void => {
       const pos: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
-      const colorHsl: ColorHSL = getColorHSL();
+      const colorHsl: ColorHSL = generatePastelColor();
       const color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
       for (let i: number = 0; i < pos.count; i++) {
@@ -80,7 +80,7 @@ const GameOver: React.FC = () => {
       }
 
       textMesh.position.set(textMeshPosition.x, textMeshPosition.y, textMeshPosition.z);
-      const textColor: ColorHSL = getTextColor(colorHsl);
+      const textColor: ColorHSL = generateSimilarShadeColorForText(colorHsl);
       textMesh.material.color.setHSL(textColor.h, textColor.s, textColor.l);
 
       particles.attributes.color.needsUpdate = true;
@@ -107,7 +107,7 @@ const GameOver: React.FC = () => {
 
     const points: number[] = [];
     const colors: number[] = [];
-    const colorHsl: ColorHSL = getColorHSL();
+    const colorHsl: ColorHSL = generatePastelColor();
     const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
     for (let a = 0; a < PARTICLE_COUNT; a++) {
@@ -145,7 +145,7 @@ const GameOver: React.FC = () => {
         opacity: 0.7,
         transparent: true,
       });
-      const textColor: ColorHSL = getTextColor(colorHsl);
+      const textColor: ColorHSL = generateSimilarShadeColorForText(colorHsl);
       textMaterial.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh = new THREE.Mesh(textGeometry, textMaterial);
       textMesh.position.set(textMeshPosition.x, textMeshPosition.y, textMeshPosition.z);

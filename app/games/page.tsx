@@ -1,4 +1,6 @@
 import SnakeGame from "@/src/SnakeGame";
+import NextLevel from "@/src/NextLevel";
+import GameOver from "@/src/GameOver";
 
 export default function Games() {
     return (
@@ -10,7 +12,7 @@ export default function Games() {
             }}
         >
             {/*<h1>Snake Game</h1>*/}
-            <SnakeGame/>
+            <GameOver/>
         </div>
     );
 }

@@ -12,7 +12,7 @@ export interface Position {
   z: number
 }
 
-export function getColorHSL(): ColorHSL {
+export function generatePastelColor(): ColorHSL {
   return {
     h: parseFloat(Math.random().toFixed(2)),
     s: parseFloat(((45 + 20 * Math.random()) / 100).toFixed(2)),
@@ -20,10 +20,10 @@ export function getColorHSL(): ColorHSL {
   };
 }
 
-export function getTextColor(colorHSL: ColorHSL) {
+export function generateSimilarShadeColorForText(colorHSL: ColorHSL) {
   return {...colorHSL, s: colorHSL.s + 0.1};
 }
 
-export function getPastelColor(color): Color {
+export function generateSimilarShadeColorForParticles(color): Color {
   return {r: color.r - 0.5 + Math.random() * 0.5, g: color.g, b: color.b} as Color;
 }
