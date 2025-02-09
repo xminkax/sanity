@@ -20,7 +20,7 @@ export function generatePastelColor(): ColorHSL {
   };
 }
 
-export function generateSimilarShadeColorForText(colorHSL: ColorHSL) {
+export function generateSimilarShadeColorForText(colorHSL: ColorHSL): ColorHSL {
   return {...colorHSL, s: colorHSL.s + 0.1};
 }
 
