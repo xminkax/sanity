@@ -135,6 +135,7 @@ body {
   height: 100vh;
   top: 0;
   left: 0;
+  /*background: radial-gradient(circle, rgba(10,10,25,1) 10%, rgba(2,2,12,1) 100%) transparent;*/
 }
 
 .star {
@@ -143,7 +144,7 @@ body {
   opacity: 0;
   border-radius: 50%;
   animation: fall linear infinite;
-  transition: all 1s ease;
+  transition: transform 0.5s ease;
 }
 
 @keyframes fall {
@@ -156,18 +157,46 @@ body {
   }
 }
 
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
 .star:hover, .star:active, .star:focus {
-  transform: scale(10);
-  background-color: rgba(255,255,255, 0.2);
+  transform: scale(10) rotate(360deg);
+  background-color: rgba(255, 255, 255, 0.5);
   clip-path: polygon(
           50% 0%, 61% 35%, 98% 35%,
           68% 57%, 79% 91%, 50% 70%,
           21% 91%, 32% 57%, 2% 35%, 39% 35%
   );
-
+  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
 }
 
-.yellow-star:hover, .yellow-star:active{
-  transform: scale(20);
-  background-color: rgb(255, 234, 0);
+.yellow-star {
+  background: linear-gradient(135deg, #FFF9C4, #FFECB3, #FFD54F);
+  animation: fall linear infinite, twinkle 3s infinite ease-in-out;
+}
+
+.yellow-star:hover, .yellow-star:active {
+  transform: scale(20) rotate(180deg);
+  background: linear-gradient(135deg, #FFECB3, #FFD54F, #FFC107);
+}
+
+.shooting-star {
+  width: 4px;
+  height: 4px;
+  background: white;
+  animation: shooting 2s linear infinite;
+}
+
+@keyframes shooting {
+  0% {
+    transform: translateX(-10vw) translateY(-10vh);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100vw) translateY(100vh);
+    opacity: 0;
+  }
 }
