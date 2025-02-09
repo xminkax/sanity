@@ -1,7 +1,7 @@
 "use client";
 import React, {MutableRefObject, useEffect, useRef} from "react";
 import * as THREE from "three";
-import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
+import {Font, FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 import "./fireworks.css";
 import {
@@ -9,7 +9,6 @@ import {
   BufferGeometry,
   Color, InterleavedBufferAttribute, Mesh,
   MeshBasicMaterial,
-  NormalBufferAttributes,
   PerspectiveCamera, Points,
   PointsMaterial,
   Scene,
@@ -20,10 +19,10 @@ import {
   ColorHSL,
   generatePastelColor,
   generateSimilarShadeColorForParticles,
-  generateSimilarShadeColorForText,
+  generateSimilarShadeColorForText, Position,
 } from "@/lib/snake/color";
 
-const generateTextMesh = (font, text, position) => {
+const generateTextMesh = (font: Font, text: string, position: Position) => {
   const textGeometry: TextGeometry = new TextGeometry(text, {
     font: font,
     size: 0.8,
@@ -62,7 +61,10 @@ const Fireworks: React.FC = () => {
     );
     const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
     const textMesh: Mesh<TextGeometry, MeshBasicMaterial>[] = [];
-    const textMeshSetup = [
+    const textMeshSetup: ({ position: Position; text: string } | {
+        position: { x: number; y: number; z: number };
+        text: string
+      })[] = [
         {position: {x: -5, y: -0.8, z: 0}, text: "Congrats"},
         {
           position: {x: 0.6, y: -0.8, z: 0}, text: "Level up"
@@ -149,9 +151,10 @@ const Fireworks: React.FC = () => {
     });
 
     const particleSystem: Points<BufferGeometry> = new THREE.Points(particles, particleMaterial);
+    scene.background = new THREE.Color().setRGB(0.002, 0.002, 0.002);
     scene.add(particleSystem);
 
-    const loader = new FontLoader();
+    const loader: FontLoader = new FontLoader();
     loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
       for (let i: number = 0; i < textMeshSetup.length; i++) {
         textMesh[i] = generateTextMesh(font, textMeshSetup[i].text, textMeshSetup[i].position);

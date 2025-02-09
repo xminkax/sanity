@@ -1,5 +1,4 @@
 "use client";
-// const, paint and reset abstract, can I abstract colors and position to function star? delta vs floor repeat
 import React, {MutableRefObject, useEffect, useRef} from "react";
 import {generatePastelColor, ColorHSL, Position, generateSimilarShadeColorForText} from "@/lib/snake/color";
 import * as THREE from "three";
@@ -21,7 +20,7 @@ import {
 } from "three";
 
 const PARTICLE_COUNT: number = 1000;
-const textMeshPosition: { x: number, y: number, z: number } = {
+const textMeshPosition: Position = {
   x: -3.5, y: -0.3, z: 0
 }
 
@@ -56,7 +55,7 @@ const GameOver: React.FC = () => {
     if (!canvasRef.current) return;
 
     const scene: Scene = new THREE.Scene();
-    let textMesh: Mesh;
+    let textMesh: Mesh<TextGeometry, MeshBasicMaterial>;
     const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
       75,
       canvasRef.current?.width / canvasRef.current?.height,
@@ -67,13 +66,13 @@ const GameOver: React.FC = () => {
 
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
     const resetParticles = (): void => {
-      const pos: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
+      const particlesPosition: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
       const colorHsl: ColorHSL = generatePastelColor();
       const color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
-      for (let i: number = 0; i < pos.count; i++) {
+      for (let i: number = 0; i < particlesPosition.count; i++) {
         const position: Position = getPosition(i);
-        pos.setXYZ(i, position.x, position.y, position.z);
+        particlesPosition.setXYZ(i, position.x, position.y, position.z);
 
         const pastelColor: Color = getPastelColor(color);
         particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
@@ -84,25 +83,25 @@ const GameOver: React.FC = () => {
       textMesh.material.color.setHSL(textColor.h, textColor.s, textColor.l);
 
       particles.attributes.color.needsUpdate = true;
-      pos.needsUpdate = true;
+      particlesPosition.needsUpdate = true;
     };
 
     const animateParticles = (): void => {
-      const pos: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
+      const particlesPosition: BufferAttribute | InterleavedBufferAttribute = particles.getAttribute("position");
       if (typeof textMesh !== "undefined") {
         textMesh.position.z = textMesh.position.z + 0.02;
       }
       const EDGE_X = 4;
-      for (let i: number = 0; i < pos.count; i++) {
-        if (pos.getX(i) > EDGE_X) {
+      for (let i: number = 0; i < particlesPosition.count; i++) {
+        if (particlesPosition.getX(i) > EDGE_X) {
           resetParticles();
           break;
         }
         const position: Position = getPosition(i, 0.008 + Math.random() * 0.003);
-        pos.setXYZ(i, pos.getX(i) + position.x, pos.getY(i) + position.y, pos.getZ(i) + 0.005);
+        particlesPosition.setXYZ(i, particlesPosition.getX(i) + position.x, particlesPosition.getY(i) + position.y, particlesPosition.getZ(i) + 0.005);
       }
 
-      pos.needsUpdate = true;
+      particlesPosition.needsUpdate = true;
     };
 
     const points: number[] = [];
@@ -110,7 +109,7 @@ const GameOver: React.FC = () => {
     const colorHsl: ColorHSL = generatePastelColor();
     const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
-    for (let a = 0; a < PARTICLE_COUNT; a++) {
+    for (let a: number = 0; a < PARTICLE_COUNT; a++) {
       const position: Position = getPosition(a);
       points.push(position.x, position.y, position.z);
       const pastelColor: Color = getPastelColor(color);
