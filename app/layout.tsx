@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="block">
-        <header className="absolute inset-x-0 top-0 z-50">
+      <body className="block bg-white dark:bg-gray-900">
+        <header>
           <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
             <div className="flex lg:flex-1">
               <a href="#" className="-m-1.5 p-1.5">
@@ -36,13 +36,10 @@ export default function RootLayout({
                   className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
@@ -50,16 +47,16 @@ export default function RootLayout({
             </div>
             <div className="hidden lg:flex lg:gap-x-12">
               <a href="#" className="text-sm font-semibold leading-6 text-white-900">
-                What
-              </a>
-              <a href="#" className="text-sm font-semibold leading-6 text-white-900">
-                Games
-              </a>
-              <a href="#" className="text-sm font-semibold leading-6 text-white-900">
                 Books
               </a>
               <a href="#" className="text-sm font-semibold leading-6 text-white-900">
                 Cv
+              </a>
+              <a href="#" className="text-sm font-semibold leading-6 text-white-900">
+                Blog
+              </a>
+              <a href="#" className="text-sm font-semibold leading-6 text-white-900">
+                Games
               </a>
             </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -81,11 +78,10 @@ export default function RootLayout({
                     className="h-6 w-6"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
                     stroke="currentColor"
                     aria-hidden="true"
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <path  d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>

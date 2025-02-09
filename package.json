@@ -21,10 +21,15 @@
     ]
   },
   "dependencies": {
+    "@types/three": "^0.173.0",
+    "gray-matter": "^4.0.3",
     "next": "15.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "tailwindcss-gradients": "^3.0.0"
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "tailwindcss-gradients": "^3.0.0",
+    "three": "^0.173.0"
   },
   "devDependencies": {
     "@types/node": "^20",

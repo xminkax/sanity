@@ -10,7 +10,8 @@ export default function Games() {
       }}
     >
       {/*<h1>Snake Game</h1>*/}
-      <SnakeGame />
+      {/*<GameOver/>*/}
+      <SnakeGame/>
     </div>
   );
 }
