@@ -1,5 +1,4 @@
 "use client";
-// const, paint and reset abstract, textMesh abstract
 import React, {MutableRefObject, useEffect, useRef} from "react";
 import * as THREE from "three";
 import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
@@ -7,7 +6,7 @@ import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 import "./fireworks.css";
 import {
   BufferGeometry,
-  Color,
+  Color, Mesh,
   MeshBasicMaterial,
   NormalBufferAttributes,
   PerspectiveCamera, Points,
@@ -16,19 +15,33 @@ import {
   Texture,
   WebGLRenderer,
 } from "three";
-import {ColorHSL, generatePastelColor, generateSimilarShadeColorForParticles, generateSimilarShadeColorForText, Position} from "@/lib/snake/color";
+import {
+  ColorHSL,
+  generatePastelColor,
+  generateSimilarShadeColorForParticles,
+  generateSimilarShadeColorForText,
+} from "@/lib/snake/color";
+
+const generateTextMesh = (font, text, position) => {
+  const textGeometry: TextGeometry = new TextGeometry(text, {
+    font: font,
+    size: 0.8,
+    depth: 0.1,
+  });
+  textGeometry.computeBoundingBox();
+  const textMaterial: MeshBasicMaterial = new THREE.MeshBasicMaterial({
+    opacity: 0.8,
+    transparent: true,
+  });
+
+  const textMesh: Mesh<TextGeometry, MeshBasicMaterial> = new THREE.Mesh(textGeometry, textMaterial);
+  textMesh.position.set(position.x, position.y, position.z);
+  textMesh.rotation.x = 99.8;
+
+  return textMesh;
+}
 
 const PARTICLE_COUNT: number = 800;
-
-function getPosition(index): Position {
-  const pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * index;
-  const velocity = Math.random() * 3 + Math.random() * 1.5;
-  return {
-    x: velocity * Math.sin(pointBasicCoordinate),
-    y: velocity * Math.cos(pointBasicCoordinate),
-    z: Math.random() * 5 - 10
-  };
-}
 
 const Fireworks: React.FC = () => {
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
@@ -47,27 +60,30 @@ const Fireworks: React.FC = () => {
       1000,
     );
     const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
-    let textMesh, textMesh2;
-
+    const textMesh: Mesh<TextGeometry, MeshBasicMaterial>[] = [];
     const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
+
     const resetParticles = () => {
       const pos = particles.getAttribute("position");
       const {h, s, l}: ColorHSL = generatePastelColor();
       const color = new THREE.Color().setHSL(h, s, l);
+      let pointBasicCoordinate: number;
+      let velocity: number;
 
       for (let i = 0; i < pos.count; i++) {
-        const position: Position = getPosition(i);
-        pos.setXYZ(i, position.x, position.y, position.z);
+        pointBasicCoordinate = ((2 * Math.PI) / PARTICLE_COUNT) * i;
+        velocity = Math.random() * 2 + Math.random() * 1.5;
+        pos.setXYZ(i, velocity * Math.sin(pointBasicCoordinate), velocity * Math.cos(pointBasicCoordinate), Math.random() * 5 - 10);
 
         const pastelColor: Color = generateSimilarShadeColorForParticles(color);
         particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
       }
 
-      textMesh.position.set(-5, -0.8, 0);
+      textMesh[0].position.set(-5, -0.8, 0);
+      textMesh[1].position.set(0.6, -0.8, 0);
       const textColor: ColorHSL = generateSimilarShadeColorForText({h, s, l});
-      textMesh.material.color.setHSL(textColor.h, textColor.s, textColor.l);
-      textMesh2.position.set(0.6, -0.8, 0);
-      textMesh2.material.color.setHSL(textColor.h, textColor.s, textColor.l);
+      textMesh[0].material.color.setHSL(textColor.h, textColor.s, textColor.l);
+      textMesh[1].material.color.setHSL(textColor.h, textColor.s, textColor.l);
 
       particles.attributes.color.needsUpdate = true;
       pos.needsUpdate = true;
@@ -76,11 +92,10 @@ const Fireworks: React.FC = () => {
     const animateParticles = () => {
       const pos = particles.getAttribute("position");
 
-      if (typeof textMesh !== "undefined") {
-        textMesh.position.z = textMesh.position.z + 0.04;
-      }
-      if (typeof textMesh2 !== "undefined") {
-        textMesh2.position.z = textMesh2.position.z + 0.04;
+      if (textMesh.length > 0) {
+        for (let i = 0; i < textMesh.length; i++) {
+          textMesh[i].position.z = textMesh[i].position.z + 0.04;
+        }
       }
 
       let pointBasicCoordinate: number, velocity: number, x: number, y: number;
@@ -104,15 +119,10 @@ const Fireworks: React.FC = () => {
 
     const points: number[] = [];
     const colors: number[] = [];
-    const colorHSL: ColorHSL = generatePastelColor();
-    const color: Color = new THREE.Color().setHSL(colorHSL.h, colorHSL.s, colorHSL.l);
 
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
-      const position: Position = getPosition(a);
-      points.push(position.x, position.y, position.z);
-
-      const pastelColor: Color = generateSimilarShadeColorForParticles(color);
-      colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
+      points.push(0, 0, 0);
+      colors.push(0, 0, 0);
     }
 
     particles.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
@@ -135,45 +145,13 @@ const Fireworks: React.FC = () => {
 
     const loader = new FontLoader();
     loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", (font) => {
-      const textGeometry = new TextGeometry("Congrats", {
-        font: font,
-        size: 0.8,
-        depth: 0.1,
-      });
-      textGeometry.computeBoundingBox();
-      const textMaterial = new THREE.MeshBasicMaterial({
-        opacity: 0.8,
-        transparent: true,
-      });
-      let textColor: ColorHSL;
-      textColor = generateSimilarShadeColorForText(colorHSL);
-      textMaterial.color.setHSL(textColor.h, textColor.s, textColor.l);
-
-      textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textMesh.position.set(-5, -0.8, 0);
-      textMesh.rotation.x = 99.8;
+      textMesh[0] = generateTextMesh(font, "Congrats", {x: -5, y: -0.8, z: 0});
+      scene.add(textMesh[0]);
+      textMesh[1] = generateTextMesh(font, "Level up", {x: 0.6, y: -0.8, z: 0});
+      scene.add(textMesh[1]);
 
       camera.position.z = 12;
-      scene.add(textMesh);
-
-      const textGeometry2: TextGeometry = new TextGeometry("Level up", {
-        font: font,
-        size: 0.8,
-        depth: 0.1,
-      });
-      textGeometry2.computeBoundingBox();
-      const textMaterial2: MeshBasicMaterial = new THREE.MeshBasicMaterial({
-        opacity: 0.8,
-        transparent: true,
-      });
-      textColor = generateSimilarShadeColorForText(colorHSL);
-      textMaterial2.color.setHSL(textColor.h, textColor.s, textColor.l);
-      textMesh2 = new THREE.Mesh(textGeometry2, textMaterial2);
-      textMesh2.position.set(0.6, -0.8, 0);
-      textMesh2.rotation.x = 99.8;
-
-      camera.position.z = 12;
-      scene.add(textMesh2);
+      resetParticles();
     });
     const render = () => {
       requestAnimationFrame(render);
