@@ -3,183 +3,183 @@
 @tailwind utilities;
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: red;
-    --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: red;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
-    }
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
 }
 
 body {
-    /*color: rgb(var(--foreground-rgb));*/
-    color: rgb(255, 254, 250);
-    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  /*color: rgb(var(--foreground-rgb));*/
+  color: rgb(255, 254, 250);
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 .canvas-background {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 .btn {
-    @apply font-bold py-2 px-4 rounded;
+  @apply font-bold py-2 px-4 rounded;
 }
 
 .btn-blue {
-    @apply bg-purple-700 text-white;
+  @apply bg-purple-700 text-white;
 }
 
 .btn-blue:hover {
-    @apply bg-purple-800;
+  @apply bg-purple-800;
 }
 
 /* background with stars animation */
 .stars-container {
-    position: absolute;
-    z-index: 1;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    /*background: radial-gradient(circle, rgba(10,10,25,1) 10%, rgba(2,2,12,1) 100%) transparent;*/
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  /*background: radial-gradient(circle, rgba(10,10,25,1) 10%, rgba(2,2,12,1) 100%) transparent;*/
 }
 
 .star {
-    position: absolute;
-    background: white;
-    opacity: 0;
-    border-radius: 50%;
-    animation: fall linear infinite;
-    transition: transform 0.5s ease;
+  position: absolute;
+  background: white;
+  opacity: 0;
+  border-radius: 50%;
+  animation: fall linear infinite;
+  transition: transform 0.5s ease;
 }
 
 @keyframes fall {
-    from {
-        opacity: 1;
-    }
-    to {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
+  from {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
 }
 
 @keyframes shooting {
-    0% {
-        transform: translateX(-10vw) translateY(-10vh);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(100vw) translateY(100vh);
-        opacity: 0;
-    }
+  0% {
+    transform: translateX(-10vw) translateY(-10vh);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100vw) translateY(100vh);
+    opacity: 0;
+  }
 }
 
 .star:hover, .star:active, .star:focus {
-    transform: scale(10) rotate(360deg);
-    background-color: rgba(255, 255, 255, 0.5);
-    clip-path: polygon(
-            50% 0%, 61% 35%, 98% 35%,
-            68% 57%, 79% 91%, 50% 70%,
-            21% 91%, 32% 57%, 2% 35%, 39% 35%
-    );
-    transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  transform: scale(10) rotate(360deg);
+  background-color: rgba(255, 255, 255, 0.5);
+  clip-path: polygon(
+          50% 0%, 61% 35%, 98% 35%,
+          68% 57%, 79% 91%, 50% 70%,
+          21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
 }
 
 .yellow-star {
-    background: linear-gradient(135deg, #FFF9C4, #FFECB3, #FFD54F);
-    animation: fall linear infinite;
+  background: linear-gradient(135deg, #FFF9C4, #FFECB3, #FFD54F);
+  animation: fall linear infinite;
 }
 
 .yellow-star:hover, .yellow-star:active {
-    transform: scale(20) rotate(180deg);
-    background: linear-gradient(135deg, #FFECB3, #FFD54F, #FFC107);
+  transform: scale(20) rotate(180deg);
+  background: linear-gradient(135deg, #FFECB3, #FFD54F, #FFC107);
 }
 
 .shooting-star {
-    width: 0.4rem;
-    height: 0.4rem;
-    background: white;
-    animation: shooting 2s linear infinite;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: white;
+  animation: shooting 2s linear infinite;
 }
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
-    from, to {
-        border-color: transparent
-    }
-    50% {
-        border-color: orange
-    }
+  from, to {
+    border-color: transparent
+  }
+  50% {
+    border-color: orange
+  }
 }
 
 @keyframes slide {
-    33.333333% {
-        font-size: 3.75rem;
-    }
-    to {
-        font-size: 0;
-    }
+  33.333333% {
+    font-size: 3.75rem;
+  }
+  to {
+    font-size: 0;
+  }
 }
 
 @keyframes slideLastElement {
-    33.333333% {
-        font-size: 3.75rem;
-    }
-    to {
-        font-size: 3.75rem;
-    }
+  33.333333% {
+    font-size: 3.75rem;
+  }
+  to {
+    font-size: 3.75rem;
+  }
 }
 
 @keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%
-    }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%
+  }
 }
 
 .typewriter h1::before {
-    content: '';
-    display: inline-block;
-    width: 0.8rem;  /* Space before the border */
+  content: '';
+  display: inline-block;
+  width: 0.8rem;  /* Space before the border */
 }
 
 .typewriter h1 {
-    position: relative;
-    font-size: 0;
-    overflow: hidden;
-    border-right: 0.15em solid orange;
-    white-space: nowrap;
-    padding-right: 0.4rem;
-    text-transform: uppercase;
+  position: relative;
+  font-size: 0;
+  overflow: hidden;
+  border-right: 0.15em solid orange;
+  white-space: nowrap;
+  padding-right: 0.4rem;
+  text-transform: uppercase;
 }
 
 .typewriter h1:nth-child(1) {
-    animation: slide 15s step-start, typing 3s steps(27, end) forwards, blink-caret 0.6s step-end infinite;
-    animation-delay: 0s;
+  animation: slide 15s step-start, typing 3s steps(27, end) forwards, blink-caret 0.6s step-end infinite;
+  animation-delay: 0s;
 }
 
 .typewriter h1:nth-child(2) {
-    animation: slide 15s step-start, typing 3s steps(36, end) forwards, blink-caret 0.6s step-end infinite;
-    animation-delay: 5s;
+  animation: slide 15s step-start, typing 3s steps(36, end) forwards, blink-caret 0.6s step-end infinite;
+  animation-delay: 5s;
 }
 
 .typewriter h1:nth-child(3) {
-    animation: slideLastElement 15s step-start infinite, typing 3.5s steps(45, end) 1, blink-caret .5s step-end infinite;
-    animation-delay: 10s;
+  animation: slideLastElement 15s step-start infinite, typing 3.5s steps(45, end) 1, blink-caret .5s step-end infinite;
+  animation-delay: 10s;
 }
