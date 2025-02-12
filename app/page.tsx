@@ -11,7 +11,12 @@ export default function Home() {
     <main className="flex justify-center items-center h-screen">
       <section>
         <div className="flex justify-center">
-          <div className="typewriter flex-row flex">
+          {/*<div className="typing-container">*/}
+          {/*  <span className="font-bold text-4xl sm:text-6xl">Welcome!</span>*/}
+          {/*  <span className="font-bold text-4xl sm:text-6xl">Let's Code.</span>*/}
+          {/*  <span className="font-bold text-4xl sm:text-6xl">Keep Learning.</span>*/}
+          {/*</div>*/}
+          <div className="typing-container sm:p-24 p-12">
             {welcomeTexts.map((item: string) =>
               <h1 key={item} className="font-bold text-4xl sm:text-6xl">
                 {item}

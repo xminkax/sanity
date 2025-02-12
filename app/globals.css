@@ -58,12 +58,21 @@ body {
 }
 
 .star {
+  opacity: 1;
   position: absolute;
+  z-index: 2;
   background: white;
-  opacity: 0;
+  /*opacity: 0;*/
   border-radius: 50%;
-  animation: fall linear infinite;
+  /*animation: fall linear infinite;*/
   transition: transform 0.5s ease;
+  -webkit-transition: transform 0.5s ease;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%,
+    68% 57%, 79% 91%, 50% 70%,
+    21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+
 }
 
 @keyframes fall {
@@ -72,6 +81,7 @@ body {
   }
   to {
     transform: translateY(100vh);
+    -webkit-transform: translateY(100vh);
     opacity: 0;
   }
 }
@@ -79,10 +89,12 @@ body {
 @keyframes shooting {
   0% {
     transform: translateX(-10vw) translateY(-10vh);
+    -webkit-transform: translateX(-10vw) translateY(-10vh);
     opacity: 1;
   }
   100% {
     transform: translateX(100vw) translateY(100vh);
+    -webkit-transform: translateX(100vw) translateY(100vh);
     opacity: 0;
   }
 }
@@ -90,12 +102,9 @@ body {
 .star:hover, .star:active, .star:focus {
   transform: scale(10) rotate(360deg);
   background: linear-gradient(to right, rgb(255, 254, 250), white);
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%,
-    68% 57%, 79% 91%, 50% 70%,
-    21% 91%, 32% 57%, 2% 35%, 39% 35%
-  );
-  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  background: red;
+  /*animation-play-state: paused;*/
+  /*transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;*/
 }
 
 /* Mobile-specific styles */
@@ -136,20 +145,20 @@ body {
 
 @keyframes slide {
   33.333333% {
-    display: inline-block;
+    visibility: visible;
   }
   to {
-    display: none;
+    visibility: hidden;
   }
 }
 
 @keyframes slideLastElement {
   33.333333% {
-    display: inline-block;
+    visibility: visible;
 
   }
   to {
-    display: inline-block;
+    visibility: visible;
   }
 }
 
@@ -197,5 +206,69 @@ body {
 .typewriter h1:nth-child(3) {
   animation: slideLastElement 15s step-start 1 10s forwards,
   typing 3.5s steps(45, end) 1 10s forwards,
+  blink-caret .6s step-end infinite;
+}
+
+/* Container */
+.typing-container {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-align: center;
+}
+/*.typing-container h1::after {*/
+/*  content: '||'; !* Cursor character *!*/
+/*  position: absolute;*/
+/*  width: 0.8rem;*/
+/*  right: -8px;*/
+/*  top: 0;*/
+/*  animation: blinkCursor 0.8s infinite; !* Cursor blink animation *!*/
+/*  color: yellow; !* Cursor color *!*/
+/*  !*font-size: 24px; !* Same font size as text *!*!*/
+/*  z-index: 2; !* Ensure cursor is above text *!*/
+/*}*/
+
+/* Blinking cursor effect */
+@keyframes blinkCursor {
+  50% { opacity: 0; }
+}
+.typing-container h1 {
+  border-right: 0.15em solid red;
+  display: inline-block;
+  white-space: nowrap;
+  position: absolute;
+  text-transform: uppercase;
+  visibility: hidden; /* Hide all texts initially */
+  max-width: 34rem;
+  overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes typing2 {
+  0% { width: 0; }
+  50% { width: 100%; }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { visibility: hidden; }
+  5%, 45% { visibility: visible; }
+}
+
+.typing-container h1:nth-child(1) {
+  animation: slide 15s step-start 1 0s forwards,
+  typing 3.5s steps(27, end) 1 0s forwards,
+  blink-caret .6s step-end infinite;
+}
+
+.typing-container h1:nth-child(2) {
+  animation: slide 15s step-start 1 5s forwards,
+  typing 3.5s steps(36, end) 1 5s forwards,
+  blink-caret .6s step-end infinite;
+}
+
+.typing-container h1:nth-child(3) {
+  animation: slideLastElement 15s step-start 1 10s forwards,
+  typing 3.5s steps(36, end) 1 10s forwards,
   blink-caret .6s step-end infinite;
 }
