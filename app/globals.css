@@ -20,6 +20,7 @@ body {
   /*color: rgb(var(--foreground-rgb));*/
   color: rgb(255, 254, 250);
   background: radial-gradient(circle, rgba(10, 10, 25, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
+  /*background: radial-gradient(circle, rgba(10, 10, 25, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;*/
 }
 
 .canvas-background {
@@ -88,7 +89,7 @@ body {
 
 .star:hover, .star:active, .star:focus {
   transform: scale(10) rotate(360deg);
-  background-color: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(to right, rgb(255, 254, 250), white);
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
     68% 57%, 79% 91%, 50% 70%,
@@ -107,13 +108,13 @@ body {
 }
 
 .yellow-star {
-  background: linear-gradient(135deg, #FFF9C4, #FFECB3, #FFD54F);
+  background: linear-gradient(135deg, #FFF59D, #FFEB3B, #FFC107);
   animation: fall linear infinite;
 }
 
-.yellow-star:hover, .yellow-star:active {
+.yellow-star:hover {
   transform: scale(20) rotate(180deg);
-  background: linear-gradient(135deg, #FFECB3, #FFD54F, #FFC107);
+  background: linear-gradient(135deg, #FFF176, #FFEB3B, #FBC02D, #F9A825)
 }
 
 .shooting-star {
@@ -126,10 +127,10 @@ body {
 /* The typewriter cursor effect */
 @keyframes blink-caret {
   from, to {
-    border-color: transparent
+    border-color: transparent;
   }
   50% {
-    border-color: #FFCA28;
+    border-color: #6b46c1;
   }
 }
 
@@ -174,10 +175,11 @@ body {
   height: 0;
   width: 0;
   overflow: hidden;
-  border-right: 0.15em solid;
+  border-right: 0.15em solid transparent;
   white-space: nowrap;
   padding-right: 0.4rem;
   text-transform: uppercase;
+  border-image-slice: 1;
 }
 
 .typewriter h1:nth-child(1) {
