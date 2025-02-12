@@ -20,16 +20,12 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you catch the yellow
-            star?
+          <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you see the yellow star?
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a onClick={() => alert("coming soon")} href="#"
                className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900">
-              No, what?</a>
-            <a onClick={() => alert("coming soon")} href="#"
-               className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 rounded-lg transform transition-all hover:scale-105 hover:from-gray-700 hover:via-gray-600 hover:to-gray-800">
-              Yes</a>
+              Learn more</a>
           </div>
         </div>
       </section>
