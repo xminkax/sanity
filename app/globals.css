@@ -121,12 +121,9 @@ body {
   position: absolute;
   display: flex;
   max-width: 0;
-  justify-items: center;
-  justify-self: center;
-  justify-content: safe center;
   text-transform: uppercase;
   visibility: hidden;
-  padding-right: 0.8rem;
+  padding-right: 0.4rem;
   border-right: 0.15em solid transparent;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
