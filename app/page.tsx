@@ -1,25 +1,45 @@
 'use client';
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 const welcomeTexts: string[] = [
-  "Welcome!",
+  "Hello world",
   "I am monika",
   "I enjoy coding"
-]
+];
+let max = 0;
 export default function Home() {
+  const [widths, setWidths] = useState([0, 0, 0]);
+  const elementsRef = useRef([]);
+
+  useEffect(() => {
+    // Get the width using offsetWidth
+    const elementWidths = elementsRef.current.map(el => el ? el.offsetWidth : 0);
+    setWidths(elementWidths);
+
+  }, []);
   return (
-    <main className="flex justify-center items-center h-screen">
-      <section>
-        <div className="flex justify-center">
-          <div className="typewriter flex-row flex">
-            {welcomeTexts.map((item: string) =>
-              <h1 key={item} className="font-bold text-4xl sm:text-6xl">
-                {item}
-              </h1>
-            )}
-          </div>
+    <main className="h-screen">
+      <section
+        className="flex justify-center flex-col"
+        style={{
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "4rem"
+        }}>
+        <div className="typewriter">
+          {welcomeTexts.map((item: string) =>
+            <h1 key={item} className="font-bold text-4xl sm:text-6xl"
+                style={{
+                  '--characters': item.length,
+                }}
+            >
+              {item}
+            </h1>
+          )}
         </div>
-        <div>
+        <div style={{padding: "4rem"}}>
           <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you see the yellow star?
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">

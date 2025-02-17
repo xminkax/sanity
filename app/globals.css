@@ -97,7 +97,87 @@ body {
   }
 }
 
-/* The typewriter cursor effect */
+@keyframes lala {
+  50% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+.typewriter {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*position: relative;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+}
+
+.typewriter h1 {
+  position: absolute;
+  display: flex;
+  max-width: 0;
+  justify-items: center;
+  justify-self: center;
+  justify-content: safe center;
+  text-transform: uppercase;
+  visibility: hidden;
+  padding-right: 0.8rem;
+  border-right: 0.15em solid transparent;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0; /* Gives that scrolling effect as the typing happens */
+  animation:
+    typing 3s steps(var(--characters)) infinite, lala 3s 1 forwards, blink-caret .6s step-end infinite;
+}
+
+@keyframes lala2 {
+  50% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+h1::after{
+  /*content: "|"; !* Cursor *!*/
+  /*display: inline-block;*/
+  /*animation: blink 0.7s step-end infinite;*/
+  /*color: red;*/
+}
+
+/* The typing effect */
+@keyframes typing {
+  75%,
+  100% {
+    max-width: calc(var(--characters) * 1ch);
+  }
+}
+
+.typewriter h1:nth-child(2) {
+  animation:
+    typing 3s steps(var(--characters)) infinite, lala 3s 1, blink-caret .6s step-end infinite;
+  animation-delay: 3s !important;
+}
+
+.typewriter h1:nth-child(3) {
+  animation:
+    typing 3s steps(var(--characters)) 1 forwards, lala2 3s infinite, blink-caret .6s step-end infinite;
+  animation-delay: 6s !important;
+}
+
 @keyframes blink-caret {
   from, to {
     border-color: transparent;
@@ -105,72 +185,6 @@ body {
   50% {
     border-color: #6b46c1;
   }
-}
-
-@keyframes slide {
-  33.333333% {
-    display: inline-block;
-  }
-  to {
-    display: none;
-  }
-}
-
-@keyframes slideLastElement {
-  33.333333% {
-    display: inline-block;
-
-  }
-  to {
-    display: inline-block;
-  }
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-    height: 100%;
-  }
-  to {
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.typewriter h1::before {
-  content: '';
-  display: inline-block;
-  width: 0.8rem;
-}
-
-.typewriter h1 {
-  position: relative;
-  height: 0;
-  width: 0;
-  overflow: hidden;
-  border-right: 0.15em solid transparent;
-  white-space: nowrap;
-  padding-right: 0.4rem;
-  text-transform: uppercase;
-  border-image-slice: 1;
-}
-
-.typewriter h1:nth-child(1) {
-  animation: slide 15s step-start 1 0s forwards,
-  typing 3.5s steps(27, end) 1 0s forwards,
-  blink-caret .6s step-end infinite;
-}
-
-.typewriter h1:nth-child(2) {
-  animation: slide 15s step-start 1 5s forwards,
-  typing 3.5s steps(36, end) 1 5s forwards,
-  blink-caret .6s step-end infinite;
-}
-
-.typewriter h1:nth-child(3) {
-  animation: slideLastElement 15s step-start 1 10s forwards,
-  typing 3.5s steps(45, end) 1 10s forwards,
-  blink-caret .6s step-end infinite;
 }
 
 .yellow-star {
