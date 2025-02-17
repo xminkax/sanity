@@ -39,7 +39,7 @@ export default function Home() {
             </h1>
           )}
         </div>
-        <div style={{padding: "4rem 0"}}>
+        <div className="sm:py-10 py-8">
           <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you see the yellow star?
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
