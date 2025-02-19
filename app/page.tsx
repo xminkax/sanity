@@ -1,38 +1,25 @@
 'use client';
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 
 const welcomeTexts: string[] = [
   "Hello world",
+  "Ahoj svet",
   "I am monika",
   "I enjoy coding"
 ];
-let max = 0;
+
 export default function Home() {
-  const [widths, setWidths] = useState([0, 0, 0]);
-  const elementsRef = useRef([]);
-
-  useEffect(() => {
-    // Get the width using offsetWidth
-    const elementWidths = elementsRef.current.map(el => el ? el.offsetWidth : 0);
-    setWidths(elementWidths);
-
-  }, []);
   return (
     <main className="h-screen">
       <section
-        className="flex justify-center flex-col"
-        style={{
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "4rem"
-        }}>
+        className="flex justify-center flex-col h-full items-center p-16">
         <div className="typewriter">
-          {welcomeTexts.map((item: string) =>
+          {welcomeTexts.map((item: string, key: number) =>
             <h1 key={item} className="font-bold text-4xl sm:text-6xl"
                 style={{
-                  '--characters': item.length,
+                  maxWidth: `calc(${item.length} * 1ch)`,
+                  animation: `typing 3s steps(${item.length * 2}, end), ${key + 1 === welcomeTexts.length ? 'slideLastElement 3s forwards' : 'slide 3s 1'}, blink-caret .6s step-end infinite`,
+                  animationDelay: `${key * 3}s`,
                 }}
             >
               {item}
