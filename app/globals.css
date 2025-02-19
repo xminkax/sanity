@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: red;
@@ -19,6 +27,12 @@
 body {
   /*color: rgb(var(--foreground-rgb));*/
   color: rgb(255, 254, 250);
+  /*background: radial-gradient(circle, rgba(10, 10, 25, 1) 10%, rgba(2, 2, 12, 1) 100%);*/
+  /*background: linear-gradient(to top, #000d26, #003366, #336699);*/
+
+  /*background: linear-gradient(to top, #001f3f, #004d99, #80b3ff);*/
+  /*background: radial-gradient(circle, rgba(10, 10, 25, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;*/
+  /*background: black;*/
   background: radial-gradient(circle, rgba(10, 10, 25, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
 }
 
@@ -47,139 +61,139 @@ body {
   @apply bg-purple-800;
 }
 
-/* background with stars animation */
-.stars-container {
+.stars {
   position: absolute;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  /*background: radial-gradient(circle, rgba(10,10,25,1) 10%, rgba(2,2,12,1) 100%) transparent;*/
+  width: 100%;
+  height: 100%;
 }
 
 .star {
   position: absolute;
+  width: 2px;
+  height: 2px;
   background: white;
-  opacity: 0;
   border-radius: 50%;
-  animation: fall linear infinite;
-  transition: transform 0.5s ease;
+  opacity: 0;
+  animation: twinkle 3s infinite ease-in-out;
 }
 
-@keyframes fall {
-  from {
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
     opacity: 1;
+  }
+}
+
+.aurora {
+  position: absolute;
+  width: 100vw;
+  height: 50vh;
+  top: 20%;
+  /*background: radial-gradient(circle, rgba(0,255,150,0.5) 10%, rgba(0,0,0,0) 70%);*/
+  animation: aurora-move 6s infinite alternate ease-in-out;
+  filter: blur(50px);
+}
+
+@keyframes aurora-move {
+  from {
+    transform: translateX(-10%);
   }
   to {
-    transform: translateY(100vh);
-    opacity: 0;
+    transform: translateX(10%);
   }
 }
 
-@keyframes shooting {
-  0% {
-    transform: translateX(-10vw) translateY(-10vh);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(100vw) translateY(100vh);
-    opacity: 0;
-  }
-}
-
-.star:hover, .star:active, .star:focus {
-  transform: scale(10) rotate(360deg);
-  background-color: rgba(255, 255, 255, 0.5);
+.yellow-star {
+  background: linear-gradient(to right, #ffeb3b, #ffc107);
   clip-path: polygon(
     50% 0%, 61% 35%, 98% 35%,
     68% 57%, 79% 91%, 50% 70%,
     21% 91%, 32% 57%, 2% 35%, 39% 35%
   );
-  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
-}
-
-.yellow-star {
-  background: linear-gradient(135deg, #FFF9C4, #FFECB3, #FFD54F);
-  animation: fall linear infinite;
-}
-
-.yellow-star:hover, .yellow-star:active {
-  transform: scale(20) rotate(180deg);
-  background: linear-gradient(135deg, #FFECB3, #FFD54F, #FFC107);
+  width: 10px;
+  height: 10px;
 }
 
 .shooting-star {
-  width: 0.4rem;
-  height: 0.4rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
   background: white;
-  animation: shooting 2s linear infinite;
+  box-shadow: 0 0 6px white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: shoot 6s linear infinite 15s forwards;
 }
 
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from, to {
-    border-color: transparent
+@keyframes shoot {
+  0% {
+    transform: translate(100vw, -10vh);
+    opacity: 1;
   }
-  50% {
-    border-color: #FFCA28;
+  100% {
+    transform: translate(-10vw, 100vh);
+    opacity: 0;
   }
 }
 
+/* typewriter effect*/
 @keyframes slide {
-  33.333333% {
-    font-size: 3.75rem;
+  50% {
+    visibility: visible;
   }
-  to {
-    font-size: 0;
+  100% {
+    visibility: hidden;
   }
 }
 
 @keyframes slideLastElement {
-  33.333333% {
-    font-size: 3.75rem;
+  50% {
+    visibility: visible;
   }
-  to {
-    font-size: 3.75rem;
+  100% {
+    visibility: visible;
   }
 }
 
 @keyframes typing {
   from {
-    width: 0;
+    max-width: 0;
   }
   to {
-    width: 100%
+    max-width: 100%;
   }
 }
 
-.typewriter h1::before {
-  content: '';
-  display: inline-block;
-  width: 0.8rem; /* Space before the border */
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #6b46c1;
+  }
+}
+
+.typewriter {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .typewriter h1 {
-  position: relative;
-  font-size: 0;
-  overflow: hidden;
-  border-right: 0.15em solid;
-  white-space: nowrap;
-  padding-right: 0.4rem;
+  position: absolute;
   text-transform: uppercase;
-}
-
-.typewriter h1:nth-child(1) {
-  animation: slide 15s step-start, typing 3s steps(27, end) forwards, blink-caret 0.6s step-end infinite;
-  animation-delay: 0s;
-}
-
-.typewriter h1:nth-child(2) {
-  animation: slide 15s step-start, typing 3s steps(36, end) forwards, blink-caret 0.6s step-end infinite;
-  animation-delay: 5s;
-}
-
-.typewriter h1:nth-child(3) {
-  animation: slideLastElement 15s step-start infinite, typing 3.5s steps(45, end) 1, blink-caret .5s step-end infinite;
-  animation-delay: 10s;
+  visibility: hidden;
+  padding-right: 0.4rem;
+  border-right: 0.15em solid transparent;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0;
+  /*  animation generated by js code*/
+  /*  max-width generated by js code*/
 }

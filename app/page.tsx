@@ -1,43 +1,42 @@
+'use client';
 import React from "react";
+
+const welcomeTexts: string[] = [
+  "Hello world",
+  "Ahoj svet",
+  "I am monika",
+  "I enjoy coding"
+];
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-             aria-hidden="true">
-          <div
-            // bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
+    <main className="h-screen">
+      <section
+        className="flex justify-center flex-col h-full items-center p-16">
+        <div className="typewriter">
+          {welcomeTexts.map((item: string, key: number) =>
+            <h1 key={item} className="font-bold text-4xl sm:text-6xl"
+                style={{
+                  maxWidth: `calc(${item.length} * 1ch)`,
+                  animation: `typing 3s steps(${item.length * 2}, end), ${key + 1 === welcomeTexts.length ? 'slideLastElement 3s forwards' : 'slide 3s 1'}, blink-caret .6s step-end infinite`,
+                  animationDelay: `${key * 3}s`,
+                }}
+            >
+              {item}
+            </h1>
+          )}
         </div>
-        <div className="mx-auto max-w-2xl py-16">
-          <div className="" style={{display: "flex", justifyContent: "center"}}>
-            <div className="typewriter">
-              <h1 className="text-4xl font-bold text-white-900 sm:text-6xl">
-                Welcome!</h1>
-              <h1 className="text-4xl font-bold text-white-900 sm:text-6xl">
-                I am Monika</h1>
-              <h1 className="text-4xl font-bold text-white-900 sm:text-6xl">
-                I enjoy coding</h1>
-            </div>
-          </div>
-          <div>
-            <div>
-              <p className="mt-6 text-2xl leading-8 text-white-600 text-center">Can you catch the yellow
-                star?
-              </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="#"
-                   className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">No
-                  (coming soon)</a>
-                <a href="#" className="text-sm font-semibold leading-6 text-white-900">Learn more (coming soon)<span
-                  aria-hidden="true">→</span></a>
-              </div>
-            </div>
+        <div className="sm:py-10 py-8">
+          <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you see the yellow star?
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <a onClick={() => alert("coming soon")} href="#"
+               className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900">
+              Learn more</a>
           </div>
         </div>
-      </div>
+      </section>
     </main>
-  );
+  )
+    ;
 }
