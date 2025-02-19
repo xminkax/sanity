@@ -6,7 +6,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -78,7 +80,8 @@ body {
 }
 
 @keyframes twinkle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0;
   }
   50% {
@@ -108,9 +111,16 @@ body {
 .yellow-star {
   background: linear-gradient(to right, #ffeb3b, #ffc107);
   clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%,
-    68% 57%, 79% 91%, 50% 70%,
-    21% 91%, 32% 57%, 2% 35%, 39% 35%
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
   );
   width: 10px;
   height: 10px;
@@ -169,7 +179,8 @@ body {
 }
 
 @keyframes blink-caret {
-  from, to {
+  from,
+  to {
     border-color: transparent;
   }
   50% {

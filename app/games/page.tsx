@@ -1,4 +1,4 @@
-import SnakeGame from "@/src/SnakeGame";
+// import SnakeGame from "@/src/SnakeGame";
 
 export default function Games() {
   return (
@@ -11,7 +11,7 @@ export default function Games() {
     >
       {/*<h1>Snake Game</h1>*/}
       {/*<GameOver/>*/}
-      <SnakeGame/>
+      {/*<SnakeGame />*/}
     </div>
   );
 }
