@@ -30,7 +30,7 @@ const generateStars = (): JSX.Element[] => {
       <>
         <div
           key={index}
-          className={['star', index % 10 === 0 ? ' yellow-star' : ''].join("")}
+          className={['star', index % 20 === 0 ? ' yellow-star' : ''].join("")}
           style={starStyle}
         ></div>
       </>

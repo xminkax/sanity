@@ -2,24 +2,31 @@
 import React from "react";
 
 const welcomeTexts: string[] = [
-  "Welcome!",
+  "Hello world",
+  "Ahoj svet",
   "I am monika",
   "I enjoy coding"
-]
+];
+
 export default function Home() {
   return (
-    <main className="flex justify-center items-center h-screen">
-      <section>
-        <div className="flex justify-center">
-          <div className="typewriter flex-row flex">
-            {welcomeTexts.map((item: string) =>
-              <h1 key={item} className="font-bold text-4xl sm:text-6xl">
-                {item}
-              </h1>
-            )}
-          </div>
+    <main className="h-screen">
+      <section
+        className="flex justify-center flex-col h-full items-center p-16">
+        <div className="typewriter">
+          {welcomeTexts.map((item: string, key: number) =>
+            <h1 key={item} className="font-bold text-4xl sm:text-6xl"
+                style={{
+                  maxWidth: `calc(${item.length} * 1ch)`,
+                  animation: `typing 3s steps(${item.length * 2}, end), ${key + 1 === welcomeTexts.length ? 'slideLastElement 3s forwards' : 'slide 3s 1'}, blink-caret .6s step-end infinite`,
+                  animationDelay: `${key * 3}s`,
+                }}
+            >
+              {item}
+            </h1>
+          )}
         </div>
-        <div>
+        <div className="sm:py-10 py-8">
           <p className="mt-6 sm:text-3xl text-2xl leading-8 text-center">Can you see the yellow star?
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
