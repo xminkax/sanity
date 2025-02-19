@@ -161,10 +161,8 @@ body {
 }
 
 @keyframes slideLastElement {
-  50% {
-    visibility: visible;
-  }
-  100% {
+  from,
+  to {
     visibility: visible;
   }
 }
@@ -197,6 +195,7 @@ body {
 }
 
 .typewriter h1 {
+  display: flex;
   position: absolute;
   text-transform: uppercase;
   visibility: hidden;

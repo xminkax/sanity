@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 
-const welcomeTexts: string[] = ["Hello world", "Ahoj svet", "I am monika", "I enjoy coding"];
+const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 
 export default function Home() {
   return (
     <main className="h-screen">
-      <section className="flex justify-center flex-col h-full items-center p-16">
+      <section className="flex justify-center flex-col h-full items-center py-32">
         <div className="typewriter">
           {welcomeTexts.map((item: string, key: number) => (
             <h1
@@ -14,8 +14,11 @@ export default function Home() {
               className="font-bold text-4xl sm:text-6xl"
               style={{
                 maxWidth: `calc(${item.length} * 1ch)`,
-                animation: `typing 3s steps(${item.length * 2}, end), ${key + 1 === welcomeTexts.length ? "slideLastElement 3s forwards" : "slide 3s 1"}, blink-caret .6s step-end infinite`,
-                animationDelay: `${key * 3}s`,
+                animation: `typing 4s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
+                ${
+                  key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`
+                }`,
+                animationDelay: `${key * 4}s`,
               }}
             >
               {item}
