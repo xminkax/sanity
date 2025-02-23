@@ -1,4 +1,4 @@
-// import SnakeGame from "@/src/SnakeGame";
+import SnakeGame from "@/src/SnakeGame";
 
 export default function Games() {
   return (
@@ -9,9 +9,8 @@ export default function Games() {
         padding: "8rem",
       }}
     >
-      {/*<h1>Snake Game</h1>*/}
       {/*<GameOver/>*/}
-      {/*<SnakeGame />*/}
+      <SnakeGame />
     </div>
   );
 }
