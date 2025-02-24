@@ -243,6 +243,10 @@ body {
 
 .text-snake {
   position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  white-space: nowrap;
   /*background: linear-gradient(to right, white, #3acfd5);*/
   /*-webkit-background-clip: text;*/
   /*-webkit-text-fill-color: transparent;*/
@@ -252,4 +256,93 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 9rem;
+  margin-bottom: 2rem;
+}
+
+
+
+/* Stars */
+.iceland_sky {
+  /*margin: 0;*/
+  /*overflow: hidden;*/
+  background: linear-gradient(to bottom, #020111, #191621);
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*position: relative;*/
+  height: 100vh;
+}
+
+.stars {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+}
+
+.stars::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow:
+    50px 80px white, 150px 200px white, 300px 100px white,
+    400px 50px white, 500px 300px white, 600px 400px white,
+    700px 250px white, 800px 120px white, 900px 500px white,
+    100px 600px white, 1200px 200px white, 1300px 700px white,
+    1400px 300px white, 1500px 500px white;
+  animation: twinkleStars 2s infinite alternate ease-in-out;
+}
+
+@keyframes twinkleStars {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Aurora */
+.aurora {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.aurora div {
+  position: absolute;
+  width: 40%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 150, 0.3), transparent);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: moveAurora 6s infinite alternate ease-in-out;
+}
+
+.aurora div:nth-child(1) {
+  top: 10%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.aurora div:nth-child(2) {
+  top: 20%;
+  left: 50%;
+  animation-delay: 1s;
+}
+
+.aurora div:nth-child(3) {
+  top: 30%;
+  left: 75%;
+  animation-delay: 2s;
+}
+
+@keyframes moveAurora {
+  0% {
+    transform: translateY(-20px) scaleX(1.2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(20px) scaleX(1.5);
+    opacity: 1;
+  }
 }

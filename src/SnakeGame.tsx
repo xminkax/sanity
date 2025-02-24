@@ -283,7 +283,10 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
           <Image className="icon-gesture" src={Gesture} alt={""}/>
         </div>}
         {!isGameOn && isNextLevel && <div className="overlay">
-          <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl text-snake">Congrats!</h1>
+          <div className="text-snake">
+            <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl mb-2">Congrats!</h1>
+            <p className="font-bold md:text-4xl">You got to Icelandic sky</p>
+          </div>
           <button
             className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
