@@ -1,9 +1,11 @@
 "use client";
 import "@/app/globals.css";
 import React, {useRef, useEffect, useState, useCallback} from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import Gesture from "../public/gesture.svg";
 
-export default function SnakeGame() {
+
+export default function SnakeGame({gameState, shouldStartGame = false, isGameStart = false, isNextLevel = false}) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
@@ -31,7 +33,7 @@ export default function SnakeGame() {
   });
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
 
-  const [isGameOn, setIsGameOn] = useState<boolean>(false);
+  const [isGameOn, setIsGameOn] = useState<boolean>(shouldStartGame);
   const [lastTouch, setLastTouch] = useState<{ x: number; y: number }>(null);
 
   let touchStartX = 0,
@@ -40,6 +42,7 @@ export default function SnakeGame() {
     touchEndY = 0;
 
   const startGame = () => {
+    // gameState(2);
     setDirection({x: unitSize, y: 0});
     setIsGameOn(true);
   };
@@ -62,17 +65,20 @@ export default function SnakeGame() {
       newSnakeHead.x === -unitSize ||
       newSnakeHead.y === -unitSize
     ) {
-      alert("Game Over");
-      resetSnake();
-      setIsGameOn(false);
+
+      // setIsGameOn(false);
+      gameState(3);
+      // resetSnake();
+      // setIsGameOn(false);
       return;
     }
 
     //snake collision
     if (snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
-      alert("Game Over");
-      resetSnake();
-      setIsGameOn(false);
+      // setIsGameOn(false);
+      gameState(3);
+      // resetSnake();
+      // setIsGameOn(false);
     }
 
     //eats food
@@ -247,27 +253,47 @@ export default function SnakeGame() {
   };
 
   return (
-    <div style={{zIndex: 1, position: 'relative'}}>
-      <button className="btn-snake px-6 py-3 text-white font-semibold text-2xl bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900 uppercase" onClick={startGame}>
-        Play
-      </button>
+    <div>
       <div style={{marginLeft: "1rem"}}>{counter}</div>
-      <canvas
-        className="canvas-snake"
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeight}
-        style={{
-          border: "0.2rem solid",
-          borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
-          touchAction: "none",
-          backgroundColor: "black",
-          zIndex: 2
-        }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        // onTouchEnd={handleTouchEnd}
-      />
+      <div style={{zIndex: 2, position: 'relative'}}>
+        <canvas
+          className="canvas-snake"
+          ref={canvasRef}
+          width={canvasWidth}
+          height={canvasHeight}
+          style={{
+            border: "0.2rem solid",
+            borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
+            touchAction: "none",
+            backgroundColor: "black",
+            zIndex: 2
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          // onTouchEnd={handleTouchEnd}
+        />
+        {!isGameOn && !isNextLevel && <div className="overlay">
+          <button
+            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+            uppercase"
+
+            onClick={startGame}>
+            Play
+          </button>
+          <Image className="icon-gesture" src={Gesture} alt={""}/>
+        </div>}
+        {!isGameOn && isNextLevel && <div className="overlay">
+          <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl text-snake">Congrats!</h1>
+          <button
+            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+            uppercase"
+
+            onClick={startGame}>
+            Level 2
+          </button>
+        </div>}
+      </div>
+
     </div>
   );
 }

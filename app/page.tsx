@@ -15,10 +15,8 @@ export default function Home() {
               style={{
                 maxWidth: `calc(${item.length} * 1ch)`,
                 animation: `typing 4s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
-                ${
-                  key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`
-                }`,
-                animationDelay: `${key * 4}s`,
+                ${key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`}`,
+                animationDelay: `${key * 4+0.5}s`,
               }}
             >
               {item}
@@ -33,7 +31,8 @@ export default function Home() {
             <a
               onClick={() => alert("coming soon")}
               href="#"
-              className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900"
+              className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900 home px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+            uppercase"
             >
               Learn more
             </a>

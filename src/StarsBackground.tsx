@@ -9,7 +9,7 @@ interface StarStyle {
 }
 
 const generateStars = (): JSX.Element[] => {
-  return Array.from({length: NUM_STARS}).map((_, index) => {
+  return Array.from({ length: NUM_STARS }).map((_, index) => {
     const starStyle: StarStyle = {
       left: Math.random() * 100 + "vw",
       animationDelay: Math.random() * 3 + "s",
@@ -27,9 +27,7 @@ const generateStars = (): JSX.Element[] => {
 };
 
 const StarsBackground: React.FC = (): JSX.Element => {
-  return (
-    <div className="stars">{generateStars()}</div>
-  );
+  return <div className="stars">{generateStars()}</div>;
 };
 
 export default StarsBackground;
