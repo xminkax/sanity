@@ -7,8 +7,7 @@ import GameOver from "@/src/GameOver";
 import {GameState} from "@/constants/snake";
 
 export default function Games() {
-  const [levelWin, setLevelWin] = useLocalStorage<string>('levelWin', null);
-  const [level, setLevel] = useState<number>(levelWin ? Number(levelWin) + 1 : 1);
+  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>('levelWin', null);
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   return (
     <div
@@ -26,7 +25,7 @@ export default function Games() {
             animate={{opacity: 1}}
             exit={{opacity: 1}}
             transition={{duration: 0.2}}
-          ><SnakeGame gameState={GameState.MENU} level={level} startGame={() => setGameState(GameState.PLAYING)}/>
+          ><SnakeGame gameState={GameState.MENU} levelWin={levelWin} startGame={() => setGameState(GameState.PLAYING)}/>
           </motion.div>
         </AnimatePresence>}
       {gameState === GameState.PLAYING &&
@@ -37,10 +36,11 @@ export default function Games() {
             animate={{opacity: 1}}
             exit={{opacity: 1}}
             transition={{duration: 2}}
-          ><SnakeGame gameState={GameState.PLAYING} level={level} gameOver={() => setGameState(GameState.GAME_OVER)}
+          ><SnakeGame gameState={GameState.PLAYING} levelWin={levelWin}
+                      gameOver={() => setGameState(GameState.GAME_OVER)}
                       win={() => {
-                        setLevelWin(level);
                         setGameState(GameState.WIN);
+                        setLevelWin(levelWin + 1);
                       }}/></motion.div>
         </AnimatePresence>}
       {gameState === GameState.WIN &&
@@ -51,10 +51,10 @@ export default function Games() {
             animate={{opacity: 1}}
             exit={{opacity: 1}}
             transition={{duration: 3}}
-          ><SnakeGame gameState={GameState.WIN} nextLevel={() => setLevel(level + 1)}
+          ><SnakeGame gameState={GameState.WIN}
                       startGame={() => setGameState(GameState.PLAYING)}
-                      level={level}
-                      restartGame={() => setGameState(GameState.MENU)}/></motion.div>
+                      levelWin={levelWin}
+                      restartGame={() => {setGameState(GameState.MENU); removeValue();}}/></motion.div>
         </AnimatePresence>}
       {gameState === GameState.GAME_OVER &&
         <AnimatePresence mode="wait">

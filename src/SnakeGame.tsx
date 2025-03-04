@@ -5,7 +5,7 @@ import Image from "next/image";
 import Gesture from "../public/gesture.svg";
 import {GameState, levelWinTexts, levelWinBackgrounds} from "@/constants/snake";
 
-export default function SnakeGame({gameState, nextLevel, win, startGame, gameOver, restartGame, level = 1}) {
+export default function SnakeGame({gameState, nextLevel, win, startGame, gameOver, restartGame, levelWin = 1}) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
@@ -222,7 +222,7 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
         {gameState === GameState.WIN && <div className="overlay">
           <div className="text-snake">
             <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl mb-2">Congrats!</h1>
-            <p className="font-bold md:text-4xl">{levelWinTexts[levelWinBackgrounds[level]]}</p>
+            <p className="font-bold md:text-4xl">{levelWinTexts[levelWinBackgrounds[levelWin]]}</p>
           </div>
           <button
             className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
@@ -230,7 +230,6 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
 
             onClick={() => {
               startGame();
-              nextLevel();
             }}>
             Level 2
           </button>
@@ -238,7 +237,7 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
             className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
             onClick={restartGame}>
-            Restart the game
+            Restart
           </button>
         </div>}
       </div>

@@ -3,6 +3,7 @@ import React from "react";
 import {useLocalStorage} from 'usehooks-ts';
 import {motion, AnimatePresence} from "framer-motion";
 import {levelWinBackgrounds} from "@/constants/snake";
+import {usePathname} from "next/navigation";
 
 const NUM_STARS: number = 100;
 
@@ -35,7 +36,7 @@ const StarsBackground: React.FC = ({
                                    }: {
   children: React.ReactNode
 }): JSX.Element => {
-
+  const pathname = usePathname();
   const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "");
   const background = levelWinBackgrounds[levelWin] || null;
   return <body className={background}>
@@ -45,7 +46,7 @@ const StarsBackground: React.FC = ({
       <li>About</li>
       <li>CV</li>
     </ul>
-    {background && <AnimatePresence mode="sync">
+    {background && pathname !== '/games' && <AnimatePresence mode="sync">
       <motion.div
         className="flex"
         key="next-level"
@@ -62,7 +63,7 @@ const StarsBackground: React.FC = ({
           onClick={removeValue}
           className="px-4 py-2 bg-gray-800 text-white rounded-2xl shadow-lg hover:bg-gray-700 active:bg-gray-900 transition-all duration-200 border border-gray-600"
         >
-          Reset game
+          Reset BG
         </button>
       </motion.div>
     </AnimatePresence>
