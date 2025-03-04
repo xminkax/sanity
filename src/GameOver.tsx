@@ -23,7 +23,7 @@ import {
   PointsMaterial,
   Points,
   MeshBasicMaterial,
-  Mesh,
+  Mesh, Texture,
 } from "three";
 import Image from "next/image";
 import Gesture from "@/public/gesture.svg";
@@ -133,9 +133,17 @@ const GameOver: React.FC = ({restartGame}) => {
     particles.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
     particles.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
 
+    const sprite: Texture = new THREE.TextureLoader().load("/disc.png");
+//     sprite.colorSpace = THREE.SRGBColorSpace;
+
     const particleMaterial: PointsMaterial = new THREE.PointsMaterial({
-      size: 0.05,
+      size: 0.07,
       vertexColors: true,
+      sizeAttenuation: true,
+      alphaTest: 0.5,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      map: sprite,
     });
 
     const particleSystem: Points<
@@ -164,7 +172,7 @@ const GameOver: React.FC = ({restartGame}) => {
       textMesh.position.set(-10,-10,-10);
       textMesh.rotation.x = 99.8;
 
-      camera.position.z = 2;
+      camera.position.z = 2.8;
       scene.add(textMesh);
       resetParticles();
       // resetParticles();
