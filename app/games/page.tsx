@@ -2,70 +2,14 @@
 import SnakeGame from "@/src/SnakeGame";
 import {useState} from "react";
 import {motion, AnimatePresence} from "framer-motion";
-// import {useLocalStorage} from "@/hooks/useLocalStorage";
-import { useLocalStorage } from 'usehooks-ts'
-import NextLevel from "@/src/NextLevel";
+import {useLocalStorage} from 'usehooks-ts'
 import GameOver from "@/src/GameOver";
-import {useTheme} from "@/context/ThemeContext";
+import {GameState} from "@/constants/snake";
 
-const GAME_STATE_START = 1;
-const GAME_STATE_PLAY = 2;
-const GAME_STATE_NEXT_LEVEL = 3;
-const GAME_STATE_GAME_OVER = 4;
 export default function Games() {
-  // const [level, setLevel] = useLocalStorage<string>("level", "1");
-  // const [gameState, setGameState] = useState(1);
-  const [value, setValue] = useLocalStorage('level', 1)
-
-  // const {theme, setTheme} = useTheme();
-  const getGameState = () => {
-    if (value === 3) {
-      // setLevel("2");
-      // setTheme("iceland_sky");
-      //add use context for background
-      return <AnimatePresence mode="wait">
-        <motion.div
-          key="next-level"
-          initial={{opacity: 0}}
-          animate={{opacity: 1}}
-          exit={{opacity: 1}}
-          transition={{duration: 3}}
-        ><SnakeGame gameState={(state) => setValue(state)} isNextLevel={true}/></motion.div>
-      </AnimatePresence>
-    }
-    if (value === 4) {
-      return <AnimatePresence mode="wait">
-        <motion.div
-          key="game-over"
-          initial={{opacity: 0}}
-          animate={{opacity: 1}}
-          exit={{opacity: 1}}
-          transition={{duration: 1}}
-
-        ><GameOver gameState={(state) => setValue(state)}/></motion.div>
-      </AnimatePresence>
-    }
-    if (value === 2) {
-      return <AnimatePresence mode="wait">
-        <motion.div
-          key="snake-play"
-          initial={{opacity: 0}}
-          animate={{opacity: 1}}
-          exit={{opacity: 1}}
-          transition={{duration: 1}}
-        ><SnakeGame gameState={(state) => setValue(state)} shouldStartGame={true}/></motion.div>
-      </AnimatePresence>
-    }
-    return <AnimatePresence mode="wait">
-      <motion.div
-        key="snake"
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        exit={{opacity: 1}}
-        transition={{duration: 1}}
-      ><SnakeGame gameState={(state) => setValue(state)} isGameStart={false}/></motion.div>
-    </AnimatePresence>
-  }
+  const [levelWin, setLevelWin] = useLocalStorage<string>('levelWin', null);
+  const [level, setLevel] = useState<number>(levelWin ? Number(levelWin) + 1 : 1);
+  const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   return (
     <div
       style={{
@@ -74,8 +18,54 @@ export default function Games() {
         padding: "8rem",
       }}
     >
-      {/*<GameOver/>*/}
-      {getGameState()}
+      {gameState === GameState.MENU &&
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={GameState.MENU}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 1}}
+            transition={{duration: 0.2}}
+          ><SnakeGame gameState={GameState.MENU} level={level} startGame={() => setGameState(GameState.PLAYING)}/>
+          </motion.div>
+        </AnimatePresence>}
+      {gameState === GameState.PLAYING &&
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={GameState.PLAYING}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 1}}
+            transition={{duration: 2}}
+          ><SnakeGame gameState={GameState.PLAYING} level={level} gameOver={() => setGameState(GameState.GAME_OVER)}
+                      win={() => {
+                        setLevelWin(level);
+                        setGameState(GameState.WIN);
+                      }}/></motion.div>
+        </AnimatePresence>}
+      {gameState === GameState.WIN &&
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={GameState.WIN}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 1}}
+            transition={{duration: 3}}
+          ><SnakeGame gameState={GameState.WIN} nextLevel={() => setLevel(level + 1)}
+                      startGame={() => setGameState(GameState.PLAYING)}
+                      level={level}
+                      restartGame={() => setGameState(GameState.MENU)}/></motion.div>
+        </AnimatePresence>}
+      {gameState === GameState.GAME_OVER &&
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={GameState.GAME_OVER}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 1}}
+            transition={{duration: 3}}
+          ><GameOver gameState={GameState.GAME_OVER} restartGame={() => setGameState(GameState.PLAYING)}/></motion.div>
+        </AnimatePresence>}
     </div>
   );
 }

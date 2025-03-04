@@ -47,7 +47,7 @@ function getPosition(index: number, velocityA?: number): Position {
   };
 }
 
-const GameOver: React.FC = ({gameState}) => {
+const GameOver: React.FC = ({restartGame}) => {
   let canvasWidth = 330;
   let canvasHeight = 270;
   if (window.innerWidth > 640) {
@@ -195,7 +195,7 @@ const GameOver: React.FC = ({gameState}) => {
         <button
           className="home btn-snake game-over px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
-          onClick={() => gameState(2)}
+          onClick={restartGame}
         >
           Play
         </button>

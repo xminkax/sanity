@@ -3,9 +3,9 @@ import "@/app/globals.css";
 import React, {useRef, useEffect, useState, useCallback} from "react";
 import Image from "next/image";
 import Gesture from "../public/gesture.svg";
+import {GameState, levelWinTexts, levelWinBackgrounds} from "@/constants/snake";
 
-
-export default function SnakeGame({gameState, shouldStartGame = false, isGameStart = false, isNextLevel = false}) {
+export default function SnakeGame({gameState, nextLevel, win, startGame, gameOver, restartGame, level = 1}) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
@@ -33,25 +33,6 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
   });
   const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
 
-  const [isGameOn, setIsGameOn] = useState<boolean>(shouldStartGame);
-  const [lastTouch, setLastTouch] = useState<{ x: number; y: number }>(null);
-
-  let touchStartX = 0,
-    touchStartY = 0,
-    touchEndX = 0,
-    touchEndY = 0;
-
-  const startGame = () => {
-    // gameState(2);
-    setDirection({x: unitSize, y: 0});
-    setIsGameOn(true);
-  };
-
-  const resetSnake = () => {
-    setDirection({x: 0, y: 0});
-    setSnake([{x: 8 * unitSize, y: 8 * unitSize}]);
-  };
-
   const updateSnake = useCallback(() => {
     const newSnakeHead = {
       x: snake[0].x + direction.x,
@@ -65,20 +46,13 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
       newSnakeHead.x === -unitSize ||
       newSnakeHead.y === -unitSize
     ) {
-
-      // setIsGameOn(false);
-      gameState(3);
-      // resetSnake();
-      // setIsGameOn(false);
+      gameOver();
       return;
     }
 
     //snake collision
     if (snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
-      // setIsGameOn(false);
-      gameState(3);
-      // resetSnake();
-      // setIsGameOn(false);
+      gameOver();
     }
 
     //eats food
@@ -93,7 +67,7 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
     } else {
       setSnake((prev) => {
         const newSnake = [newSnakeHead, ...prev];
-        newSnake.pop(); // Remove the last segment
+        newSnake.pop();
         return newSnake;
       });
     }
@@ -119,7 +93,7 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
   //todo add abstraction for directions
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (!isGameOn) {
+      if (gameState !== GameState.PLAYING) {
         return;
       }
       switch (event.key) {
@@ -137,7 +111,7 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
           break;
       }
     },
-    [isGameOn],
+    [gameState],
   );
 
   const paint = useCallback(() => {
@@ -156,15 +130,9 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
   useEffect(() => {
     paint();
 
-    if (counter === 5) {
+    if (counter === 3) {
       paint();
-      setIsGameOn(false);
-      setCounter(0);
-      // //todo add list of sayings with a random selection
-      alert(
-        "You reached the first level, congratulations! Here is a nice saying for today: It is the same life, whether we spend it laughing or crying.",
-      );
-      resetSnake();
+      win();
     }
   }, [snake, food, counter, paint]);
 
@@ -185,47 +153,16 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
     setStartY(null);
   };
 
-  const handleTouchEnd = (e) => {
-    setStartX(null);
-    setStartY(null);
-  };
-
-  const handleTouchMove2 = (event) => {
-    const touchX = event.touches[0].clientX;
-    const touchY = event.touches[0].clientY;
-
-    const diffX = touchX - startX;
-    const diffY = touchY - startY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      setDirectionFromEvents(diffX > 0 ? "right" : "left");
-    } else {
-      setDirectionFromEvents(diffY > 0 ? "down" : "up");
-    }
-
-    setStartX(touchX);
-    setStartY(touchY);
-  };
-
   useEffect(() => {
-    // const canvas = canvasRef.current;
-    //
-    // // Add event listener for mouse click
-    // if (canvas) {
-    //     canvas.addEventListener('click', handleTouchMove);
-    // }
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
-      // if (canvas) {
-      //     canvas.removeEventListener("ontouchmove", handleTouchMove);
-      // }
     };
-  }, [isGameOn, onKeyDown]);
+  }, [gameState, onKeyDown]);
 
   useEffect(() => {
     if (shouldAnimate) {
-      const myReference = canvasRef.current; // The DOM element
+      const myReference = canvasRef.current;
       myReference.style.backgroundColor = "#0d0d0d";
       setTimeout(() => {
         myReference.style.backgroundColor = "#000000";
@@ -263,6 +200,7 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
           height={canvasHeight}
           style={{
             border: "0.2rem solid",
+            borderRadius: '10px',
             borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
             touchAction: "none",
             backgroundColor: "black",
@@ -270,9 +208,8 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          // onTouchEnd={handleTouchEnd}
         />
-        {!isGameOn && !isNextLevel && <div className="overlay">
+        {gameState === GameState.MENU && <div className="overlay">
           <button
             className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
@@ -282,17 +219,26 @@ export default function SnakeGame({gameState, shouldStartGame = false, isGameSta
           </button>
           <Image className="icon-gesture" src={Gesture} alt={""}/>
         </div>}
-        {!isGameOn && isNextLevel && <div className="overlay">
+        {gameState === GameState.WIN && <div className="overlay">
           <div className="text-snake">
             <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl mb-2">Congrats!</h1>
-            <p className="font-bold md:text-4xl">You got to Icelandic sky</p>
+            <p className="font-bold md:text-4xl">{levelWinTexts[levelWinBackgrounds[level]]}</p>
           </div>
           <button
             className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
 
-            onClick={startGame}>
+            onClick={() => {
+              startGame();
+              nextLevel();
+            }}>
             Level 2
+          </button>
+          <button
+            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+            uppercase"
+            onClick={restartGame}>
+            Restart the game
           </button>
         </div>}
       </div>

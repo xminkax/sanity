@@ -1,9 +1,8 @@
 "use client"
 import React from "react";
-// import useLocalStorage from "@/hooks/useLocalStorage";
 import {useLocalStorage} from 'usehooks-ts';
 import {motion, AnimatePresence} from "framer-motion";
-// import {useLocalStorage} from "@/hooks/useLocalStorage";
+import {levelWinBackgrounds} from "@/constants/snake";
 
 const NUM_STARS: number = 100;
 
@@ -36,28 +35,17 @@ const StarsBackground: React.FC = ({
                                    }: {
   children: React.ReactNode
 }): JSX.Element => {
-  // const [level] = useLocalStorage<string>("level", "");
 
-  const [value, setValue, removeValue] = useLocalStorage('level', 1);
-  console.log(value, "level");
-  const getBackground = (level) => {
-    switch (level) {
-      case 3:
-        return 'iceland_sky';
-      default:
-        return "night_sky";
-    }
-  }
-  const theme = getBackground(value);
-  // const theme = "night_sky";
-  return <body className={theme}>
+  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "");
+  const background = levelWinBackgrounds[levelWin] || null;
+  return <body className={background}>
   <header className="flex" style={{alignItems: "center", justifyContent: "center"}}>
     <ul className="flex" style={{alignItems: "center", justifyContent: "center"}}>
       <li>Games</li>
       <li>About</li>
       <li>CV</li>
     </ul>
-    {value !== 1 && value !== 4 && <AnimatePresence mode="sync">
+    {background && <AnimatePresence mode="sync">
       <motion.div
         className="flex"
         key="next-level"
@@ -80,7 +68,7 @@ const StarsBackground: React.FC = ({
     </AnimatePresence>
     }
   </header>
-  {theme === "iceland_sky" &&
+  {background === levelWinBackgrounds[2] &&
     <>
       <div className="stars"></div>
       <div className="aurora">
@@ -90,7 +78,7 @@ const StarsBackground: React.FC = ({
       </div>
     </>
   }
-  {theme === "night_sky" &&
+  {!background &&
     <div className="stars">{generateStars()}</div>
   }
 
