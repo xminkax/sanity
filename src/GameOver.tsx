@@ -175,7 +175,6 @@ const GameOver: React.FC = ({restartGame}) => {
       camera.position.z = 2.8;
       scene.add(textMesh);
       resetParticles();
-      // resetParticles();
     });
 
     const render = (): void => {
@@ -201,7 +200,7 @@ const GameOver: React.FC = ({restartGame}) => {
       />
       <div className="overlay-game-over">
         <button
-          className="home btn-snake game-over px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+          className="home btn-snake game-over px-6 py-3 text-white font-bold text-2xl shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
           onClick={restartGame}
         >

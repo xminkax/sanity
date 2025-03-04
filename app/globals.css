@@ -161,6 +161,7 @@ body {
   radial-gradient(31.68% 130.91% at 100% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%),
   radial-gradient(43.14% 139.47% at 0% 136.21%, rgba(227, 235, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%),
   linear-gradient(170deg, #3acfd5 7.99%, #3a4ed5 93.36%);
+  /*color: #FFD8E6;*/
 
   /*left: 50%;*/
   /*transform: translateX(-50%);*/
@@ -250,7 +251,8 @@ body {
   /*background: linear-gradient(to right, white, #3acfd5);*/
   /*-webkit-background-clip: text;*/
   /*-webkit-text-fill-color: transparent;*/
-  color: #DFF6F7;
+  /*color: #DFF6F7;*/
+  /*color: #FFD8E6;*/
   /*background-color:  #3acfd5;*/
   /*color: #fed1c7*/
   left: 50%;

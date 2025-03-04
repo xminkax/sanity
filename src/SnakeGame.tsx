@@ -211,7 +211,7 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
         />
         {gameState === GameState.MENU && <div className="overlay">
           <button
-            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+            className="home btn-snake px-6 py-3 text-white font-bold text-2xl shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
 
             onClick={startGame}>
