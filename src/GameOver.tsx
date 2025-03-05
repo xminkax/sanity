@@ -1,5 +1,5 @@
 "use client";
-import React, { MutableRefObject, useEffect, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import {
   generatePastelColor,
   ColorHSL,
@@ -10,6 +10,7 @@ import {
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import { MOBILE_SIZE_CANCAS } from "@/constants/snake";
 import "./fireworks.css";
 import {
   PerspectiveCamera,
@@ -47,19 +48,23 @@ function getPosition(index: number, velocityA?: number): Position {
 }
 
 const GameOver: React.FC = ({ restartGame }) => {
-  let canvasWidth = 330;
-  let canvasHeight = 270;
-  if (window.innerWidth > 640) {
-    canvasWidth = 660;
-    canvasHeight = 540;
-  }
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
     null,
   );
+  const [canvasConfig, setCanvasConfig] = useState(null);
+
+  useEffect(() => {
+    let width = 330;
+    let height = 270;
+    if (window.innerWidth > MOBILE_SIZE_CANCAS) {
+      width = 660;
+      height = 540;
+    }
+    setCanvasConfig({ width, height });
+  }, []);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-
     const scene: Scene = new THREE.Scene();
     let textMesh: Mesh<TextGeometry, MeshBasicMaterial>;
     const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
@@ -181,15 +186,16 @@ const GameOver: React.FC = ({ restartGame }) => {
       renderer.render(scene, camera);
     };
     render();
-  }, []);
+  }, [canvasConfig]);
 
+  if (!canvasConfig) return;
   return (
     <div style={{ zIndex: 2, position: "relative" }}>
       <div style={{ marginLeft: "1rem" }}>1</div>
       <canvas
         ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeight}
+        width={canvasConfig.width}
+        height={canvasConfig.height}
         style={{
           backgroundColor: "transparent",
           border: "0.2rem solid",

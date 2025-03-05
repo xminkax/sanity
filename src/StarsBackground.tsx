@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { motion, AnimatePresence } from "framer-motion";
 import { levelWinBackgrounds } from "@/constants/snake";
@@ -34,8 +34,11 @@ const generateStars = (): JSX.Element[] => {
 const StarsBackground: React.FC = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const pathname = usePathname();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "");
-  const background = levelWinBackgrounds[levelWin] || null;
+  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "0");
+  const [background, setBackground] = useState(null);
+  useEffect(() => {
+    setBackground(levelWinBackgrounds[levelWin]);
+  }, [levelWin]);
   return (
     <body className={background}>
       <header className="flex" style={{ alignItems: "center", justifyContent: "center" }}>
@@ -74,7 +77,7 @@ const StarsBackground: React.FC = ({ children }: { children: React.ReactNode }):
           </div>
         </>
       )}
-      {!background && <div className="stars">{generateStars()}</div>}
+      {background === levelWinBackgrounds[0] && <div className="stars">{generateStars()}</div>}
 
       {children}
     </body>

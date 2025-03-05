@@ -6,7 +6,7 @@ import GameOver from "@/src/GameOver";
 import { GameState } from "@/constants/snake";
 
 export default function Games() {
-  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", null);
+  const [levelWin, setLevelWin, removeLevelWin] = useLocalStorage<string>("levelWin", null);
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   return (
     <div
@@ -30,7 +30,10 @@ export default function Games() {
           <SnakeGame
             gameState={GameState.PLAYING}
             levelWin={levelWin}
-            gameOver={() => setGameState(GameState.GAME_OVER)}
+            gameOver={() => {
+              setGameState(GameState.GAME_OVER);
+              removeLevelWin();
+            }}
             win={() => {
               setGameState(GameState.WIN);
               setLevelWin(levelWin + 1);
@@ -46,7 +49,7 @@ export default function Games() {
             levelWin={levelWin}
             restartGame={() => {
               setGameState(GameState.MENU);
-              removeValue();
+              removeLevelWin();
             }}
           />
         </div>
