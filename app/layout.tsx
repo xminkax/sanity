@@ -1,4 +1,4 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import StarsBackground from "@/src/StarsBackground";
 
@@ -15,16 +15,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
-    <StarsBackground>
-      {children}
-    </StarsBackground>
+      <StarsBackground>{children}</StarsBackground>
     </html>
   );
 }

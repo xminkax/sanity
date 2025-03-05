@@ -1,18 +1,32 @@
 "use client";
 import "@/app/globals.css";
-import React, {useRef, useEffect, useState, useCallback} from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Gesture from "../public/gesture.svg";
-import {GameState, levelWinTexts, levelWinBackgrounds} from "@/constants/snake";
+import { GameState, levelWinTexts, levelWinBackgrounds } from "@/constants/snake";
 
-const defaultFoodPosition = (function () {
+const defaultFoodPosition = (() => {
   return Object.freeze({
     x: Math.random(),
     y: Math.random(),
   });
 })();
 
-export default function SnakeGame({gameState, win, startGame, gameOver, restartGame, levelWin = 1}) {
+const generateFoodPosition = (value, canvasWidth, canvasHeight, unitSize) => {
+  return {
+    x: Math.floor(value.x * (canvasWidth / unitSize)) * unitSize,
+    y: Math.floor(value.y * (canvasHeight / unitSize)) * unitSize,
+  };
+};
+
+export default function SnakeGame({
+  gameState,
+  win,
+  startGame,
+  gameOver,
+  restartGame,
+  levelWin = 1,
+}) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
@@ -29,12 +43,12 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [counter, setCounter] = useState<number>(0);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>([
-    {x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize},
+    { x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize },
   ]);
-  const [food, setFood] = useState<{ x: number; y: number }>({
-    x: Math.floor(defaultFoodPosition.x * (canvasWidth / unitSize)) * unitSize,
-    y: Math.floor(defaultFoodPosition.y * (canvasHeight / unitSize)) * unitSize,
-  });
+  const [food, setFood] = useState<{
+    x: number;
+    y: number;
+  }>(generateFoodPosition(defaultFoodPosition, canvasWidth, canvasHeight, unitSize));
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -67,10 +81,14 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
       setSnake((prev) => [newSnakeHead, ...prev]);
       setShouldAnimate(true);
-      setFood({
-        x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
-        y: Math.floor(Math.random() * (canvasHeight / unitSize)) * unitSize,
-      });
+      setFood(
+        generateFoodPosition(
+          { x: Math.random(), y: Math.random() },
+          canvasWidth,
+          canvasHeight,
+          unitSize,
+        ),
+      );
       setCounter(counter + 1);
     } else {
       setSnake((prev) => {
@@ -79,7 +97,18 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
         return newSnake;
       });
     }
-  }, [counter, direction.x, direction.y, food.x, food.y, snake]);
+  }, [
+    counter,
+    direction.x,
+    direction.y,
+    food.x,
+    food.y,
+    snake,
+    canvasWidth,
+    canvasHeight,
+    gameOver,
+    unitSize,
+  ]);
 
   function isOppositeDirection(val1, val2) {
     if ((val1.x < 0 && val2.x > 0) || (val1.x > 0 && val2.x < 0)) {
@@ -91,30 +120,33 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
     return false; // Either both values are of the same sign or both are 0
   }
 
-  const setDirectionFromEvents = (directionText) => {
-    let directionTemp;
-    switch (directionText) {
-      case "left":
-        directionTemp = {x: -unitSize, y: 0};
-        break;
-      case "right":
-        directionTemp = {x: unitSize, y: 0};
-        break;
-      case "up":
-        directionTemp = {x: 0, y: -unitSize};
-        break;
-      case "down":
-        directionTemp = {x: 0, y: unitSize};
-        break;
-    }
-
-    setDirection((prev) => {
-      if (isOppositeDirection(directionTemp, prev)) {
-        return prev;
+  const setDirectionFromEvents = useCallback(
+    (directionText) => {
+      let directionTemp;
+      switch (directionText) {
+        case "left":
+          directionTemp = { x: -unitSize, y: 0 };
+          break;
+        case "right":
+          directionTemp = { x: unitSize, y: 0 };
+          break;
+        case "up":
+          directionTemp = { x: 0, y: -unitSize };
+          break;
+        case "down":
+          directionTemp = { x: 0, y: unitSize };
+          break;
       }
-      return directionTemp;
-    });
-  };
+
+      setDirection((prev) => {
+        if (isOppositeDirection(directionTemp, prev)) {
+          return prev;
+        }
+        return directionTemp;
+      });
+    },
+    [unitSize],
+  );
 
   //todo add abstraction for directions
   const onKeyDown = useCallback(
@@ -137,7 +169,7 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
           break;
       }
     },
-    [gameState],
+    [gameState, setDirectionFromEvents],
   );
 
   const paint = useCallback(() => {
@@ -151,7 +183,7 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
     }
     ctx.fillStyle = "#fed1c7";
     ctx.fillRect(food.x, food.y, unitSize, unitSize);
-  }, [food.x, food.y, snake]);
+  }, [canvasHeight, canvasWidth, food.x, food.y, snake, unitSize]);
 
   useEffect(() => {
     paint();
@@ -160,7 +192,7 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
       paint();
       win();
     }
-  }, [snake, food, counter, paint]);
+  }, [snake, food, counter, paint, canvasHeight, canvasWidth, unitSize, win]);
 
   const handleTouchMove = (event) => {
     // event.preventDefault();
@@ -217,8 +249,8 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
 
   return (
     <div>
-      <div style={{marginLeft: "1rem"}}>{counter}</div>
-      <div style={{zIndex: 2, position: 'relative'}}>
+      <div style={{ marginLeft: "1rem" }}>{counter}</div>
+      <div style={{ zIndex: 2, position: "relative" }}>
         <canvas
           className="canvas-snake"
           ref={canvasRef}
@@ -226,48 +258,56 @@ export default function SnakeGame({gameState, win, startGame, gameOver, restartG
           height={canvasHeight}
           style={{
             border: "0.2rem solid",
-            borderRadius: '10px',
+            borderRadius: "10px",
             borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
             touchAction: "none",
             backgroundColor: "black",
-            zIndex: 2
+            zIndex: 2,
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
         />
-        {gameState === GameState.MENU && <div className="overlay">
-          <button
-            className="home btn-snake px-6 py-3 text-white font-bold text-2xl shadow-md hover:bg-[#32b8bd] transition duration-300
+        {gameState === GameState.MENU && (
+          <div className="overlay">
+            <button
+              className="home btn-snake px-6 py-3 text-white font-bold text-2xl shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
-
-            onClick={startGame}>
-            Play
-          </button>
-          <Image className="icon-gesture" src={Gesture} alt={""}/>
-        </div>}
-        {gameState === GameState.WIN && <div className="overlay">
-          <div className="text-snake">
-            <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl mb-2">Congrats!</h1>
-            <p className="font-bold md:text-4xl">{levelWinTexts[levelWinBackgrounds[levelWin]]}</p>
+              onClick={startGame}
+            >
+              Play
+            </button>
+            <Image className="icon-gesture" src={Gesture} alt={""} />
           </div>
-          <button
-            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+        )}
+        {gameState === GameState.WIN && (
+          <div className="overlay">
+            <div className="text-snake">
+              <h1 className="uppercase font-bold text-4xl sm:text-5xl md:text-5xl mb-2">
+                Congrats!
+              </h1>
+              <p className="font-bold md:text-4xl">
+                {levelWinTexts[levelWinBackgrounds[levelWin]]}
+              </p>
+            </div>
+            <button
+              className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
-
-            onClick={() => {
-              startGame();
-            }}>
-            Level 2
-          </button>
-          <button
-            className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
+              onClick={() => {
+                startGame();
+              }}
+            >
+              Level 2
+            </button>
+            <button
+              className="home btn-snake px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
             uppercase"
-            onClick={restartGame}>
-            Restart
-          </button>
-        </div>}
+              onClick={restartGame}
+            >
+              Restart
+            </button>
+          </div>
+        )}
       </div>
-
     </div>
   );
 }

@@ -23,10 +23,9 @@ import {
   PointsMaterial,
   Points,
   MeshBasicMaterial,
-  Mesh, Texture,
+  Mesh,
+  Texture,
 } from "three";
-import Image from "next/image";
-import Gesture from "@/public/gesture.svg";
 
 const PARTICLE_COUNT: number = 1000;
 const textMeshPosition: Position = {
@@ -47,7 +46,7 @@ function getPosition(index: number, velocityA?: number): Position {
   };
 }
 
-const GameOver: React.FC = ({restartGame}) => {
+const GameOver: React.FC = ({ restartGame }) => {
   let canvasWidth = 330;
   let canvasHeight = 270;
   if (window.innerWidth > 640) {
@@ -124,8 +123,7 @@ const GameOver: React.FC = ({restartGame}) => {
     const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
     for (let a: number = 0; a < PARTICLE_COUNT; a++) {
-      const position: Position = getPosition(a);
-      points.push(0,0,0);
+      points.push(0, 0, 0);
       const pastelColor: Color = generateSimilarShadeColorForParticles(color);
       colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
     }
@@ -134,7 +132,7 @@ const GameOver: React.FC = ({restartGame}) => {
     particles.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
 
     const sprite: Texture = new THREE.TextureLoader().load("/disc.png");
-//     sprite.colorSpace = THREE.SRGBColorSpace;
+    //     sprite.colorSpace = THREE.SRGBColorSpace;
 
     const particleMaterial: PointsMaterial = new THREE.PointsMaterial({
       size: 0.07,
@@ -169,7 +167,7 @@ const GameOver: React.FC = ({restartGame}) => {
       const textColor: ColorHSL = generateSimilarShadeColorForText(colorHsl);
       textMaterial.color.setHSL(textColor.h, textColor.s, textColor.l);
       textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textMesh.position.set(-10,-10,-10);
+      textMesh.position.set(-10, -10, -10);
       textMesh.rotation.x = 99.8;
 
       camera.position.z = 2.8;
@@ -186,8 +184,8 @@ const GameOver: React.FC = ({restartGame}) => {
   }, []);
 
   return (
-    <div style={{zIndex: 2, position: 'relative'}}>
-      <div style={{marginLeft: "1rem"}}>1</div>
+    <div style={{ zIndex: 2, position: "relative" }}>
+      <div style={{ marginLeft: "1rem" }}>1</div>
       <canvas
         ref={canvasRef}
         width={canvasWidth}

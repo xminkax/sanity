@@ -16,7 +16,7 @@ export default function Home() {
                 maxWidth: `calc(${item.length} * 1ch)`,
                 animation: `typing 4s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
                 ${key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`}`,
-                animationDelay: `${key * 4+0.5}s`,
+                animationDelay: `${key * 4 + 0.5}s`,
               }}
             >
               {item}

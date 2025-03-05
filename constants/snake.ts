@@ -2,7 +2,7 @@ export enum GameState {
   MENU = "menu",
   PLAYING = "playing",
   GAME_OVER = "gameOver",
-  WIN = "win"
+  WIN = "win",
 }
 
 //used for css to define the background
@@ -16,5 +16,5 @@ export enum levelWinBackgrounds {
 export const levelWinTexts = {
   [levelWinBackgrounds[1]]: "Shooting star coming",
   [levelWinBackgrounds[2]]: "You got Icelandic sky",
-  [levelWinBackgrounds[3]]: "You are inside the black hole"
+  [levelWinBackgrounds[3]]: "You are inside the black hole",
 };

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import React from "react";
-import {useLocalStorage} from 'usehooks-ts';
-import {motion, AnimatePresence} from "framer-motion";
-import {levelWinBackgrounds} from "@/constants/snake";
-import {usePathname} from "next/navigation";
+import { useLocalStorage } from "usehooks-ts";
+import { motion, AnimatePresence } from "framer-motion";
+import { levelWinBackgrounds } from "@/constants/snake";
+import { usePathname } from "next/navigation";
 
 const NUM_STARS: number = 100;
 
@@ -14,7 +14,7 @@ interface StarStyle {
 }
 
 const generateStars = (): JSX.Element[] => {
-  return Array.from({length: NUM_STARS}).map((_, index) => {
+  return Array.from({ length: NUM_STARS }).map((_, index) => {
     const starStyle: StarStyle = {
       left: Math.random() * 100 + "vw",
       animationDelay: Math.random() * 3 + "s",
@@ -31,56 +31,54 @@ const generateStars = (): JSX.Element[] => {
   });
 };
 
-const StarsBackground: React.FC = ({
-                                     children
-                                   }: {
-  children: React.ReactNode
-}): JSX.Element => {
+const StarsBackground: React.FC = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const pathname = usePathname();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "");
   const background = levelWinBackgrounds[levelWin] || null;
-  return <body className={background}>
-  <header className="flex" style={{alignItems: "center", justifyContent: "center"}}>
-    <ul className="flex" style={{alignItems: "center", justifyContent: "center"}}>
-      <li>Games</li>
-      <li>About</li>
-      <li>CV</li>
-    </ul>
-    {background && pathname !== '/games' && <AnimatePresence mode="sync">
-      <motion.div
-        className="flex"
-        key="next-level"
-        style={{
-          position: "absolute",
-          right: "20px"
-        }}
-      >
-        <button
-          onClick={removeValue}
-          className="px-4 py-2 bg-gray-800 text-white rounded-2xl shadow-lg hover:bg-gray-700 active:bg-gray-900 transition-all duration-200 border border-gray-600"
-        >
-          Reset BG
-        </button>
-      </motion.div>
-    </AnimatePresence>
-    }
-  </header>
-  {background === levelWinBackgrounds[2] &&
-    <>
-      <div className="stars"></div>
-      <div className="aurora">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </>
-  }
-  {!background &&
-    <div className="stars">{generateStars()}</div>
-  }
+  return (
+    <body className={background}>
+      <header className="flex" style={{ alignItems: "center", justifyContent: "center" }}>
+        <ul className="flex" style={{ alignItems: "center", justifyContent: "center" }}>
+          <li>Games</li>
+          <li>About</li>
+          <li>CV</li>
+        </ul>
+        {background && pathname !== "/games" && (
+          <AnimatePresence mode="sync">
+            <motion.div
+              className="flex"
+              key="next-level"
+              style={{
+                position: "absolute",
+                right: "20px",
+              }}
+            >
+              <button
+                onClick={removeValue}
+                className="px-4 py-2 bg-gray-800 text-white rounded-2xl shadow-lg hover:bg-gray-700 active:bg-gray-900 transition-all duration-200 border border-gray-600"
+              >
+                Reset BG
+              </button>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </header>
+      {background === levelWinBackgrounds[2] && (
+        <>
+          <div className="stars"></div>
+          <div className="aurora">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </>
+      )}
+      {!background && <div className="stars">{generateStars()}</div>}
 
-  {children}
-  </body>;
+      {children}
+    </body>
+  );
 };
 
 export default StarsBackground;

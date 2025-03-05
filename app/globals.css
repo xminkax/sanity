@@ -157,25 +157,47 @@ body {
   /*color: #fed1c7*/
   /*top: 50%;*/
 
-  background: radial-gradient(223% 105.53% at 6.05% 199.17%, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 100%),
-  radial-gradient(31.68% 130.91% at 100% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%),
-  radial-gradient(43.14% 139.47% at 0% 136.21%, rgba(227, 235, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%),
-  linear-gradient(170deg, #3acfd5 7.99%, #3a4ed5 93.36%);
+  background: radial-gradient(
+      223% 105.53% at 6.05% 199.17%,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      31.68% 130.91% at 100% 0%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      43.14% 139.47% at 0% 136.21%,
+      rgba(227, 235, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(170deg, #3acfd5 7.99%, #3a4ed5 93.36%);
   /*color: #FFD8E6;*/
 
   /*left: 50%;*/
   /*transform: translateX(-50%);*/
   /*padding: 10px 20px;*/
   /*font-size: 16px;*/
-
-
 }
 
 .home:hover {
-  background: radial-gradient(223% 105.53% at 6.05% 199.17%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%),
-  radial-gradient(31.68% 130.91% at 100% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%),
-  radial-gradient(43.14% 139.47% at 0% 136.21%, rgba(227, 235, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%),
-  linear-gradient(170deg, #3ad5c0 7.99%, #3a66d5 93.36%);
+  background: radial-gradient(
+      223% 105.53% at 6.05% 199.17%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      31.68% 130.91% at 100% 0%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      43.14% 139.47% at 0% 136.21%,
+      rgba(227, 235, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    linear-gradient(170deg, #3ad5c0 7.99%, #3a66d5 93.36%);
 
   opacity: 1;
   box-shadow: rgba(182, 202, 255, 0.24) 0px 8px 55px 0px;
@@ -193,14 +215,12 @@ body {
   @media only screen and (min-width: 640px) {
     top: 50%;
   }
-
 }
 
 .btn-snake:hover {
 }
 
 .canvas-snake {
-
 }
 
 .game-over {
@@ -220,7 +240,6 @@ body {
     top: 20%;
   }
 }
-
 
 .overlay {
   position: absolute;
@@ -261,8 +280,6 @@ body {
   margin-bottom: 2rem;
 }
 
-
-
 /* Stars */
 .iceland_sky {
   /*margin: 0;*/
@@ -289,17 +306,30 @@ body {
   height: 2px;
   background: white;
   box-shadow:
-    50px 80px white, 150px 200px white, 300px 100px white,
-    400px 50px white, 500px 300px white, 600px 400px white,
-    700px 250px white, 800px 120px white, 900px 500px white,
-    100px 600px white, 1200px 200px white, 1300px 700px white,
-    1400px 300px white, 1500px 500px white;
+    50px 80px white,
+    150px 200px white,
+    300px 100px white,
+    400px 50px white,
+    500px 300px white,
+    600px 400px white,
+    700px 250px white,
+    800px 120px white,
+    900px 500px white,
+    100px 600px white,
+    1200px 200px white,
+    1300px 700px white,
+    1400px 300px white,
+    1500px 500px white;
   animation: twinkleStars 2s infinite alternate ease-in-out;
 }
 
 @keyframes twinkleStars {
-  0% { opacity: 0.6; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Aurora */
