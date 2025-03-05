@@ -5,11 +5,19 @@ import Image from "next/image";
 import Gesture from "../public/gesture.svg";
 import {GameState, levelWinTexts, levelWinBackgrounds} from "@/constants/snake";
 
-export default function SnakeGame({gameState, nextLevel, win, startGame, gameOver, restartGame, levelWin = 1}) {
+const defaultFoodPosition = (function () {
+  return Object.freeze({
+    x: Math.random(),
+    y: Math.random(),
+  });
+})();
+
+export default function SnakeGame({gameState, win, startGame, gameOver, restartGame, levelWin = 1}) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
   let canvasHeight = unitSize * numberOfCells;
+  const defaultSnakePosition = 8;
   if (window.innerWidth > 640) {
     unitSize = 20;
     numberOfCells = 27;
@@ -21,11 +29,11 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [counter, setCounter] = useState<number>(0);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>([
-    {x: 8 * unitSize, y: 8 * unitSize},
+    {x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize},
   ]);
   const [food, setFood] = useState<{ x: number; y: number }>({
-    x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
-    y: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
+    x: Math.floor(defaultFoodPosition.x * (canvasWidth / unitSize)) * unitSize,
+    y: Math.floor(defaultFoodPosition.y * (canvasHeight / unitSize)) * unitSize,
   });
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
@@ -61,7 +69,7 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
       setShouldAnimate(true);
       setFood({
         x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
-        y: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
+        y: Math.floor(Math.random() * (canvasHeight / unitSize)) * unitSize,
       });
       setCounter(counter + 1);
     } else {
@@ -73,21 +81,39 @@ export default function SnakeGame({gameState, nextLevel, win, startGame, gameOve
     }
   }, [counter, direction.x, direction.y, food.x, food.y, snake]);
 
-  const setDirectionFromEvents = (direction) => {
-    switch (direction) {
+  function isOppositeDirection(val1, val2) {
+    if ((val1.x < 0 && val2.x > 0) || (val1.x > 0 && val2.x < 0)) {
+      return true; // One value is negative and the other is positive
+    }
+    if ((val1.y < 0 && val2.y > 0) || (val1.y > 0 && val2.y < 0)) {
+      return true; // One value is negative and the other is positive
+    }
+    return false; // Either both values are of the same sign or both are 0
+  }
+
+  const setDirectionFromEvents = (directionText) => {
+    let directionTemp;
+    switch (directionText) {
       case "left":
-        setDirection({x: -unitSize, y: 0});
+        directionTemp = {x: -unitSize, y: 0};
         break;
       case "right":
-        setDirection({x: unitSize, y: 0});
+        directionTemp = {x: unitSize, y: 0};
         break;
       case "up":
-        setDirection({x: 0, y: -unitSize});
+        directionTemp = {x: 0, y: -unitSize};
         break;
       case "down":
-        setDirection({x: 0, y: unitSize});
+        directionTemp = {x: 0, y: unitSize};
         break;
     }
+
+    setDirection((prev) => {
+      if (isOppositeDirection(directionTemp, prev)) {
+        return prev;
+      }
+      return directionTemp;
+    });
   };
 
   //todo add abstraction for directions
