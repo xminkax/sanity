@@ -1,9 +1,13 @@
 "use client";
 import "@/app/globals.css";
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, {useRef, useEffect, useState, useCallback} from "react";
 import Image from "next/image";
 import Gesture from "../public/gesture.svg";
-import { GameState, levelWinTexts, levelWinBackgrounds } from "@/constants/snake";
+import {GameState, levelWinTexts, levelWinBackgrounds} from "@/constants/snake";
+
+
+const SNAKE_COLOR = "#3acfd5";
+const FOOD_COLOR = "#fed1c7";
 
 const defaultFoodPosition = (() => {
   return Object.freeze({
@@ -20,19 +24,19 @@ const generateFoodPosition = (value, canvasWidth, canvasHeight, unitSize) => {
 };
 
 export default function SnakeGame({
-  gameState,
-  win,
-  startGame,
-  gameOver,
-  restartGame,
-  levelWin = 1,
-}) {
+                                    gameState,
+                                    win,
+                                    startGame,
+                                    gameOver,
+                                    restartGame,
+                                    levelWin = 1,
+                                  }) {
   let unitSize = 15;
   let numberOfCells = 18;
   let canvasWidth = unitSize * 22;
   let canvasHeight = unitSize * numberOfCells;
   const defaultSnakePosition = 8;
-  if (window.innerWidth > 640) {
+  if (window?.innerWidth > 640) {
     unitSize = 20;
     numberOfCells = 27;
     canvasWidth = unitSize * 33;
@@ -43,7 +47,7 @@ export default function SnakeGame({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [counter, setCounter] = useState<number>(0);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>([
-    { x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize },
+    {x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize},
   ]);
   const [food, setFood] = useState<{
     x: number;
@@ -83,7 +87,7 @@ export default function SnakeGame({
       setShouldAnimate(true);
       setFood(
         generateFoodPosition(
-          { x: Math.random(), y: Math.random() },
+          {x: Math.random(), y: Math.random()},
           canvasWidth,
           canvasHeight,
           unitSize,
@@ -112,12 +116,12 @@ export default function SnakeGame({
 
   function isOppositeDirection(val1, val2) {
     if ((val1.x < 0 && val2.x > 0) || (val1.x > 0 && val2.x < 0)) {
-      return true; // One value is negative and the other is positive
+      return true;
     }
     if ((val1.y < 0 && val2.y > 0) || (val1.y > 0 && val2.y < 0)) {
-      return true; // One value is negative and the other is positive
+      return true;
     }
-    return false; // Either both values are of the same sign or both are 0
+    return false;
   }
 
   const setDirectionFromEvents = useCallback(
@@ -125,16 +129,16 @@ export default function SnakeGame({
       let directionTemp;
       switch (directionText) {
         case "left":
-          directionTemp = { x: -unitSize, y: 0 };
+          directionTemp = {x: -unitSize, y: 0};
           break;
         case "right":
-          directionTemp = { x: unitSize, y: 0 };
+          directionTemp = {x: unitSize, y: 0};
           break;
         case "up":
-          directionTemp = { x: 0, y: -unitSize };
+          directionTemp = {x: 0, y: -unitSize};
           break;
         case "down":
-          directionTemp = { x: 0, y: unitSize };
+          directionTemp = {x: 0, y: unitSize};
           break;
       }
 
@@ -148,7 +152,6 @@ export default function SnakeGame({
     [unitSize],
   );
 
-  //todo add abstraction for directions
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (gameState !== GameState.PLAYING) {
@@ -177,11 +180,11 @@ export default function SnakeGame({
     if (ctx) {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
       snake.forEach((unit) => {
-        ctx.fillStyle = "#3acfd5";
+        ctx.fillStyle = SNAKE_COLOR;
         ctx.fillRect(unit.x, unit.y, unitSize, unitSize);
       });
     }
-    ctx.fillStyle = "#fed1c7";
+    ctx.fillStyle = FOOD_COLOR;
     ctx.fillRect(food.x, food.y, unitSize, unitSize);
   }, [canvasHeight, canvasWidth, food.x, food.y, snake, unitSize]);
 
@@ -249,8 +252,8 @@ export default function SnakeGame({
 
   return (
     <div>
-      <div style={{ marginLeft: "1rem" }}>{counter}</div>
-      <div style={{ zIndex: 2, position: "relative" }}>
+      <div style={{marginLeft: "1rem"}}>{counter}</div>
+      <div style={{zIndex: 2, position: "relative"}}>
         <canvas
           className="canvas-snake"
           ref={canvasRef}
@@ -276,7 +279,7 @@ export default function SnakeGame({
             >
               Play
             </button>
-            <Image className="icon-gesture" src={Gesture} alt={""} />
+            <Image className="icon-gesture" src={Gesture} alt={""}/>
           </div>
         )}
         {gameState === GameState.WIN && (
