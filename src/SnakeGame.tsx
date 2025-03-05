@@ -33,7 +33,7 @@ export default function SnakeGame({
   const [startX, setStartX] = useState(null);
   const [startY, setStartY] = useState(null);
   const [counter, setCounter] = useState<number>(0);
-  const [snake, setSnake] = useState<{ x: number; y: number }[{ x: 0; y: 0 }]>();
+  const [snake, setSnake] = useState<{ x: number; y: number }[]>();
   const [food, setFood] = useState<{
     x: number;
     y: number;
@@ -59,8 +59,13 @@ export default function SnakeGame({
     setCanvasConfig({ width, height, unitSize });
     setSnake([{ x: defaultSnakePosition * unitSize, y: defaultSnakePosition * unitSize }]);
     //todo add check that it doesn't exist
-    setFood(generateFoodPosition(width, height, unitSize, snake));
-  }, [snake]);
+    setFood(
+      generateFoodPosition(width, height, unitSize, {
+        x: defaultSnakePosition * unitSize,
+        y: defaultSnakePosition * unitSize,
+      }),
+    );
+  }, []);
 
   const updateSnake = useCallback(() => {
     const { width, height, unitSize } = canvasConfig;
@@ -229,7 +234,7 @@ export default function SnakeGame({
     }
     const interval = setInterval(() => {
       updateSnake();
-    }, 200);
+    }, 180);
     return () => {
       clearInterval(interval);
     };
