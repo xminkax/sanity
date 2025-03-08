@@ -1,12 +1,19 @@
 "use client";
 import React from "react";
+import {Space_Mono} from 'next/font/google'
+import Terminal from "@/src/Terminal";
+
+export const rajdhani = Space_Mono({
+  subsets: ['latin'],
+  weight: ["400", "700"],
+})
 
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 
 export default function Home() {
   return (
-    <main className="h-screen">
-      <section className="flex justify-center flex-col h-full items-center">
+    <main className="h-screen flex flex-col mt-40">
+      <section className="flex justify-center flex-col items-center">
         <div className="typewriter">
           {welcomeTexts.map((item: string, key: number) => (
             <h1
@@ -23,7 +30,7 @@ export default function Home() {
             </h1>
           ))}
         </div>
-        <div className="md:py-14 sm:py-11 py-6">
+        <div className="animated-text  md:py-14 sm:py-11 py-6">
           <p className="my-4 md:text-4xl sm:text-3xl text-2xl leading-8 text-center">
             Can you see the yellow star?
           </p>
@@ -31,14 +38,60 @@ export default function Home() {
             <a
               onClick={() => alert("coming soon")}
               href="#"
-              className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900 home px-6 py-3 text-white font-bold text-2xl rounded-lg shadow-md hover:bg-[#32b8bd] transition duration-300
-            uppercase"
+              className="inline-block transform hover:scale-105 home px-6 py-3 font-bold text-2xl shadow-md transition duration-300
+            learn-more"
             >
               Learn more
             </a>
           </div>
         </div>
       </section>
+      <section
+        className={`card animated-gradient-border mb-10 flex flex-col ${rajdhani.className} animated-text mx-4`}
+        style={{ maxWidth: "48rem", alignSelf: "center"}}>
+        <div className="inner">
+          <h2 className="my-4 md:text-4xl sm:text-3xl text-4xl font-bold leading-8 text-center">About me</h2>
+          <p className="my-4 description">I am a software engineer with 12+ years professional experience.</p>
+          <p className="my-4 description">I am passionate about developing applications that simplify people's everyday lives.</p>
+          <p className="my-4 description">I like a detective part. The adrenalin that comes when bug is successfully debugged and
+            found.</p>
+          <p className="my-4">What engage me are discussions with colleagues to find the best solution at the time.</p>
+          <div className="justify-center flex">
+            <button className="home text-2xl">Resume</button>
+          </div>
+        </div>
+      </section>
+      <section
+        className={`flex justify-center items-center mb-10 card animated-gradient-border animated-text mx-4 ${rajdhani.className}`}
+        style={{ maxWidth: "48rem", alignSelf: "center"}}>
+        <div className="inner">
+          <h2 className="my-4 md:text-4xl sm:text-3xl text-4xl font-bold leading-8 text-center">Snake Game</h2>
+          <p className="my-4 description">I started my coding journey in <a href="" className="animated-underline">pascal</a> and Ui journey with opengl while learning <a
+            href="" className="animated-underline">nehe</a> tutorials. I had an attempt to create snake game in
+            pascal and windows screen saver in opengl to animate particles effect. It was a long time ago. So I thought
+            it
+            could be fun to create it with modern tools. Go and explore different attributes of
+            night sky as you clear levels.</p>
+          <div className="justify-center flex">
+            <button className="home text-2xl">Play</button>
+          </div>
+        </div>
+      </section>
+
+      {/*<section*/}
+      {/*  className={`flex justify-center items-center mx-auto mb-10 card mb-60 example-1 animated-text ${rajdhani.className}`}*/}
+      {/*  style={{color: "#BCC8D0", maxWidth: "46rem"}}>*/}
+      {/*  <div className="inner">*/}
+      {/*    <h2 className="my-4 md:text-4xl sm:text-3xl text-4xl font-bold leading-8 text-center">Snake Game</h2>*/}
+      {/*    <p>I started my coding journey in pascal and Ui journey with opengl. I had an attempt to create snake game in*/}
+      {/*      pascal and windows screen saver in opengl to animate particles effect. It was a long time ago. So I thought*/}
+      {/*      it*/}
+      {/*      could be fun to create it with modern tools. So here it is. You can play and explore different attributes of*/}
+      {/*      night sky as you clear levels.</p>*/}
+      {/*    <button>Play</button>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
+      <div>footer</div>
     </main>
   );
 }

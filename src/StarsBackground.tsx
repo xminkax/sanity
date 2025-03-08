@@ -4,6 +4,8 @@ import { useLocalStorage } from "usehooks-ts";
 import { motion, AnimatePresence } from "framer-motion";
 import { levelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
+import CV from "../public/cv.svg";
+import Image from "next/image";
 
 const NUM_STARS: number = 100;
 
@@ -41,11 +43,12 @@ const StarsBackground: React.FC = ({ children }: { children: React.ReactNode }):
   }, [levelWin]);
   return (
     <body className={background}>
-      <header className="flex" style={{ alignItems: "center", justifyContent: "center" }}>
-        <ul className="flex" style={{ alignItems: "center", justifyContent: "center" }}>
+      <header className="flex mb-10" style={{ alignItems: "center", justifyContent: "center" }}>
+        <ul className="flex" style={{alignItems: "center", justifyContent: "center"}}>
           <li>Games</li>
           <li>About</li>
-          <li>CV</li>
+          <li>Resume</li>
+          {/*<li><Image className="cv" src={CV} alt="cv" /></li>*/}
         </ul>
         {background && pathname !== "/games" && (
           <AnimatePresence mode="sync">
