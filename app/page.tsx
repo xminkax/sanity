@@ -21,9 +21,9 @@ export default function Home() {
               className="font-bold text-4xl sm:text-5xl md:text-7xl"
               style={{
                 maxWidth: `calc(${item.length} * 1ch)`,
-                animation: `typing 4s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
-                ${key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`}`,
-                animationDelay: `${key * 4 + 0.5}s`,
+                animation: `typing 3s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
+                ${key + 1 === welcomeTexts.length ? `slideLastElement 3s forwards` : `slide 3s 1`}`,
+                animationDelay: `${key * 3 + 0.5}s`,
               }}
             >
               {item}
@@ -38,7 +38,7 @@ export default function Home() {
             <a
               onClick={() => alert("coming soon")}
               href="#"
-              className="inline-block transform hover:scale-105 home px-6 py-3 font-bold text-2xl shadow-md transition duration-300
+              className="inline-block home px-6 py-3 font-bold text-2xl shadow-md transition duration-300
             learn-more"
             >
               Learn more
@@ -48,32 +48,36 @@ export default function Home() {
       </section>
       <section
         className={`card animated-gradient-border mb-10 flex flex-col ${rajdhani.className} animated-text mx-4`}
-        style={{ maxWidth: "48rem", alignSelf: "center"}}>
-        <div className="inner">
+        style={{maxWidth: "48rem", alignSelf: "center"}}>
+        <div className="inner p-6">
           <h2 className="my-4 md:text-4xl sm:text-3xl text-4xl font-bold leading-8 text-center">About me</h2>
           <p className="my-4 description">I am a software engineer with 12+ years professional experience.</p>
-          <p className="my-4 description">I am passionate about developing applications that simplify people's everyday lives.</p>
-          <p className="my-4 description">I like a detective part. The adrenalin that comes when bug is successfully debugged and
+          <p className="my-4 description">I am passionate about developing applications that simplify people's everyday
+            lives.</p>
+          <p className="my-4 description">I like a detective part. The adrenalin that comes when bug is successfully
+            debugged and
             found.</p>
-          <p className="my-4">What engage me are discussions with colleagues to find the best solution at the time.</p>
-          <div className="justify-center flex">
-            <button className="home text-2xl">Resume</button>
+          <p className="mt-4 mb-8 description">What engage me are discussions with colleagues to find the best solution at
+            the time.</p>
+          <div className="justify-center flex mb-8">
+            <button className="home home-btn-description text-2xl">Resume</button>
           </div>
         </div>
       </section>
       <section
         className={`flex justify-center items-center mb-10 card animated-gradient-border animated-text mx-4 ${rajdhani.className}`}
-        style={{ maxWidth: "48rem", alignSelf: "center"}}>
+        style={{maxWidth: "48rem", alignSelf: "center"}}>
         <div className="inner">
           <h2 className="my-4 md:text-4xl sm:text-3xl text-4xl font-bold leading-8 text-center">Snake Game</h2>
-          <p className="my-4 description">I started my coding journey in <a href="" className="animated-underline">pascal</a> and Ui journey with opengl while learning <a
-            href="" className="animated-underline">nehe</a> tutorials. I had an attempt to create snake game in
-            pascal and windows screen saver in opengl to animate particles effect. It was a long time ago. So I thought
-            it
-            could be fun to create it with modern tools. Go and explore different attributes of
-            night sky as you clear levels.</p>
-          <div className="justify-center flex">
-            <button className="home text-2xl">Play</button>
+          <p className="my-4 description">I started my coding journey in <a href=""
+                                                                            className="animated-underline">pascal</a> and
+            Ui journey with opengl while learning <a
+              href="" className="animated-underline">nehe</a> tutorials. I had an attempt to create a snake game in
+            pascal and windows screen saver in opengl to animate particles effect. It was a long time ago.
+          </p>
+          <p className="mt-4 mb-8 description">I wanted to play and create this snake and particle effects in today's world placed inside the space theme. Are you curious?</p>
+          <div className="justify-center flex mb-8">
+            <button className="home home-btn-description text-2xl">Play</button>
           </div>
         </div>
       </section>

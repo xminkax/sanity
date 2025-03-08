@@ -165,8 +165,8 @@ body {
   /*border: 2px solid #fed1c7;*/
   box-shadow: 5px 5px #fed1c7;
   background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
-
-  transition: 0.3s; /* Animation for border color */
+  transition: transform 0.2s ease-in-out;
+  /*transition: 0.3s; !* Animation for border color *!*/
   /*position: absolute;*/
   /*background-color:  #3acfd5;*/
   /*color: #fed1c7*/
@@ -190,13 +190,18 @@ body {
   mask-composite: exclude;
 }
 
+.home-btn-description:hover {
+  /*color:  rgb(10, 15, 37);*/
+  /*background: #E7EEF4;*/
+}
+
 .home:hover {
   outline-offset: 3px;
   outline: 3px solid #fed1c7;
-
   opacity: 1;
   box-shadow: 5px 5px transparent;
   backdrop-filter: blur(34px);
+  transform: scale(1.05);
 }
 
 .btn-snake {
