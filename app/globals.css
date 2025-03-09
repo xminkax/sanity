@@ -448,6 +448,7 @@ body {
   z-index: -1;
   background: linear-gradient(45deg, rgb(254, 209, 199), rgb(240, 150, 132));
   background-size: 300% 300%;
+  filter: drop-shadow(0 0 0.2rem #fed1c7);
   animation: gradientBorderAnimation 3s 1 ease-in-out;
 }
 
