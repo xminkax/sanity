@@ -57,7 +57,8 @@ export default function Home() {
           <p className="my-4 description">I like a detective part. The adrenalin that comes when bug is successfully
             debugged and
             found.</p>
-          <p className="mt-4 mb-8 description">What engage me are discussions with colleagues to find the best solution at
+          <p className="mt-4 mb-8 description">What engage me are discussions with colleagues to find the best solution
+            at
             the time.</p>
           <div className="justify-center flex mb-8">
             <button className="home home-btn-description text-2xl">Resume</button>
@@ -72,10 +73,10 @@ export default function Home() {
           <p className="my-4 description">I started my coding journey in <a href=""
                                                                             className="animated-underline">pascal</a> and
             Ui journey with opengl while learning <a
-              href="" className="animated-underline">nehe</a> tutorials. I had an attempt to create a snake game in
-            pascal and windows screen saver in opengl to animate particles effect. It was a long time ago.
+              href="" className="animated-underline">nehe</a> tutorials. One of my attempts was to create
+            a snake game in pascal and windows screen saver in opengl to animate particles effect. It was a long time ago.
           </p>
-          <p className="mt-4 mb-8 description">I wanted to play and create this snake and particle effects in today's world placed inside the space theme. Are you curious?</p>
+          <p className="mt-4 mb-8 description">I wanted to remind myself these time and create it with today's technologies to see how it feels. Are you curious?</p>
           <div className="justify-center flex mb-8">
             <button className="home home-btn-description text-2xl">Play</button>
           </div>
