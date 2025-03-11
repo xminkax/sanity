@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import StarsBackground from "@/src/StarsBackground";
+import StarsBackground from "@/components/StarsBackground";
 import {Orbitron} from 'next/font/google'
 
 export const orbitron = Orbitron({

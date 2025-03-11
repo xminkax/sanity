@@ -1,8 +1,8 @@
 "use client";
-import SnakeGame from "@/src/SnakeGame";
+import SnakeGame from "@/components/SnakeGame";
 import { useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import GameOver from "@/src/GameOver";
+import GameOver from "@/components/GameOver";
 import { GameState } from "@/constants/snake";
 
 export default function Games() {

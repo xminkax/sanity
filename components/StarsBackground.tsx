@@ -4,8 +4,6 @@ import { useLocalStorage } from "usehooks-ts";
 import { motion, AnimatePresence } from "framer-motion";
 import { levelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
-import CV from "../public/cv.svg";
-import Image from "next/image";
 
 const NUM_STARS: number = 100;
 

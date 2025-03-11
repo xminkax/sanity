@@ -443,8 +443,8 @@ body {
   position: absolute;
   height: 180px;
   width: 260px;
-  background: #E7EEF4;
-  opacity: 0.1;
+  background: #fed1c7;
+  opacity: 0.2;
   filter: blur(80px);
   -webkit-filter: blur(80px);
   left: -30px;

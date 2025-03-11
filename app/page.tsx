@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import {Space_Mono} from 'next/font/google'
-import Hero from "@/src/Hero"
-import Panel from "@/src/Panel"
+import Hero from "@/components/Hero"
+import Panel from "@/components/Panel"
 
 export const rajdhani = Space_Mono({
   subsets: ['latin'],
