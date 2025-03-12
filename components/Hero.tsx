@@ -31,7 +31,7 @@ const Hero: React.FC<StringListProps> = ({welcomeTexts}) => {
           <a
             onClick={() => alert("coming soon")}
             href="#"
-            className="home__btn home__btn--primary"
+            className="home__btn--primary"
           >
             Learn more
           </a>

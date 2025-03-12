@@ -21,7 +21,7 @@ const Panel: React.FC<Props> = ({texts, title, button}) => {
       )
     }
     <div className="justify-center flex my-4">
-      <a href="" className="home__btn home__btn--secondary">{button.label}</a>
+      <a href="" className="home__btn--secondary">{button.label}</a>
     </div>
     <div className="border-beam"/>
   </section>

@@ -269,15 +269,14 @@ body {
 }
 
 /* homepage */
-.home__btn {
+.home__btn--primary, .home__btn--secondary {
   position: relative;
-  background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
   transition: transform 0.2s ease-in-out;
 }
 
 .home__btn--primary {
   font-size: 1.3rem;
-  /*font-weight: bold;*/
+  background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
   padding: 0.8rem 1.8rem;
   font-weight: 500;
 }
@@ -287,6 +286,16 @@ body {
     font-size: 1.5rem;
     padding: 0.8rem 2.2rem;
   }
+}
+
+.home__btn--primary:hover {
+  outline-offset: 3px;
+  outline: 1px solid var(--pastel-orange);
+  backdrop-filter: blur(34px);
+  -webkit-backdrop-filter: blur(34px);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
+  animation: flicker 0.15s infinite alternate;
 }
 
 .home__btn--secondary {
@@ -305,9 +314,6 @@ body {
   transform: scale(1.05);
   box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
-
-  /*outline: 1px solid white;*/
-  /*outline-offset: 3px;*/
 }
 
 @media (min-width: theme('screens.sm')) {
@@ -317,13 +323,12 @@ body {
   }
 }
 
-.home__btn--secondary::before {
+.home__btn--primary::before,.home__btn--secondary::before {
   content: "";
   position: absolute;
   inset: -1px;
   padding: 1px;
   transition: 0.3s;
-  background: linear-gradient(45deg, var(--text-color), gray);
   mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
   -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
   mask-composite: exclude;
@@ -331,27 +336,11 @@ body {
 }
 
 .home__btn--primary::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  padding: 1px;
-  transition: 0.3s;
-  background: linear-gradient(45deg, var(--pastel-orange), rgb(240, 150, 132));
-  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
-  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
-  mask-composite: exclude;
-  -webkit-mask-composite: exclude;
+  background: linear-gradient(270deg, var(--pastel-orange), rgb(240, 150, 132));
 }
 
-.home__btn--primary:hover {
-  outline-offset: 3px;
-  outline: 1px solid var(--pastel-orange);
-  backdrop-filter: blur(34px);
-  -webkit-backdrop-filter: blur(34px);
-  transform: scale(1.05);
-  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
-  animation: flicker 0.15s infinite alternate;
-  /*background: linear-gradient(136deg, rgba(10, 15, 37, 0.1) -47.25%, rgba(30, 40, 70, 0.1) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);*/
+.home__btn--secondary:before {
+  background: linear-gradient(270deg, var(--text-color), gray);
 }
 
 .fade-in {
