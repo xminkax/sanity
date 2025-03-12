@@ -6,14 +6,21 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  plugins: [
+    function ({ addBase, theme }) {
+      addBase({
+        ':root': {
+          '--text-color': theme('colors.textColor'),
+          '--secondary-color': theme('colors.secondary'),
+          '--screens-sm': theme('screens.sm'),
+        },
+      });
+    },
+  ],
   theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+    colors: {
+      textColor: '#BCC8D0', // Example custom color
     },
   },
-  plugins: [],
 };
 export default config;

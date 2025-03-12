@@ -6,65 +6,16 @@ html {
   box-sizing: border-box;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
 :root {
   --border-color: #374151;
-  --text-color: #BCC8D0;
+  /*--text-color: #BCC8D0;*/
   --heading-color: #E7EEF4;
   --pastel-orange: #fed1c7;
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: red;
-  --background-end-rgb: 255, 255, 255;
-  --border-radius: 8px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
 }
 
 body {
-  /*color: rgb(255, 254, 250);*/
-  /*rgb(148 163 184/var(--tw-text-opacity))*/
-  /*  color: rgb(226 232 240);*/
   color: var(--heading-color);
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-.panel__description {
-  color: var(--text-color);
-}
-
-.btn {
-  @apply font-bold py-2 px-4 rounded;
-}
-
-.btn-blue {
-  @apply bg-purple-700 text-white;
-}
-
-.btn-blue:hover {
-  @apply bg-purple-800;
-}
-
-.stars {
-  /*position: absolute;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
 }
 
 .star {
@@ -105,7 +56,7 @@ body {
   height: 10px;
 }
 
-/* typewriter effect*/
+/* typewriter effect start */
 @keyframes slide {
   50% {
     visibility: visible;
@@ -141,35 +92,7 @@ body {
   }
 }
 
-.home__btn {
-  position: relative;
-  padding: 0.8rem 2.2rem;
-  background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
-  transition: transform 0.2s ease-in-out;
-}
-
-.home__btn::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  padding: 1px;
-  transition: 0.3s;
-  background: linear-gradient(45deg, var(--pastel-orange), rgb(240, 150, 132));
-  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
-  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
-  mask-composite: exclude;
-  -webkit-mask-composite: exclude;
-}
-
-.home__btn:hover {
-  outline-offset: 3px;
-  outline: 1px solid var(--pastel-orange);
-  backdrop-filter: blur(34px);
-  -webkit-backdrop-filter: blur(34px);
-  transform: scale(1.05);
-  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
-  animation: flicker 0.15s infinite alternate;
-}
+/* typewriter effect end */
 
 .btn-snake {
   background: linear-gradient(to right, rgb(58, 142, 213), rgb(30, 80, 150));
@@ -346,12 +269,80 @@ body {
 }
 
 /* homepage */
-.fade-in {
-  opacity: 0;
-  animation: fadeMove 2s ease-out forwards;
+.home__btn {
+  position: relative;
+  background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
+  transition: transform 0.2s ease-in-out;
 }
 
-@keyframes fadeMove {
+.home__btn--primary {
+  font-size: 1.3rem;
+  /*font-weight: bold;*/
+  padding: 0.8rem 1.8rem;
+  font-weight: 500;
+}
+
+@media (min-width: theme('screens.sm')) {
+  .home__btn--primary {
+    font-size: 1.5rem;
+    padding: 0.8rem 2.2rem;
+  }
+}
+
+.home__btn--secondary {
+  transition: transform 0.2s ease-in-out;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 100%), radial-gradient(123.72% 71.29% at 7.15% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(234.4% 144.94% at 84.62% 0%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(26deg, rgba(255, 255, 255, 0.17) -32.04%, rgba(255, 255, 255, 0) 133.43%);
+  color: black;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+}
+
+.home__btn--secondary:hover {
+  transform: scale(1.05);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%), radial-gradient(123.72% 71.29% at 7.15% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(234.4% 144.94% at 84.62% 0%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(26deg, rgba(255, 255, 255, 0.17) -32.04%, rgba(255, 255, 255, 0) 133.43%);
+  box-shadow: rgba(255, 255, 255, 0.08) 0px 8px 28px 0px;
+  /*outline: 1px solid white;*/
+  /*outline-offset: 3px;*/
+}
+
+@media (min-width: theme('screens.sm')) {
+  .home__btn--secondary {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.2rem;
+  }
+}
+
+.home__btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  transition: 0.3s;
+  background: linear-gradient(45deg, var(--pastel-orange), rgb(240, 150, 132));
+  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask-composite: exclude;
+  -webkit-mask-composite: exclude;
+}
+
+.home__btn--primary:hover {
+  outline-offset: 3px;
+  outline: 1px solid var(--pastel-orange);
+  backdrop-filter: blur(34px);
+  -webkit-backdrop-filter: blur(34px);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
+  animation: flicker 0.15s infinite alternate;
+  /*background: linear-gradient(136deg, rgba(10, 15, 37, 0.1) -47.25%, rgba(30, 40, 70, 0.1) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);*/
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s ease-out forwards;
+}
+
+@keyframes fadeIn {
   0% {
     opacity: 0;
   }
@@ -388,37 +379,10 @@ body {
   }
 }
 
-.after\:animate-border-beam:after {
-  content: var(--tw-content);
-  animation: border-beam calc(var(--duration) * 1s) infinite linear;
-}
-
-.panel {
-  background-color: #fafafa;
-  border: 1px solid var(--border-color);
-  background-color: rgba(30, 30, 30, 0.3);
-  opacity: 0;
-  animation: 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s 1 normal forwards running moveUp;
-  background: linear-gradient(197deg, rgba(30, 30, 30, 0.3) 21.66%, rgba(38, 38, 38, 0.4) 56.46%, rgba(46, 46, 46, 0.5) 92.21%, rgba(54, 54, 54, 0.6) 106.26%)
-}
-
-.panel::before {
-  content: "";
-  position: absolute;
-  height: 180px;
-  width: 260px;
-  background: var(--pastel-orange);
-  opacity: 0.2;
-  filter: blur(80px);
-  -webkit-filter: blur(80px);
-  left: -40px;
-  top: -20px;
-}
-
 @keyframes moveUp {
   0% {
     opacity: 0;
-    transform: translateY(2rem);
+    transform: translateY(0.5rem);
   }
   100% {
     transform: translateY(0px);
@@ -426,23 +390,48 @@ body {
   }
 }
 
+.panel {
+  background-color: #fafafa;
+  border: 1px solid var(--border-color);
+  background-color: rgba(30, 30, 30, 0.3);
+  transform: translateY(0.5rem);
+  background: linear-gradient(197deg, rgba(30, 30, 30, 0.3) 21.66%, rgba(38, 38, 38, 0.4) 56.46%, rgba(46, 46, 46, 0.5) 92.21%, rgba(54, 54, 54, 0.6) 106.26%);
+  opacity: 0;
+  animation: 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s 1 normal forwards running moveUp;
+}
+
+/*@media (min-width: theme('screens.sm')) {*/
+
+.panel::before {
+  content: "";
+  position: absolute;
+  background: var(--pastel-orange);
+  opacity: 0.1;
+  height: 140px;
+  width: 180px;
+  filter: blur(80px);
+  -webkit-filter: blur(80px);
+  left: -40px;
+  top: -20px;
+}
+
+@media (min-width: theme('screens.sm')) {
+  .panel::before {
+    height: 180px;
+    width: 260px;
+  }
+}
+
 .border-beam {
   position: absolute;
   inset: 1px;
-  border: calc(var(--border-width) * 1px) solid transparent;
+  border: 1px solid transparent;
+  z-index: -1;
+  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
   -webkit-mask-clip: padding-box, border-box;
   mask-clip: padding-box, border-box;
   -webkit-mask-composite: intersect;
   mask-composite: intersect;
-  mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
-  animation: border-beam calc(var(--duration) * 1s) infinite linear;
-  --anchor: 90;
-  --border-width: 1.5;
-  --color-from: rgb(254, 209, 199);
-  --color-to: rgb(240, 150, 132);
-  --delay: -0s;
-  --duration: 15;
   --size: 200;
 }
 
@@ -451,9 +440,8 @@ body {
   position: absolute;
   aspect-ratio: 1 / 1;
   width: calc(var(--size) * 1px);
-  animation: border-beam calc(var(--duration) * 1s) infinite linear;
-  animation-delay: var(--delay);
-  background: linear-gradient(to left, var(--color-from), var(--color-to), transparent);
-  offset-anchor: calc(var(--anchor) * 1%) 50%;
+  animation: border-beam 15s infinite linear;
+  background: linear-gradient(to left, var(--pastel-orange), #F09684, transparent);
+  offset-anchor: 90% 50%;
   offset-path: rect(0 auto auto 0 round calc(var(--size) * 1px));
 }
