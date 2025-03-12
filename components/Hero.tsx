@@ -4,14 +4,14 @@ interface StringListProps {
   welcomeTexts: string[];
 }
 
-const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
+const Hero: React.FC<StringListProps> = ({welcomeTexts}) => {
   return (
     <section className="flex justify-center flex-col items-center">
-      <div className="typewriter">
+      <div className="typewriter relative w-full flex justify-center items-center">
         {welcomeTexts.map((item: string, key: number) => (
           <h1
             key={item}
-            className="font-bold text-4xl sm:text-5xl md:text-7xl"
+            className="flex absolute invisible font-bold text-4xl sm:text-5xl md:text-7xl pr-2 border-r-4 border-transparent overflow-hidden whitespace-nowrap mr-0"
             style={{
               maxWidth: `calc(${item.length} * 1ch)`,
               animation: `typing 3s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
@@ -23,7 +23,7 @@ const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
           </h1>
         ))}
       </div>
-      <div className="animated-text  md:py-14 sm:py-11 py-6">
+      <div className=".fade-in md:py-14 sm:py-11 py-6 fade-in">
         <p className="my-4 md:text-4xl sm:text-3xl text-2xl leading-8 text-center">
           Can you see the yellow star?
         </p>
@@ -31,8 +31,7 @@ const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
           <a
             onClick={() => alert("coming soon")}
             href="#"
-            className="inline-block home px-6 py-3 font-bold text-2xl shadow-md transition duration-300
-            learn-more"
+            className="inline-block home__btn px-6 py-3 font-bold text-2xl shadow-md transition duration-300"
           >
             Learn more
           </a>

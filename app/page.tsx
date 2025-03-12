@@ -12,7 +12,7 @@ export const rajdhani = Space_Mono({
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 const aboutMe = {
   title: "About me",
-  button: {text: "Resume", link: "Link"},
+  button: {label: "Resume", url: "Link"},
   texts: ['I am a software engineer with 12+ years professional experience.',
     'I am passionate about developing applications that simplify people\'s everyday\n' +
     '            lives.',
@@ -24,11 +24,11 @@ const aboutMe = {
 };
 const snake = {
   title: "Snake game",
-  button: {text: "Play", link: "Link"},
-  texts: ['I started my coding journey in <a href=""\n' +
-  '                                                                          className="animated-underline">pascal</a> and\n' +
+  button: {label: "Play", url: "Link"},
+  texts: ['I started my coding journey in <a class="panel__link" href=""\n' +
+  '>pascal</a> and\n' +
   '          Ui journey with opengl while learning <a\n' +
-  '            href="" className="animated-underline">nehe</a> tutorials. One of my attempts was to create\n' +
+  '            href="" class="panel__link">nehe</a> tutorials. One of my attempts was to create\n' +
   '          a snake game in pascal and windows screen saver in opengl to animate particles effect. It was a long time\n' +
   '          ago.',
     'I wanted to remind myself these time and create it with today\'s\n' +
