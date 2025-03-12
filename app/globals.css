@@ -291,17 +291,21 @@ body {
 
 .home__btn--secondary {
   transition: transform 0.2s ease-in-out;
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 100%), radial-gradient(123.72% 71.29% at 7.15% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(234.4% 144.94% at 84.62% 0%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(26deg, rgba(255, 255, 255, 0.17) -32.04%, rgba(255, 255, 255, 0) 133.43%);
-  color: black;
+  background: transparent;
   font-size: 1rem;
   padding: 0.6rem 1.2rem;
   font-weight: 500;
 }
 
 .home__btn--secondary:hover {
+  outline-offset: 3px;
+  outline: 1px solid var(--text-color);
+  backdrop-filter: blur(34px);
+  -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%), radial-gradient(123.72% 71.29% at 7.15% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), radial-gradient(234.4% 144.94% at 84.62% 0%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(26deg, rgba(255, 255, 255, 0.17) -32.04%, rgba(255, 255, 255, 0) 133.43%);
-  box-shadow: rgba(255, 255, 255, 0.08) 0px 8px 28px 0px;
+  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
+  animation: flicker 0.15s infinite alternate;
+
   /*outline: 1px solid white;*/
   /*outline-offset: 3px;*/
 }
@@ -311,6 +315,19 @@ body {
     font-size: 1.2rem;
     padding: 0.8rem 1.2rem;
   }
+}
+
+.home__btn--secondary::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  transition: 0.3s;
+  background: linear-gradient(45deg, var(--text-color), gray);
+  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask-composite: exclude;
+  -webkit-mask-composite: exclude;
 }
 
 .home__btn--primary::before {
@@ -424,7 +441,7 @@ body {
 
 .border-beam {
   position: absolute;
-  inset: 1px;
+  inset: -1px;
   border: 1px solid transparent;
   z-index: -1;
   mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
