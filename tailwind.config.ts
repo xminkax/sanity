@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { PluginAPI } from 'tailwindcss/types/config';
 
 const config: Config = {
   content: [
@@ -7,7 +8,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   plugins: [
-    function ({ addBase, theme }) {
+    function ({ addBase, theme }: PluginAPI) {
       addBase({
         ':root': {
           '--text-color': theme('colors.textColor'),

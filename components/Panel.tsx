@@ -1,5 +1,10 @@
 import React from "react";
-import {rajdhani} from "@/app/page";
+import {Space_Mono} from 'next/font/google'
+
+const rajdhani = Space_Mono({
+  subsets: ['latin'],
+  weight: ["400", "700"],
+});
 
 interface Props {
   texts: string[];
@@ -17,7 +22,9 @@ const Panel: React.FC<Props> = ({texts, title, button}) => {
     {
       // eslint-disable-next-line react/no-unescaped-entities
       texts.map((item, key) => (
-        <p key={key} className={`text-textColor sm:my-4 my-3 sm:text-base text-sm panel__description ${rajdhani.className}`} dangerouslySetInnerHTML={{__html: item}}/>)
+        <p key={key}
+           className={`text-textColor sm:my-4 my-3 sm:text-base text-sm panel__description ${rajdhani.className}`}
+           dangerouslySetInnerHTML={{__html: item}}/>)
       )
     }
     <div className="justify-center flex my-4">

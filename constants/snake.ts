@@ -7,17 +7,17 @@ export enum GameState {
 
 //used for css to define the background
 export enum levelWinBackgrounds {
-  0 = "night-sky",
-  1 = "shooting-star",
-  2 = "iceland-sky",
-  3 = "black-hole",
+  "level_0" = "night-sky",
+  "level_1" = "shooting-star",
+  "level_2" = "iceland-sky",
+  "level_3" = "black-hole",
 }
 
 //used for the snake window after level is won
 export const levelWinTexts = {
-  [levelWinBackgrounds[1]]: "Shooting star coming",
-  [levelWinBackgrounds[2]]: "You got Icelandic sky",
-  [levelWinBackgrounds[3]]: "You are inside the black hole",
+  [levelWinBackgrounds["level_1"]]: "Shooting star coming",
+  [levelWinBackgrounds["level_2"]]: "You got Icelandic sky",
+  [levelWinBackgrounds["level_3"]]: "You are inside the black hole",
 };
 
 export const MOBILE_SIZE_CANCAS = 640;
