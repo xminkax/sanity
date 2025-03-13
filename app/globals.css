@@ -397,7 +397,7 @@ body {
 @keyframes border-beam {
   to {
     content: var(--tw-content);
-    offset-distance: 100%;
+    offset-distance: 150%;
   }
 }
 
@@ -471,5 +471,6 @@ body {
   animation: border-beam 15s infinite linear;
   background: linear-gradient(to left, var(--pastel-orange), #f09684, transparent);
   offset-anchor: 90% 50%;
+  offset-distance:50%;
   offset-path: rect(0 auto auto 0 round calc(var(--size) * 1px));
 }
