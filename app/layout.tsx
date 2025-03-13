@@ -1,14 +1,13 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import StarsBackground from "@/components/StarsBackground";
-import {Orbitron} from 'next/font/google'
-import {ReactNode} from "react";
+import { Orbitron } from "next/font/google";
+import { ReactNode } from "react";
 
 const orbitron = Orbitron({
-  subsets: ['latin'],
+  subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-})
-
+});
 
 export const metadata: Metadata = {
   title: "Personal website",
@@ -26,12 +25,12 @@ type RootLayoutProps = {
 };
 
 export default function RootLayout({
-                                     children,
-                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                   }: RootLayoutProps) {
+  children,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}: RootLayoutProps) {
   return (
     <html lang="en" className={orbitron.className}>
-    <StarsBackground>{children}</StarsBackground>
+      <StarsBackground>{children}</StarsBackground>
     </html>
   );
 }

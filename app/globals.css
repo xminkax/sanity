@@ -9,7 +9,7 @@ html {
 :root {
   --border-color: #374151;
   /*--text-color: #BCC8D0;*/
-  --heading-color: #E7EEF4;
+  --heading-color: #e7eef4;
   --pastel-orange: #fed1c7;
 }
 
@@ -97,7 +97,7 @@ body {
 .btn-snake {
   background: linear-gradient(to right, rgb(58, 142, 213), rgb(30, 80, 150));
   position: absolute;
-  border: 2px solid #BCC8D0;
+  border: 2px solid #bcc8d0;
   box-shadow: none;
   left: 50%;
   transform: translateX(-50%);
@@ -142,7 +142,6 @@ body {
   z-index: 3;
 }
 
-
 .overlay-game-over {
   position: absolute;
   top: 0;
@@ -180,20 +179,21 @@ body {
   width: 2px;
   height: 2px;
   background: white;
-  box-shadow: 50px 80px white,
-  150px 200px white,
-  300px 100px white,
-  400px 50px white,
-  500px 300px white,
-  600px 400px white,
-  700px 250px white,
-  800px 120px white,
-  900px 500px white,
-  100px 600px white,
-  1200px 200px white,
-  1300px 700px white,
-  1400px 300px white,
-  1500px 500px white;
+  box-shadow:
+    50px 80px white,
+    150px 200px white,
+    300px 100px white,
+    400px 50px white,
+    500px 300px white,
+    600px 400px white,
+    700px 250px white,
+    800px 120px white,
+    900px 500px white,
+    100px 600px white,
+    1200px 200px white,
+    1300px 700px white,
+    1400px 300px white,
+    1500px 500px white;
   animation: twinkleStars 2s infinite alternate ease-in-out;
 }
 
@@ -269,19 +269,26 @@ body {
 }
 
 /* homepage */
-.home__btn--primary, .home__btn--secondary {
+.home__btn--primary,
+.home__btn--secondary {
   position: relative;
   transition: transform 0.2s ease-in-out;
 }
 
 .home__btn--primary {
   font-size: 1.3rem;
-  background: linear-gradient(136deg, rgb(10, 15, 37) -47.25%, rgb(30, 40, 70) 11.1%, RGB(10, 15, 40) 93.37%, rgb(30, 40, 70) 178.71%);
+  background: linear-gradient(
+    136deg,
+    rgb(10, 15, 37) -47.25%,
+    rgb(30, 40, 70) 11.1%,
+    RGB(10, 15, 40) 93.37%,
+    rgb(30, 40, 70) 178.71%
+  );
   padding: 0.8rem 1.8rem;
   font-weight: 500;
 }
 
-@media (min-width: theme('screens.sm')) {
+@media (min-width: theme("screens.sm")) {
   .home__btn--primary {
     font-size: 1.5rem;
     padding: 0.8rem 2.2rem;
@@ -294,7 +301,9 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
+  box-shadow:
+    0 0 10px var(--pastel-orange),
+    0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
@@ -312,25 +321,32 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow: 0 0 10px var(--pastel-orange), 0 0 20px var(--border-color);
+  box-shadow:
+    0 0 10px var(--pastel-orange),
+    0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
-@media (min-width: theme('screens.sm')) {
+@media (min-width: theme("screens.sm")) {
   .home__btn--secondary {
     font-size: 1.2rem;
     padding: 0.8rem 1.2rem;
   }
 }
 
-.home__btn--primary::before,.home__btn--secondary::before {
+.home__btn--primary::before,
+.home__btn--secondary::before {
   content: "";
   position: absolute;
   inset: -1px;
   padding: 1px;
   transition: 0.3s;
-  mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
-  -webkit-mask: linear-gradient(white, white) content-box, linear-gradient(white, white);
+  mask:
+    linear-gradient(white, white) content-box,
+    linear-gradient(white, white);
+  -webkit-mask:
+    linear-gradient(white, white) content-box,
+    linear-gradient(white, white);
   mask-composite: exclude;
   -webkit-mask-composite: exclude;
 }
@@ -401,7 +417,13 @@ body {
   border: 1px solid var(--border-color);
   background-color: rgba(30, 30, 30, 0.3);
   transform: translateY(0.5rem);
-  background: linear-gradient(197deg, rgba(30, 30, 30, 0.3) 21.66%, rgba(38, 38, 38, 0.4) 56.46%, rgba(46, 46, 46, 0.5) 92.21%, rgba(54, 54, 54, 0.6) 106.26%);
+  background: linear-gradient(
+    197deg,
+    rgba(30, 30, 30, 0.3) 21.66%,
+    rgba(38, 38, 38, 0.4) 56.46%,
+    rgba(46, 46, 46, 0.5) 92.21%,
+    rgba(54, 54, 54, 0.6) 106.26%
+  );
   opacity: 0;
   animation: 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s 1 normal forwards running moveUp;
 }
@@ -421,7 +443,7 @@ body {
   top: -20px;
 }
 
-@media (min-width: theme('screens.sm')) {
+@media (min-width: theme("screens.sm")) {
   .panel::before {
     height: 180px;
     width: 260px;
@@ -442,12 +464,12 @@ body {
 }
 
 .border-beam::after {
-  content: '';
+  content: "";
   position: absolute;
   aspect-ratio: 1 / 1;
   width: calc(var(--size) * 1px);
   animation: border-beam 15s infinite linear;
-  background: linear-gradient(to left, var(--pastel-orange), #F09684, transparent);
+  background: linear-gradient(to left, var(--pastel-orange), #f09684, transparent);
   offset-anchor: 90% 50%;
   offset-path: rect(0 auto auto 0 round calc(var(--size) * 1px));
 }

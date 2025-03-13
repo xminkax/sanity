@@ -8,7 +8,8 @@ import React from "react";
 export default function Games() {
   // const [levelWin, setLevelWin, removeLevelWin] = useLocalStorage<string|undefined>("levelWin", '0');
   // const [gameState, setGameState] = useState<GameState>(GameState.MENU);
-  return (<div>games</div>
+  return (
+    <div>games</div>
     // <div
     //   style={{
     //     display: "flex",
