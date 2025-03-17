@@ -36,7 +36,7 @@ const snake = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col mt-40">
+    <main className="flex flex-col">
       <Hero welcomeTexts={welcomeTexts} />
       <Panel texts={aboutMe.texts} title={aboutMe.title} button={aboutMe.button} />
       <Panel texts={snake.texts} title={snake.title} button={snake.button} />

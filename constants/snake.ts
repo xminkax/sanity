@@ -6,7 +6,7 @@ export enum GameState {
 }
 
 //used for css to define the background
-export enum levelWinBackgrounds {
+export enum LevelWinBackgrounds {
   "level_0" = "night-sky",
   "level_1" = "shooting-star",
   "level_2" = "iceland-sky",
@@ -15,9 +15,9 @@ export enum levelWinBackgrounds {
 
 //used for the snake window after level is won
 export const levelWinTexts = {
-  [levelWinBackgrounds["level_1"]]: "Shooting star coming",
-  [levelWinBackgrounds["level_2"]]: "You got Icelandic sky",
-  [levelWinBackgrounds["level_3"]]: "You are inside the black hole",
+  [LevelWinBackgrounds["level_1"]]: "Shooting star coming",
+  [LevelWinBackgrounds["level_2"]]: "You got Icelandic sky",
+  [LevelWinBackgrounds["level_3"]]: "You are inside the black hole",
 };
 
 export const MOBILE_SIZE_CANCAS = 640;

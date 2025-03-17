@@ -179,21 +179,20 @@ body {
   width: 2px;
   height: 2px;
   background: white;
-  box-shadow:
-    50px 80px white,
-    150px 200px white,
-    300px 100px white,
-    400px 50px white,
-    500px 300px white,
-    600px 400px white,
-    700px 250px white,
-    800px 120px white,
-    900px 500px white,
-    100px 600px white,
-    1200px 200px white,
-    1300px 700px white,
-    1400px 300px white,
-    1500px 500px white;
+  box-shadow: 50px 80px white,
+  150px 200px white,
+  300px 100px white,
+  400px 50px white,
+  500px 300px white,
+  600px 400px white,
+  700px 250px white,
+  800px 120px white,
+  900px 500px white,
+  100px 600px white,
+  1200px 200px white,
+  1300px 700px white,
+  1400px 300px white,
+  1500px 500px white;
   animation: twinkleStars 2s infinite alternate ease-in-out;
 }
 
@@ -301,9 +300,8 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow:
-    0 0 10px var(--pastel-orange),
-    0 0 20px var(--border-color);
+  box-shadow: 0 0 10px var(--pastel-orange),
+  0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
@@ -321,9 +319,8 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow:
-    0 0 10px var(--pastel-orange),
-    0 0 20px var(--border-color);
+  box-shadow: 0 0 10px var(--pastel-orange),
+  0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
@@ -341,12 +338,10 @@ body {
   inset: -1px;
   padding: 1px;
   transition: 0.3s;
-  mask:
-    linear-gradient(white, white) content-box,
-    linear-gradient(white, white);
-  -webkit-mask:
-    linear-gradient(white, white) content-box,
-    linear-gradient(white, white);
+  mask: linear-gradient(white, white) content-box,
+  linear-gradient(white, white);
+  -webkit-mask: linear-gradient(white, white) content-box,
+  linear-gradient(white, white);
   mask-composite: exclude;
   -webkit-mask-composite: exclude;
 }
@@ -471,6 +466,10 @@ body {
   animation: border-beam 15s infinite linear;
   background: linear-gradient(to left, var(--pastel-orange), #f09684, transparent);
   offset-anchor: 90% 50%;
-  offset-distance:50%;
+  offset-distance: 50%;
   offset-path: rect(0 auto auto 0 round calc(var(--size) * 1px));
+}
+
+.header {
+  box-shadow: rgba(55, 65, 81, 0.1) 0px -0.1rem 0px inset;
 }
