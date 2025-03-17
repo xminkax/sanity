@@ -8,13 +8,12 @@ const aboutMe = {
   title: "About me",
   button: { label: "Resume", url: "Link" },
   texts: [
-    "I am a software engineer with 12+ years professional experience.",
-    "I am passionate about developing applications that simplify people's everyday\n" +
-      "            lives.",
-    "I like a detective part. The adrenalin that comes when bug is successfully\n" +
+    "I am a software engineer with over 12 years of professional experience.",
+    "I am passionate about developing applications that simplify people's everyday lives.",
+    "I like the detective part of the job. The adrenaline rush that comes when a bug is successfully\n" +
       "      debugged and\n" +
-      "      found.",
-    "What engage me are discussions with colleagues to find the best solution\n" +
+      "      fixed.",
+    "What engages me the most are discussions with colleagues to find the best solution\n" +
       "      at\n" +
       "      the time.",
   ],
@@ -24,12 +23,12 @@ const snake = {
   button: { label: "Play", url: "Link" },
   texts: [
     'I started my coding journey in <a class="panel__link" href=""\n' +
-      ">pascal</a> and\n" +
-      "          Ui journey with opengl while learning <a\n" +
-      '            href="" class="panel__link">nehe</a> tutorials. One of my attempts was to create\n' +
-      "          a snake game in pascal and windows screen saver in opengl to animate particles effect. It was a long time\n" +
+      ">Pascal</a> and\n" +
+      "          Ui journey with OpenGL while learning <a\n" +
+      '            href="" class="panel__link">NeHe</a> tutorials. One of my early attempts was to create\n' +
+      "          a Snake game in Pascal and Windows screensaver in OpenGL to animate particles effect. That was a long time\n" +
       "          ago.",
-    "I wanted to remind myself these time and create it with today's\n" +
+    "I wanted to remind myself of these times and recreate those projects using today's\n" +
       "          technologies to see how it feels. Are you curious?",
   ],
 };

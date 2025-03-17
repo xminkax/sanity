@@ -38,7 +38,7 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
         ))
       }
       <div className="justify-center flex my-4">
-        <a href="" className="home__btn--secondary">
+        <a href="" className="home__btn--secondary" onClick={() => alert("coming soon")}>
           {button.label}
         </a>
       </div>
