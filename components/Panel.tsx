@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Space_Mono } from "next/font/google";
 
@@ -20,7 +21,10 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
     <section
       className={`sm:p-6 p-4 panel relative backdrop-blur-lg backdrop-filter sm:mb-12 mb-7 flex flex-col fade-in mx-4 el max-w-[48rem] self-center`}
     >
-      <h2 className="sm:my-4 my-2 md:text-4xl sm:text-3xl text-2xl font-bold leading-8 text-center" id={title.toLowerCase().replace(/ /g, "-")}>
+      <h2
+        className="sm:my-4 my-2 md:text-4xl sm:text-3xl text-2xl  sm:scroll-mt-28 scroll-mt-20 font-bold leading-8 text-center"
+        id={title.toLowerCase().replace(/ /g, "-")}
+      >
         {title}
       </h2>
       {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import StarsBackground from "@/components/StarsBackground";
+import StarsLayout from "@/components/StarsLayout";
 import { Orbitron } from "next/font/google";
 import { ReactNode } from "react";
 
@@ -30,7 +30,7 @@ export default function RootLayout({
 }: RootLayoutProps) {
   return (
     <html lang="en" className={orbitron.className}>
-      <StarsBackground>{children}</StarsBackground>
+      <StarsLayout>{children}</StarsLayout>
     </html>
   );
 }
