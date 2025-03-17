@@ -22,14 +22,13 @@ const snake = {
   title: "Snake game",
   button: { label: "Play", url: "Link" },
   texts: [
-    'I started my coding journey in <a class="panel__link" href=""\n' +
-      ">Pascal</a> and\n" +
-      "          Ui journey with OpenGL while learning <a\n" +
-      '            href="" class="panel__link">NeHe</a> tutorials. One of my early attempts was to create\n' +
+    'I started my coding journey in <a class="panel__link" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
+      '>Pascal</a> and Ui part with <a class="panel__link" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
+      '            class="panel__link" href="https://nehe.gamedev.net/tutorial/lessons_01__05/22004/" target="_blank">NeHe</a> tutorials. One of my early attempts was to create\n' +
       "          a Snake game in Pascal and Windows screensaver in OpenGL to animate particles effect. That was a long time\n" +
       "          ago.",
     "I wanted to remind myself of these times and recreate those projects using today's\n" +
-      "          technologies to see how it feels. Are you curious?",
+      "          technologies. Are you curious?",
   ],
 };
 
