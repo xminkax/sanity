@@ -1,45 +1,43 @@
 "use client";
 import React from "react";
+import Hero from "@/components/Hero";
+import Panel from "@/components/Panel";
 
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
+const aboutMe = {
+  title: "About me",
+  button: { label: "Resume", url: "Link" },
+  texts: [
+    "I am a software engineer with over 12 years of professional experience.",
+    "I am passionate about developing applications that simplify people's everyday lives.",
+    "I like the detective part of the job. The adrenaline rush that comes when a bug is successfully\n" +
+      "      debugged and\n" +
+      "      fixed.",
+    "What engages me the most are discussions with colleagues to find the best solution\n" +
+      "      at\n" +
+      "      the time.",
+  ],
+};
+const snake = {
+  title: "Snake game",
+  button: { label: "Play", url: "Link" },
+  texts: [
+    'I started my coding journey in <a class="panel__link" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
+      '>Pascal</a> and Ui part with <a class="panel__link" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
+      '            class="panel__link" href="https://nehe.gamedev.net/tutorial/lessons_01__05/22004/" target="_blank">NeHe</a> tutorials. One of my early attempts was to create\n' +
+      "          a Snake game in Pascal and Windows screensaver in OpenGL to animate particles effect. That was a long time\n" +
+      "          ago.",
+    "I wanted to remind myself of these times and recreate those projects using today's\n" +
+      "          technologies. Are you curious?",
+  ],
+};
 
 export default function Home() {
   return (
-    <main className="h-screen">
-      <section className="flex justify-center flex-col h-full items-center">
-        <div className="typewriter">
-          {welcomeTexts.map((item: string, key: number) => (
-            <h1
-              key={item}
-              className="font-bold text-4xl sm:text-5xl md:text-7xl"
-              style={{
-                maxWidth: `calc(${item.length} * 1ch)`,
-                animation: `typing 4s steps(${Math.floor(item.length * 2)}, end), blink-caret .6s step-end infinite, 
-                ${
-                  key + 1 === welcomeTexts.length ? `slideLastElement 4s forwards` : `slide 4s 1`
-                }`,
-                animationDelay: `${key * 4}s`,
-              }}
-            >
-              {item}
-            </h1>
-          ))}
-        </div>
-        <div className="md:py-14 sm:py-11 py-6">
-          <p className="my-4 md:text-4xl sm:text-3xl text-2xl leading-8 text-center">
-            Can you see the yellow star?
-          </p>
-          <div className="mt-8 sm:mt-12 flex items-center justify-center gap-x-6">
-            <a
-              onClick={() => alert("coming soon")}
-              href="#"
-              className="inline-block px-6 py-3 text-white font-semibold text-lg bg-gradient-to-r from-indigo-800 via-purple-700 to-indigo-900 rounded-lg transform transition-all hover:scale-105 hover:from-purple-800 hover:via-indigo-700 hover:to-purple-900"
-            >
-              Learn more
-            </a>
-          </div>
-        </div>
-      </section>
+    <main className="flex flex-col">
+      <Hero welcomeTexts={welcomeTexts} />
+      <Panel texts={aboutMe.texts} title={aboutMe.title} button={aboutMe.button} />
+      <Panel texts={snake.texts} title={snake.title} button={snake.button} />
     </main>
   );
 }
