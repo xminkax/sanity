@@ -96,13 +96,14 @@ body {
 /* typewriter effect end */
 
 .btn-snake {
-  background: linear-gradient(to right, rgb(58, 142, 213), rgb(30, 80, 150));
+  /*background: linear-gradient(to right, rgb(58, 142, 213), rgb(30, 80, 150));*/
   position: absolute;
-  border: 2px solid #bcc8d0;
-  box-shadow: none;
+  /*border: 2px solid #bcc8d0;*/
+  /*box-shadow: none;*/
   left: 50%;
-  transform: translateX(-50%);
-  top: 10.5rem;
+  transform: translate(-50%, 7rem);
+  /*top: 10.5rem;*/
+
 
   @media only screen and (min-width: 640px) {
     top: 50%;
@@ -122,7 +123,7 @@ body {
 }
 
 .icon-gesture {
-  width: 150px;
+  width: 200px;
   position: absolute;
   top: 1rem;
   left: 50%;
@@ -503,4 +504,116 @@ body {
 
 .bounce {
   animation: bounce 1s ease;
+}
+
+.game-over-mobile {
+
+}
+
+
+@keyframes snakeMove {
+  0% { transform: translateX(-100%) translateY(0); }
+  25% { transform: translateX(25%) translateY(20px); }
+  50% { transform: translateX(50%) translateY(-10px); }
+  75% { transform: translateX(75%) translateY(10px); }
+  100% { transform: translateX(100%) translateY(0); }
+}
+.animate-snake {
+  animation: snakeMove 5s linear infinite;
+}
+/*animation: snakeMove 5s linear infinite;*/
+
+/*.retro-button:focus {*/
+/*  outline: none;*/
+/*}*/
+
+/*.retro-button:active {*/
+/*  background-color: #ff6680;*/
+/*  !*transform: scale(1.05);*!*/
+/*}*/
+
+.retro-button-next-level {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #a7d8ff; /* Pastel blue */
+  border: 2px solid #80c7ff;
+  color: #2d2d2d;
+  font-size: 2rem;
+  padding: 20px 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.retro-button-next-level:hover {
+  background-color: #80c7ff; /* Lighten the blue on hover */
+  transform: scale(1.1);
+}
+
+.retro-button-next-level:focus {
+  outline: none;
+}
+
+.retro-button-next-level:active {
+  background-color: #66b3ff; /* Slightly darker blue when clicked */
+  transform: scale(1.05);
+}
+
+/*#c1a1f7*/
+/*#a8f7b5*/
+
+.reset-btn {
+  background-color: #80c7ff;
+  color: #2d2d2d;
+  transition: all 0.1s ease;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #5fa7dd; /* Hard shadow offset */
+}
+
+.reset-btn:hover {
+  outline-offset: 5px;
+  outline: 1px solid #5fa7dd;
+  box-shadow: none;
+
+}
+
+.next-level-btn {
+  background-color: #a8f7b5;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #7ed491; /* Hard shadow offset */
+}
+
+.next-level-btn:hover {
+  outline-offset: 5px;
+  outline: 1px solid #7ed491;
+  box-shadow: none;
+}
+
+.play-btn {
+  background-color: #ffb3b3;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #ff80a1; /* Hard shadow offset */
+}
+
+.play-btn:hover {
+  outline-offset: 5px;
+  outline: 1px solid #ff80a1;
+  box-shadow: none;
+}
+
+.reset-btn-2 {
+  background-color: #ffb3b3;
+  color: #2d2d2d;
+  transition: all 0.1s ease;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #ff80a1; /* Hard shadow offset */
+}
+
+.reset-btn-2:hover {
+  outline-offset: 5px;
+  outline: 1px solid #ff80a1;
+  box-shadow: none;
 }
