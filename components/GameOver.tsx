@@ -1,5 +1,5 @@
 "use client";
-import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import {
   generatePastelColor,
   ColorHSL,
@@ -8,9 +8,9 @@ import {
   generateSimilarShadeColorForParticles,
 } from "@/lib/snake/color";
 import * as THREE from "three";
-import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
-import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
-import {MOBILE_SIZE_CANCAS} from "@/constants/snake";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import { MOBILE_SIZE_CANCAS } from "@/constants/snake";
 import "./fireworks.css";
 import {
   PerspectiveCamera,
@@ -27,7 +27,7 @@ import {
   Mesh,
   Texture,
 } from "three";
-import {Press_Start_2P} from "next/font/google";
+import { Press_Start_2P } from "next/font/google";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -54,7 +54,7 @@ function getPosition(index: number, velocityA?: number): Position {
   };
 }
 
-const GameOver: React.FC = ({restartGame}) => {
+const GameOver: React.FC = ({ resetGame }) => {
   const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
     null,
   );
@@ -67,7 +67,7 @@ const GameOver: React.FC = ({restartGame}) => {
       width = 660;
       height = 540;
     }
-    setCanvasConfig({width: window.innerWidth, height: window.innerHeight});
+    setCanvasConfig({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const GameOver: React.FC = ({restartGame}) => {
       0.1,
       1000,
     );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current});
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ canvas: canvasRef.current });
     renderer.setPixelRatio(1.1);
     renderer.setClearColor("#0d0d1d");
 
@@ -112,7 +112,6 @@ const GameOver: React.FC = ({restartGame}) => {
     };
 
     const animateParticles = (): void => {
-
       const delta = clock.getDelta();
       const particlesPosition: BufferAttribute | InterleavedBufferAttribute =
         particles.getAttribute("position");
@@ -205,24 +204,26 @@ const GameOver: React.FC = ({restartGame}) => {
 
   if (!canvasConfig) return;
   return (
-    <div style={{zIndex: 2, position: "relative"}}>
+    <div style={{ zIndex: 2, position: "relative" }}>
       {/*<div style={{ marginLeft: "1rem" }}>1</div>*/}
       <canvas
         ref={canvasRef}
         width={canvasConfig.width}
         height={canvasConfig.height}
-        style={{
-          // backgroundColor: "transparent",
-          // border: "0.2rem solid",
-          // borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
-        }}
+        style={
+          {
+            // backgroundColor: "transparent",
+            // border: "0.2rem solid",
+            // borderImage: "linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1",
+          }
+        }
       />
       <div className="overlay-game-over">
         <button
           className={`btn-snake mt-6 px-6 py-3 reset-btn text-2xl  ${pressStart2P.className}`}
-          onClick={restartGame}
+          onClick={resetGame}
         >
-          Restart
+          Reset
         </button>
       </div>
     </div>

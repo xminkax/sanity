@@ -4,16 +4,25 @@ import undo from "@/public/undo.svg";
 import React from "react";
 import logo from "@/app/icon.svg";
 import { usePathname } from "next/navigation";
+import { Press_Start_2P } from "next/font/google";
 
 interface HeaderProps {
   shouldDisplayResetIcon: boolean;
 }
 
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
   const pathname = usePathname();
-
+  const text = pathname === "/games" && pressStart2P.className;
   return (
-    <header className="header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-10 backdrop-blur-md sm:h-[4rem] h-[3.4rem]">
+    <header
+      className={`${pathname === "/games" && pressStart2P.className + " " + "text-[#F0E6D2]"}  header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-10 backdrop-blur-md sm:h-[4rem] h-[3.4rem]`}
+    >
       <div className="">
         <Link href="/">
           <Image className="sm:w-full w-[2rem]" priority src={logo} alt="homepage" />

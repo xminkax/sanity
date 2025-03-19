@@ -35,15 +35,17 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
   const pathname = usePathname();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "level_0");
+  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "0");
   const [background, setBackground] = useState("night-sky");
   useEffect(() => {
-    setBackground(LevelWinBackgrounds[levelWin as keyof typeof LevelWinBackgrounds]);
+    setBackground(LevelWinBackgrounds[("level_" + levelWin) as keyof typeof LevelWinBackgrounds]);
   }, [levelWin]);
   const shouldDisplayResetIcon =
     background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
+  console.log(background);
+  const className = pathname === "/games" ? "games" : background;
   return (
-    <body className={background}>
+    <body className={className}>
       <Header shouldDisplayResetIcon={shouldDisplayResetIcon} />
       {background === LevelWinBackgrounds["level_2"] && (
         <>
@@ -55,8 +57,16 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
           </div>
         </>
       )}
-      {background === LevelWinBackgrounds["level_0"] && (
+      {background === LevelWinBackgrounds["level_0"] && pathname !== "/games" && (
         <div className="stars">{generateStars()}</div>
+      )}
+      {background === LevelWinBackgrounds["level_1"] && pathname !== "/games" && (
+        <div className="stars">
+          <div className="sky">
+            <div className="star-snake"></div>
+          </div>
+          {generateStars()}
+        </div>
       )}
 
       {children}

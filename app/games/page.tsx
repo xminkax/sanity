@@ -1,20 +1,42 @@
 "use client";
 import SnakeGame from "@/components/SnakeGame";
-import React, {useState} from "react";
-import {useLocalStorage} from "usehooks-ts";
+import React, { useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import GameOver from "@/components/GameOver";
 import StatusScreen from "@/components/NextLevel";
 import Menu from "@/components/Menu";
 import GameOverMobile from "@/components/GameOverMobile";
-import {GameState} from "@/constants/snake";
+import { GameState } from "@/constants/snake";
 import NextLevel from "@/components/NextLevel";
+import { Press_Start_2P } from "next/font/google";
+
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function Games() {
-  const [levelWin, setLevelWin, removeLevelWin] = useLocalStorage<string | undefined>("levelWin", '0');
+  const [levelWin, setLevelWin, removeLevelWin] = useLocalStorage<string | undefined>(
+    "levelWin",
+    null,
+  );
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
-  return (<>
+  const [level, setLevel] = useState((Number(levelWin) || 0) + 1);
+  const resetGame = () => {
+    setGameState(GameState.MENU);
+    removeLevelWin();
+  };
+  return (
+    <>
       <div>games</div>
+      {levelWin === "1" && (
+        <div className="sky">
+          <div className="star-snake"></div>
+        </div>
+      )}
       <div
+        className={`${pressStart2P.className}`}
         style={{
           display: "flex",
           justifyContent: "center",
@@ -24,28 +46,24 @@ export default function Games() {
         {gameState === GameState.MENU && (
           <div className="snake-animated-state">
             <Menu
-              gameState={GameState.MENU}
-              levelWin={levelWin}
+              nextLevel={levelWin ? Number(levelWin) + 1 : null}
               startGame={() => setGameState(GameState.PLAYING)}
-              gameOver={() => {
-                setGameState(GameState.GAME_OVER);
-                removeLevelWin();
-              }}
             />
           </div>
         )}
         {gameState === GameState.PLAYING && (
           <div className="snake-animated-state">
             <SnakeGame
+              level={level}
               gameState={GameState.PLAYING}
-              levelWin={levelWin}
               gameOver={() => {
                 setGameState(GameState.GAME_OVER);
                 removeLevelWin();
+                setLevel(1);
               }}
               win={() => {
                 setGameState(GameState.WIN);
-                setLevelWin(levelWin + 1);
+                setLevelWin((Number(levelWin || 0) + 1).toString());
               }}
             />
           </div>
@@ -53,38 +71,20 @@ export default function Games() {
         {gameState === GameState.WIN && (
           <div className="snake-animated-state">
             <NextLevel
-              gameState={GameState.WIN}
-              restartButton={{
-                onClick: () => {
-                  setGameState(GameState.MENU);
-                  removeLevelWin();
-                },
-                text: 'Restart'
+              nextLevel={() => {
+                setGameState(GameState.PLAYING);
+                setLevel(level + 1);
               }}
-              title="Congrats!"
-              nextLevelButton={{
-                onClick: () => setGameState(GameState.PLAYING),
-                text: "Next level"
-              }}
-              levelWin={levelWin}
+              resetGame={resetGame}
             />
           </div>
         )}
         {gameState === GameState.GAME_OVER && (
           <div className="snake-animated-state">
-            <GameOverMobile
-              gameState={GameState.GAME_OVER}
-              restartButton={{
-                onClick: () => setGameState(GameState.PLAYING),
-                text: 'Restart'
-              }}
-              title="Game over"
-              restartGame={() => setGameState(GameState.PLAYING)}
-            />
+            <GameOver resetGame={resetGame} />
           </div>
         )}
       </div>
     </>
-  )
-    ;
+  );
 }

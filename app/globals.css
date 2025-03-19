@@ -19,6 +19,10 @@ body {
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
 }
 
+.games {
+  background: radial-gradient(circle, #3c2f41 10%, rgba(2, 2, 12, 1) 100%) transparent;
+}
+
 .star {
   position: absolute;
   width: 2px;
@@ -103,7 +107,6 @@ body {
   left: 50%;
   transform: translate(-50%, 7rem);
   /*top: 10.5rem;*/
-
 
   @media only screen and (min-width: 640px) {
     top: 50%;
@@ -210,19 +213,19 @@ body {
 
 /* Aurora */
 .aurora {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  /*position: absolute;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*overflow: hidden;*/
 }
 
 .aurora div {
-  position: absolute;
-  width: 40%;
-  height: 50%;
-  background: radial-gradient(circle, rgba(0, 255, 150, 0.3), transparent);
-  border-radius: 50%;
-  filter: blur(80px);
+  /*position: absolute;*/
+  /*width: 40%;*/
+  /*height: 50%;*/
+  /*background: radial-gradient(circle, rgba(0, 255, 150, 0.3), transparent);*/
+  /*border-radius: 50%;*/
+  /*filter: blur(80px);*/
   animation: moveAurora 6s infinite alternate ease-in-out;
 }
 
@@ -507,16 +510,24 @@ body {
 }
 
 .game-over-mobile {
-
 }
 
-
 @keyframes snakeMove {
-  0% { transform: translateX(-100%) translateY(0); }
-  25% { transform: translateX(25%) translateY(20px); }
-  50% { transform: translateX(50%) translateY(-10px); }
-  75% { transform: translateX(75%) translateY(10px); }
-  100% { transform: translateX(100%) translateY(0); }
+  0% {
+    transform: translateX(-100%) translateY(0);
+  }
+  25% {
+    transform: translateX(25%) translateY(20px);
+  }
+  50% {
+    transform: translateX(50%) translateY(-10px);
+  }
+  75% {
+    transform: translateX(75%) translateY(10px);
+  }
+  100% {
+    transform: translateX(100%) translateY(0);
+  }
 }
 .animate-snake {
   animation: snakeMove 5s linear infinite;
@@ -533,7 +544,7 @@ body {
 /*}*/
 
 .retro-button-next-level {
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   background-color: #a7d8ff; /* Pastel blue */
   border: 2px solid #80c7ff;
   color: #2d2d2d;
@@ -575,7 +586,6 @@ body {
   outline-offset: 5px;
   outline: 1px solid #5fa7dd;
   box-shadow: none;
-
 }
 
 .next-level-btn {
@@ -616,4 +626,107 @@ body {
   outline-offset: 5px;
   outline: 1px solid #ff80a1;
   box-shadow: none;
+}
+
+.star-snake {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 2px;
+  border-radius: 885px;
+  background: linear-gradient(-45deg, rgb(255, 235, 59), rgba(255, 235, 59, 0));
+
+  -webkit-filter: drop-shadow(0 0 6px #eef1f8);
+  filter: drop-shadow(0 0 6px #d7dff0);
+  /*opacity:0;*/
+  animation:
+    tail 3000ms ease-in-out,
+    shooting 3000ms ease-in-out;
+}
+
+/* Here we add before and after effect to star */
+.star-snake::before,
+.star-snake::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 0;
+  height: 2px;
+  background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgb(255, 235, 59), rgba(0, 0, 255, 0));
+  -webkit-transform: translateX(50%) rotateZ(45deg);
+  transform: translateX(50%) rotateZ(45deg);
+  border-radius: 100%;
+  animation: shining 3000ms ease-in-out 2;
+}
+
+.star-snake::after {
+  -webkit-transform: translateX(50%) rotateZ(-45deg);
+  transform: translateX(50%) rotateZ(-45deg);
+}
+
+/* Here we are adding location of each
+     nth-child, animations, delays, and
+     before and after effects to each
+     and every balls(stars) */
+.star-snake:nth-child(1) {
+  top: calc(50% - -119px);
+  left: calc(50% - 43px);
+  -webkit-animation-delay: 4000ms;
+  animation-delay: 4000ms;
+}
+
+/* This code will help to generate
+  effect in tail of star */
+@keyframes tail {
+  0% {
+    width: 0;
+  }
+
+  30% {
+    width: 100px;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+/* This code will generate shining
+  effect in head of star */
+@keyframes shining {
+  0% {
+    width: 0;
+  }
+
+  50% {
+    width: 30px;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+/* Here we are adding webkit-animation
+  for shooting effect */
+@keyframes shooting {
+  0% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  100% {
+    -webkit-transform: translateX(270px);
+    transform: translateX(270px);
+    opacity: 0;
+  }
+}
+
+.sky {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
 }
