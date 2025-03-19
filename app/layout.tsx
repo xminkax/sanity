@@ -10,7 +10,7 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "Personal website",
+  title: "Welcome to my website",
   description: "I am a software engineer with over 12 years of professional experience.",
   openGraph: {
     images: [
