@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
             </Link>
           </li>
           <li>
-            <a onClick={() => alert("Coming soon")}>Resume</a>
+            <a href="/resume">Resume</a>
           </li>
         </ul>
       </nav>

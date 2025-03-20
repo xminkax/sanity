@@ -6,7 +6,7 @@ import Panel from "@/components/Panel";
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 const aboutMe = {
   title: "About me",
-  button: { label: "Resume", url: "Link" },
+  button: { label: "Resume", url: "/resume" },
   texts: [
     "I am a software engineer with over 12 years of professional experience.",
     "I am passionate about developing applications that simplify people's everyday lives.",
@@ -20,7 +20,7 @@ const aboutMe = {
 };
 const snake = {
   title: "Snake game",
-  button: { label: "Play", url: "Link" },
+  button: { label: "Play", url: "" },
   texts: [
     'I started my coding journey in <a class="panel__link" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
       '>Pascal</a> and Ui part with <a class="panel__link" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +

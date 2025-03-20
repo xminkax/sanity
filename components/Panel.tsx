@@ -39,9 +39,12 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
       }
       <div className="justify-center flex my-4">
         <a
-          href=""
+          href={button.url}
           className="home__btn--secondary"
           onClick={(e) => {
+            if (button.url) {
+              return;
+            }
             e.preventDefault();
             alert("coming soon");
           }}
