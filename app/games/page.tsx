@@ -1,14 +1,14 @@
 "use client";
 import SnakeGame from "@/components/SnakeGame";
-import React, { useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
+import React, {useEffect, useState} from "react";
+import {useLocalStorage} from "usehooks-ts";
 import GameOver from "@/components/GameOver";
 import StatusScreen from "@/components/NextLevel";
 import Menu from "@/components/Menu";
 import GameOverMobile from "@/components/GameOverMobile";
-import { GameState } from "@/constants/snake";
+import {GameState} from "@/constants/snake";
 import NextLevel from "@/components/NextLevel";
-import { Press_Start_2P } from "next/font/google";
+import {Press_Start_2P} from "next/font/google";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -22,12 +22,21 @@ export default function Games() {
     null,
   );
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
-  const [level, setLevel] = useState((Number(levelWin) || 0) + 1);
+  const [level, setLevel] = useState(null);
   const resetGame = () => {
     setGameState(GameState.MENU);
     removeLevelWin();
   };
+  useEffect(() => {
+    const tempLevel = levelWin && Number(levelWin);
+    setLevel(tempLevel ? tempLevel + 1 : 1);
+  }, [level, levelWin]);
+  console.log(level, levelWin);
+  if(!level) {
+    return;
+  }
   return (
+
     <>
       <div>games</div>
       {levelWin === "1" && (
@@ -43,10 +52,9 @@ export default function Games() {
           // padding: "8rem",
         }}
       >
-        {gameState === GameState.MENU && (
+        {gameState === GameState.MENU && !levelWin && (
           <div className="snake-animated-state">
             <Menu
-              nextLevel={levelWin ? Number(levelWin) + 1 : null}
               startGame={() => setGameState(GameState.PLAYING)}
             />
           </div>
@@ -63,12 +71,12 @@ export default function Games() {
               }}
               win={() => {
                 setGameState(GameState.WIN);
-                setLevelWin((Number(levelWin || 0) + 1).toString());
+                setLevelWin((Number(levelWin) + 1).toString());
               }}
             />
           </div>
         )}
-        {gameState === GameState.WIN && (
+        {(gameState === GameState.WIN || (gameState === GameState.MENU && Number(levelWin) > 0)) && (
           <div className="snake-animated-state">
             <NextLevel
               nextLevel={() => {
@@ -81,7 +89,7 @@ export default function Games() {
         )}
         {gameState === GameState.GAME_OVER && (
           <div className="snake-animated-state">
-            <GameOver resetGame={resetGame} />
+            <GameOver resetGame={resetGame}/>
           </div>
         )}
       </div>
