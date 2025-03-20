@@ -3,6 +3,7 @@ import "./globals.css";
 import StarsLayout from "@/components/StarsLayout";
 import { Orbitron } from "next/font/google";
 import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -30,7 +31,10 @@ export default function RootLayout({
 }: RootLayoutProps) {
   return (
     <html lang="en" className={orbitron.className}>
-      <StarsLayout>{children}</StarsLayout>
+      <StarsLayout>
+        {children}
+        <Analytics />
+      </StarsLayout>
     </html>
   );
 }
