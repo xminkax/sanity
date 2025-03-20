@@ -28,7 +28,14 @@ const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
           Can you see the yellow star?
         </p>
         <div className="mt-8 sm:mt-12 mb-1 sm:mb-0 flex items-center justify-center gap-x-6">
-          <a onClick={() => alert("coming soon")} href="#" className="home__btn--primary">
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              alert("coming soon");
+            }}
+            href="#"
+            className="home__btn--primary"
+          >
             Learn more
           </a>
         </div>
