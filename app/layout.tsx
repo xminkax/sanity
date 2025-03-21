@@ -13,6 +13,7 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: "Monika Kindernayova",
   description: "I am a software engineer with over 12 years of professional experience.",
+  robots: "index, follow",
   openGraph: {
     images: [
       {
