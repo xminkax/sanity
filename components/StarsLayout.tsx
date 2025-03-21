@@ -4,6 +4,7 @@ import { useLocalStorage } from "usehooks-ts";
 import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
+import MilkyWay from "@/components/MilkyWay";
 
 const NUM_STARS: number = 100;
 
@@ -60,7 +61,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       {background === LevelWinBackgrounds["level_0"] && pathname !== "/games" && (
         <div className="stars">{generateStars()}</div>
       )}
-      {background === LevelWinBackgrounds["level_1"] && pathname !== "/games" && (
+      {background === LevelWinBackgrounds["level_2"] && (
         <div className="stars">
           <div className="sky">
             <div className="star-snake"></div>
@@ -68,6 +69,10 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
           {generateStars()}
         </div>
       )}
+      {background === LevelWinBackgrounds["level_1"] && (
+        <div className="stars"><MilkyWay/></div>
+      )}
+
 
       {children}
     </body>

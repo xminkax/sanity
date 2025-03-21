@@ -38,12 +38,6 @@ export default function Games() {
   }
   return (
     <>
-      <div>games</div>
-      {levelWin === "1" && (
-        <div className="sky">
-          <div className="star-snake"></div>
-        </div>
-      )}
       <div
         className={`${pressStart2P.className}`}
         style={{

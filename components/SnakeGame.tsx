@@ -306,7 +306,7 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
               border: "8px solid",
               borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
               touchAction: "none",
-              backgroundColor: "#3C2F41",
+              backgroundColor: "rgba(182, 255, 198, 1)",
               zIndex: 2,
             }}
             onTouchStart={handleTouchStart}
