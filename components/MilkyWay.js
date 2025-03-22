@@ -30,7 +30,7 @@ const MilkyWay = () => {
       positions[i * 3 + 1] = height;
       positions[i * 3 + 2] = Math.sin(angle) * distance;
 
-      const color = new THREE.Color().setHSL(Math.random() * 0.1 + 0.6, 1, 0.8);
+      const color = new THREE.Color().setHSL(Math.random() * 0.1 + 0.53, 1, 0.6);
       colors[i * 3] = color.r;
       colors[i * 3 + 1] = color.g;
       colors[i * 3 + 2] = color.b;

@@ -298,16 +298,16 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
       <div style={{ zIndex: 2, position: "relative" }}>
         {canvasConfig && (
           <canvas
-            className="canvas-snake"
+            className="panel"
             ref={canvasRef}
             width={canvasConfig.width}
             height={canvasConfig.height}
             style={{
-              border: "8px solid",
-              borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
-              touchAction: "none",
-              backgroundColor: "rgba(182, 255, 198, 1)",
-              zIndex: 2,
+              // border: "8px solid",
+              // borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
+              // touchAction: "none",
+              // backgroundColor: "rgba(182, 255, 198, 1)",
+              // zIndex: 2,
             }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}

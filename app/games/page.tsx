@@ -9,6 +9,7 @@ import GameOverMobile from "@/components/GameOverMobile";
 import { GameState } from "@/constants/snake";
 import NextLevel from "@/components/NextLevel";
 import { Press_Start_2P } from "next/font/google";
+import LorenzAttractor from "@/components/LorenzAttractor";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -38,8 +39,9 @@ export default function Games() {
   }
   return (
     <>
+      {/*<LorenzAttractor/>*/}
       <div
-        className={`${pressStart2P.className}`}
+
         style={{
           display: "flex",
           justifyContent: "center",

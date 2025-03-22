@@ -5,6 +5,7 @@ import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import MilkyWay from "@/components/MilkyWay";
+import LorenzAttractor from "@/components/LorenzAttractor";
 
 const NUM_STARS: number = 100;
 
@@ -44,7 +45,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
   const shouldDisplayResetIcon =
     background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
   console.log(background);
-  const className = pathname === "/games" ? "games" : background;
+  const className = pathname === "/games" ? "night-sky" : background;
   return (
     <body className={className}>
       <Header shouldDisplayResetIcon={shouldDisplayResetIcon} />
@@ -58,21 +59,21 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
           </div>
         </>
       )}
-      {background === LevelWinBackgrounds["level_0"] && pathname !== "/games" && (
-        <div className="stars">{generateStars()}</div>
-      )}
-      {background === LevelWinBackgrounds["level_2"] && (
-        <div className="stars">
-          <div className="sky">
-            <div className="star-snake"></div>
-          </div>
-          {generateStars()}
-        </div>
-      )}
-      {background === LevelWinBackgrounds["level_1"] && (
-        <div className="stars"><MilkyWay/></div>
-      )}
-
+        {/*{background === LevelWinBackgrounds["level_0"] && (*/}
+        {/*  <div className="stars">{generateStars()}</div>*/}
+        {/*)}*/}
+        {/*{background === LevelWinBackgrounds["level_2"] && (*/}
+        {/*  <div className="stars">*/}
+        {/*    <div className="sky">*/}
+        {/*      <div className="star-snake"></div>*/}
+        {/*    </div>*/}
+        {/*    {generateStars()}*/}
+        {/*  </div>*/}
+        {/*)}*/}
+      {/*{background === LevelWinBackgrounds["level_1"] && (*/}
+      {/*  <div className="stars"><MilkyWay/></div>*/}
+      {/*)}*/}
+      <div className="stars"><LorenzAttractor/></div>
 
       {children}
     </body>
