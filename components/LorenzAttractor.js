@@ -146,7 +146,7 @@ const LorenzAttractor = () => {
           // let r,g,b;
           if (x<0) {
             r = 0;
-            g = 1-deltaTime*10;
+            g = 0.6+deltaTime*10;
             b =  1-deltaTime*10;
             // colors.push(0, 1, 1); // Cyan
           } else {
