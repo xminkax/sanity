@@ -85,7 +85,7 @@ export default function Games() {
         )}
         {gameState === GameState.GAME_OVER && (
           <div className="snake-animated-state">
-            <GameOver resetGame={resetGame} />
+            <GameOverMobile resetGame={resetGame} />
           </div>
         )}
       </div>

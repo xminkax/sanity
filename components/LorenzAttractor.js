@@ -43,11 +43,13 @@ function getBlueGradient(t) {
 const LorenzAttractor = () => {
   const mountRef = useRef(null);
   const [animationStarted, setAnimationStarted] = useState(false);
+  const clock = new THREE.Clock();
+
 
   useEffect(() => {
     setTimeout(() => {
       setAnimationStarted(true);
-    }, 10000); // 3 seconds delay
+    }, 0); // 3 seconds delay
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 0, 80);
@@ -60,8 +62,8 @@ const LorenzAttractor = () => {
     // mountRef.current.appendChild(renderer.domElement);
 
     const points = [];
-    let x = 1, y = 1.0, z = 1.0;
-    const dt = 0.01;
+    let x = 2, y = 2, z = 2;
+    const dt = 0.02;
     const sigma = 10.0, rho = 28.0, beta = 8.0 / 3.0;
 
     const geometry = new THREE.BufferGeometry();
@@ -85,14 +87,16 @@ const LorenzAttractor = () => {
     let time = 0;
 
     const animate = () => {
+      const deltaTime = clock.getDelta();
+
       time += 0.05;
       requestAnimationFrame(animate);
       if(animationStarted) {
 
         if (index < maxPoints) {
-          let dx = sigma * (y - x) * dt;
-          let dy = (x * (rho - z) - y) * dt;
-          let dz = (x * y - beta * z) * dt;
+          let dx = sigma * (y - x) * deltaTime*0.3;
+          let dy = (x * (rho - z) - y) * deltaTime*0.3;
+          let dz = (x * y - beta * z) * deltaTime*0.5;
           x += dx;
           y += dy;
           z += dz;

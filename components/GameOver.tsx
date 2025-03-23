@@ -1,182 +1,132 @@
-"use client";
-import React, {MutableRefObject, useEffect, useRef, useState} from "react";
-import {
-  generatePastelColor,
-  ColorHSL,
-  Position,
-  generateSimilarShadeColorForText,
-  generateSimilarShadeColorForParticles,
-} from "@/lib/snake/color";
-import * as THREE from "three";
-import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
-import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
-import {MOBILE_SIZE_CANCAS} from "@/constants/snake";
-import "./fireworks.css";
-import {
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  InterleavedBufferAttribute,
-  BufferAttribute,
-  BufferGeometry,
-  NormalBufferAttributes,
-  Color,
-  PointsMaterial,
-  Points,
-  MeshBasicMaterial,
-  Mesh,
-  Texture,
-} from "three";
-import {Press_Start_2P} from "next/font/google";
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import {Color} from "three";
+import {ColorHSL, generatePastelColor, generateSimilarShadeColorForParticles} from "@/lib/snake/color";
 
-const pressStart2P = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const PARTICLE_COUNT: number = 900;
-function getPosition(index: number, velocityA?: number): Position {
-  const DISTRIBZ: number = 30;
-  const FLOOR_REPEAT: number = 10;
-  const pointBasicCoordinate: number = ((2 * Math.PI) / PARTICLE_COUNT) * index;
-  const velocity: number = velocityA || 0.5 + Math.random() * 1.5;
-  return {
-    x: velocity * Math.cos(pointBasicCoordinate),
-    y: velocity * Math.sin(pointBasicCoordinate),
-    z: Math.random() * DISTRIBZ - FLOOR_REPEAT,
-  };
-}
-
-const GameOver: React.FC = ({resetGame}) => {
-  const canvasRef: MutableRefObject<HTMLCanvasElement | null> = useRef<HTMLCanvasElement | null>(
-    null,
-  );
-  let time = 0;
-
+const WarpStarField = () => {
+  const mountRef = useRef(null);
+  let lala = 0;
+  const clock = new THREE.Clock();
   useEffect(() => {
-    const clock = new THREE.Clock();
+    // Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
 
-    if (!canvasRef.current) return;
-    const scene: Scene = new THREE.Scene();
-    const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
-      75,
-      canvasRef.current?.width / canvasRef.current?.height,
-      0.1,
-      1000,
-    );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({canvas: canvasRef.current, alpha: true});
-    renderer.setPixelRatio(1.1);
-    renderer.setClearColor("#0d0d1d");
+    const renderer = new THREE.WebGLRenderer({antialias: true, alpha:true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    mountRef.current.appendChild(renderer.domElement);
 
-    const particles: BufferGeometry<NormalBufferAttributes> = new THREE.BufferGeometry();
-    const resetParticles = (): void => {
-      const particlesPosition: BufferAttribute | InterleavedBufferAttribute =
-        particles.getAttribute("position");
-      const colorHsl: ColorHSL = generatePastelColor();
-      const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
-
-      for (let i: number = 0; i < particlesPosition.count; i++) {
-        const position: Position = getPosition(i);
-        particlesPosition.setXYZ(i, position.x+0.8, position.y, position.z);
-
-        const pastelColor: Color = generateSimilarShadeColorForParticles(color);
-        particles.attributes.color.setXYZ(i, pastelColor.r, pastelColor.g, pastelColor.b);
-      }
-
-      particles.attributes.color.needsUpdate = true;
-      particlesPosition.needsUpdate = true;
-    };
-
-    const animateParticles = (): void => {
-      time += 0.05;
-      const delta = clock.getDelta();
-      const particlesPosition: BufferAttribute | InterleavedBufferAttribute =
-        particles.getAttribute("position");
-      const EDGE_X = 4;
-      for (let i: number = 0; i < particlesPosition.count; i++) {
-        if (particlesPosition.getX(i) > EDGE_X) {
-          resetParticles();
-          break;
-        }
-        const position: Position = getPosition(i, 0.008 + Math.random() * 0.003);
-        particlesPosition.setXYZ(
-          i,
-          particlesPosition.getX(i) + position.x* Math.cos(time * 0.05),
-          particlesPosition.getY(i) + position.y* Math.sin(time * 0.05),
-          particlesPosition.getZ(i) + delta,
-        );
-        particleMaterial.size = 0.3 * Math.sin(i/5000);
-      }
-
-
-
-      particlesPosition.needsUpdate = true;
-    };
-
-    const points: number[] = [];
-    const colors: number[] = [];
+    // Starfield
+    const stars = 500;
+    const starVertices = [];
+    const starColors = [];
+    const geometry = new THREE.BufferGeometry();
     const colorHsl: ColorHSL = generatePastelColor();
     const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
-    for (let a: number = 0; a < PARTICLE_COUNT; a++) {
-      points.push(0, 0, 0);
+    for (let i = 0; i < stars; i++) {
+      let x = (Math.random() - 0.5) * 20;
+      let y = (Math.random() - 0.5) * 20;
+      let z = Math.random() * -50;
+      starVertices.push(x, y, z, x, y, z + 1); // Line segment
+
       const pastelColor: Color = generateSimilarShadeColorForParticles(color);
-      colors.push(pastelColor.r, pastelColor.g, pastelColor.b);
+      // let pastelColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+      starColors.push(pastelColor.r, pastelColor.g, pastelColor.b, pastelColor.r, pastelColor.g, pastelColor.b);
     }
 
-    particles.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
-    particles.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
 
-    const sprite: Texture = new THREE.TextureLoader().load("/disc.png");
-    //     sprite.colorSpace = THREE.SRGBColorSpace;
+    const lineMaterial = new THREE.LineBasicMaterial({vertexColors: true});
+    const starField = new THREE.LineSegments(geometry, lineMaterial);
+    scene.add(starField);
 
-    const particleMaterial: PointsMaterial = new THREE.PointsMaterial({
-      size: 0.02,
-      vertexColors: true,
-      sizeAttenuation: true,
-      alphaTest: 0.5,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      map: sprite,
-    });
+    const resetStars = () => {
+      let starVertices = starField.geometry.attributes.position.array;
+      let starColors = starField.geometry.attributes.color.array;
+      const colorHsl: ColorHSL = generatePastelColor();
+      const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
 
-    const particleSystem: Points<
-      BufferGeometry<NormalBufferAttributes>,
-      PointsMaterial
-    > = new THREE.Points(particles, particleMaterial);
 
-    // scene.background = new THREE.Color().setRGB(0.002, 0.002, 0.002);
-    scene.add(particleSystem);
+      for (let i = 0; i < stars; i++) {
+        const pastelColor: Color = generateSimilarShadeColorForParticles(color);
+        let x = (Math.random() - 0.5) * 20;
+        let y = (Math.random() - 0.5) * 20;
+        let z = Math.random() * -50;
+        // starVertices[i * 6] = x;
+        // starVertices[i * 6 + 1] = y;
+        starVertices[i * 6 + 2] = z;
+        // starVertices[i * 6 + 3] = x;
+        // starVertices[i * 6 + 4] = y;
+        starVertices[i * 6 + 5] = z + 1;
 
-    camera.position.z = 2.8;
-    resetParticles();
+        // let color = new THREE.Color(Math.random(), Math.random(), Math.random());
+        starColors[i * 6] = pastelColor.r;
+        starColors[i * 6 + 1] = pastelColor.g;
+        starColors[i * 6 + 2] = pastelColor.b;
+        starColors[i * 6 + 3] = pastelColor.r;
+        starColors[i * 6 + 4] = pastelColor.g;
+        starColors[i * 6 + 5] = pastelColor.b;
+      }
+      geometry.attributes.position.needsUpdate = true;
+      geometry.attributes.color.needsUpdate = true;
+    };
 
-    const render = (): void => {
-      requestAnimationFrame(render);
-      animateParticles();
+    // Animate Warp Effect
+    const animate = () => {
+      const delta = clock.getDelta();
+      lala++;
+      requestAnimationFrame(animate);
+      let positions = starField.geometry.attributes.position.array;
+      let colors = starField.geometry.attributes.color.array;
+      const colorHsl: ColorHSL = generatePastelColor();
+      const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
+      if(positions[positions.length-1] > 5) {
+        // reset();
+        // return;
+      }
+      for (let i = 0; i < positions.length; i += 6) {
+        positions[i + 2] += delta*10; // Move stars closer
+        positions[i + 5] += delta*10;
+
+        //reset z coordinates
+        if (positions[i + 2] > 5) {
+          positions[i + 2] = -50;
+          positions[i + 5] = -49.8;
+          // console.log(i);
+          // break;
+        }
+        if (lala === 200) {
+          lala = 0;
+          resetStars();
+          break;
+        }
+      }
+      starField.geometry.attributes.position.needsUpdate = true;
+      starField.geometry.attributes.color.needsUpdate = true;
       renderer.render(scene, camera);
     };
-    render();
+
+    animate();
+
+    // Handle Resize
+    const handleResize = () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    };
+    window.addEventListener('resize', handleResize);
+
     return () => {
-
-      // canvasRef.current.removeChild(renderer.domElement);
-      // window.removeEventListener("resize", handleResize);
-      particles.dispose();
-      particleMaterial.dispose();
-      scene.remove(particleSystem);
-      renderer.dispose();
-
+      mountRef.current.removeChild(renderer.domElement);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
-  return (
-    <canvas
-      ref={canvasRef}
-      width={window.innerWidth}
-      height={window.innerHeight}
-      style={{position: "absolute", top: "0", right: "0"}}
-    />
-  );
+
+  return <div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}} />;
 };
 
-export default GameOver;
+export default WarpStarField;

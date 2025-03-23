@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import MilkyWay from "@/components/MilkyWay";
 import LorenzAttractor from "@/components/LorenzAttractor";
+import GameOver from "@/components/GameOver";
 
 const NUM_STARS: number = 100;
 
@@ -73,7 +74,10 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       {/*{background === LevelWinBackgrounds["level_1"] && (*/}
       {/*  <div className="stars"><MilkyWay/></div>*/}
       {/*)}*/}
-      <div className="stars"><LorenzAttractor/></div>
+      <div className="stars">
+        <LorenzAttractor/>
+        {/*<GameOver/>*/}
+      </div>
 
       {children}
     </body>
