@@ -2,6 +2,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import FPSStats from "react-fps-stats";
 function getColorFromTime(time) {
   let index = Math.floor(time * colorPalette.length) % colorPalette.length;
   return colorPalette[index];
@@ -67,7 +68,7 @@ const LorenzAttractor = () => {
     const sigma = 10.0, rho = 28.0, beta = 8.0 / 3.0;
 
     const geometry = new THREE.BufferGeometry();
-    const maxPoints = 5000;
+    const maxPoints = 6000;
     const vertices = new Float32Array(maxPoints * 3);
     const colors = new Float32Array(maxPoints * 3);
 
@@ -80,8 +81,8 @@ const LorenzAttractor = () => {
     });
     const pointCloud = new THREE.Points(geometry, material);
     scene.add(pointCloud);
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    // const controls = new OrbitControls(camera, renderer.domElement);
+    // controls.enableDamping = true;
 
     let index = 0;
     let time = 0;
@@ -92,21 +93,22 @@ const LorenzAttractor = () => {
       time += 0.05;
       requestAnimationFrame(animate);
       if(animationStarted) {
+        // let colorsA = geometry.getAttribute("color");
 
         if (index < maxPoints) {
-          let dx = sigma * (y - x) * deltaTime*0.3;
-          let dy = (x * (rho - z) - y) * deltaTime*0.3;
-          let dz = (x * y - beta * z) * deltaTime*0.5;
+          let dx = sigma * (y - x) * 0.01;
+          let dy = (x * (rho - z) - y) * 0.01;
+          let dz = (x * y - beta * z) * 0.01;
           x += dx;
           y += dy;
           z += dz;
           const rippleFactor = Math.sin(time * 0.05);
           const speed = Math.max(9, Math.min(12, Math.sqrt(dx * dx + dy * dy + dz * dz) * 8)); // Speed at each point
           // console.log(speed / 20);
-          const color = new THREE.Color().setHSL(speed / 20, 1, 0.5); // Color based on speed
-          vertices[index * 3] = x;
+          const color = new THREE.Color().setHSL(speed / 20, 1, 0.6); // Color based on speed
+          vertices[index * 3] = x + rippleFactor * Math.sin(time + index);
           vertices[index * 3 + 1] = y + rippleFactor * Math.sin(time + index);
-          vertices[index * 3 + 2] = z + rippleFactor * Math.cos(time + index);
+          vertices[index * 3 + 2] = z;
 
 
           // let r = Math.abs(Math.sin(x)) * 255;
@@ -126,49 +128,78 @@ const LorenzAttractor = () => {
           // let r,g,b;
 
           // Generate the gradient from Cyan (#00FFFF) to Orange (#FFA500)
-          let r = Math.min(x / 30 + 0.3, 0.5);//Math.min(Math.max(x/20 + 0.5, 0.5), 0.9);
-          let g = 1;
-          let b = Math.min(z / 30 + 0.3, 0.5);
-          if (r === 0.5) {
-            r = 1;
-            g = 0.5;
+          let r = x / 30 + 0.5;
+          let g = y / 30 + 0.5;
+          let b = z / 30 + 0.5;
+          const lala = new THREE.Color().setHSL(r,g,b);
+          // if (r === 0.7) {
+          //   r = 0.8;
+          //   g = 0.4;
+          // }
+          // if (b === 0.7) {
+          //   b = 0.8;
+          //   g = 0.4;
+          // }
+          // console.log(r,g,b);
+          // colorsA.setXYZ(x / 30 + 0.5,y / 30 + 0.5,z / 30 + 0.5);
+          // geometry.attributes.color.setXYZ(index,x / 30 + 0.5, y / 30 + 0.5, z / 30 + 0.5);
+          // let r,g,b;
+          if (x<0) {
+            r = 0;
+            g = 1-deltaTime*10;
+            b =  1-deltaTime*10;
+            // colors.push(0, 1, 1); // Cyan
+          } else {
+            r = 1-deltaTime*10;
+            g = 0.4+deltaTime*10;
+            b =  0.6+deltaTime*10;
           }
-          if (b === 0.5) {
-            b = 0.8;
-            g = 0.5;
-          }
-
-          colors[index * 3] = r; // Ranges red
-          colors[index * 3 + 1] = g; // Green for a smooth gradient
-          colors[index * 3 + 2] = b; // Blue for contrast
-          console.log(r, g, b);
-          // hue
+          console.log(r,g,b, "check");
+          // if (r === 0.5) {
+          //   r = 1;
+          //   g = 0.5;
+          //
+          // }
+          // if (b === 0.6) {
+          //   b = 0.8;
+          //   g = 0.5;
+          // }
+          geometry.attributes.color.setXYZ(index,r,g,b);
+          // colors[index * 3] = 1; // Ranges red
+          // colors[index * 3 + 1] = 1; // Green for a smooth gradient
+          // colors[index * 3 + 2] = b; // Blue for contrast
+          // console.log(r, g, b);
+          // // hue
           // colors.push(hue, 1 - hue, 0.5); //
           // colors[index * 3 + 3] = 1; // Blue for contrast
           // colors.push(color.r, color.g, color.b);
           // material.opacity = 0.4 + index/5000;
           // material.size = 0.1 + 0.05 * Math.sin(index/5000); // Size puls
-
           geometry.attributes.position.needsUpdate = true;
           geometry.attributes.color.needsUpdate = true;
+
           // material.needsUpdate = true;
           index++;
         }
 
-        pointCloud.rotation.z -= 0.001;
-        // pointCloud.rotation.x += 0.0001;
+        pointCloud.rotation.z += 0.0005;
+        // pointCloud.rotation.y += 0.001;
+        // pointCloud.rotation.x += 0.0005;
         renderer.render(scene, camera);
-        controls.update();
+        // points.rotation.x += 0.005;
+        // points.rotation.y += 0.005;
+        // points.rotation.z += 0.002;
+        // controls.update();
       }
     };
 
     animate();
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      material.size = window.innerWidth < 768 ? 0.2 : 0.2;
+      // camera.aspect = window.innerWidth / window.innerHeight;
+      // camera.updateProjectionMatrix();
+      // renderer.setSize(window.innerWidth, window.innerHeight);
+      // material.size = window.innerWidth < 768 ? 0.2 : 0.2;
     };
 
     window.addEventListener("resize", handleResize);
@@ -190,10 +221,12 @@ const LorenzAttractor = () => {
     };
   }, [animationStarted]);
 
-  return <canvas
+  return <>
+    <FPSStats/>
+    <canvas
     ref={mountRef}
     style={{position: "absolute", top: "0", right: "0"}}
-  />
+  /></>
 };
 
 export default LorenzAttractor;

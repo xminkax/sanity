@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import {Color} from "three";
 import {ColorHSL, generatePastelColor, generateSimilarShadeColorForParticles} from "@/lib/snake/color";
+import FPSStats from "react-fps-stats";
+
 
 const WarpStarField = () => {
   const mountRef = useRef(null);
-  let lala = 0;
+  let resetCounter = 0;
   const clock = new THREE.Clock();
   useEffect(() => {
     // Scene, Camera, Renderer
@@ -53,8 +55,6 @@ const WarpStarField = () => {
 
       for (let i = 0; i < stars; i++) {
         const pastelColor: Color = generateSimilarShadeColorForParticles(color);
-        let x = (Math.random() - 0.5) * 20;
-        let y = (Math.random() - 0.5) * 20;
         let z = Math.random() * -50;
         // starVertices[i * 6] = x;
         // starVertices[i * 6 + 1] = y;
@@ -78,7 +78,7 @@ const WarpStarField = () => {
     // Animate Warp Effect
     const animate = () => {
       const delta = clock.getDelta();
-      lala++;
+      resetCounter++;
       requestAnimationFrame(animate);
       let positions = starField.geometry.attributes.position.array;
       let colors = starField.geometry.attributes.color.array;
@@ -99,8 +99,8 @@ const WarpStarField = () => {
           // console.log(i);
           // break;
         }
-        if (lala === 200) {
-          lala = 0;
+        if (resetCounter === 200) {
+          resetCounter = 0;
           resetStars();
           break;
         }
@@ -126,7 +126,7 @@ const WarpStarField = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}} />;
+  return <><div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}} /><FPSStats /></>;
 };
 
 export default WarpStarField;
