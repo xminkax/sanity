@@ -18,7 +18,7 @@ export default function GameOverMobile() {
       >
         Game over
       </h1>
-      <div className="animate-snake">~~~~~~~~~🐍</div>
+      {/*<div className="animate-snake">~~~~~~~~~🐍</div>*/}
       <button className="mt-6 px-6 py-3 reset-btn text-2xl">Restart</button>
     </div>
   );
