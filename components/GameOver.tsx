@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import {Color} from "three";
-import {ColorHSL, generatePastelColor, generateSimilarShadeColorForParticles} from "@/lib/snake/color";
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { Color } from "three";
+import {
+  ColorHSL,
+  generatePastelColor,
+  generateSimilarShadeColorForParticles,
+} from "@/lib/snake/color";
 import FPSStats from "react-fps-stats";
-
 
 const WarpStarField = () => {
   const mountRef = useRef(null);
@@ -12,10 +15,15 @@ const WarpStarField = () => {
   useEffect(() => {
     // Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
     camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer({antialias: true, alpha:true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
@@ -36,13 +44,20 @@ const WarpStarField = () => {
 
       const pastelColor: Color = generateSimilarShadeColorForParticles(color);
       // let pastelColor = new THREE.Color(Math.random(), Math.random(), Math.random());
-      starColors.push(pastelColor.r, pastelColor.g, pastelColor.b, pastelColor.r, pastelColor.g, pastelColor.b);
+      starColors.push(
+        pastelColor.r,
+        pastelColor.g,
+        pastelColor.b,
+        pastelColor.r,
+        pastelColor.g,
+        pastelColor.b,
+      );
     }
 
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(starVertices, 3));
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(starColors, 3));
 
-    const lineMaterial = new THREE.LineBasicMaterial({vertexColors: true});
+    const lineMaterial = new THREE.LineBasicMaterial({ vertexColors: true });
     const starField = new THREE.LineSegments(geometry, lineMaterial);
     scene.add(starField);
 
@@ -51,7 +66,6 @@ const WarpStarField = () => {
       let starColors = starField.geometry.attributes.color.array;
       const colorHsl: ColorHSL = generatePastelColor();
       const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
-
 
       for (let i = 0; i < stars; i++) {
         const pastelColor: Color = generateSimilarShadeColorForParticles(color);
@@ -84,13 +98,13 @@ const WarpStarField = () => {
       let colors = starField.geometry.attributes.color.array;
       const colorHsl: ColorHSL = generatePastelColor();
       const color: Color = new THREE.Color().setHSL(colorHsl.h, colorHsl.s, colorHsl.l);
-      if(positions[positions.length-1] > 5) {
+      if (positions[positions.length - 1] > 5) {
         // reset();
         // return;
       }
       for (let i = 0; i < positions.length; i += 6) {
-        positions[i + 2] += delta*10; // Move stars closer
-        positions[i + 5] += delta*10;
+        positions[i + 2] += delta * 10; // Move stars closer
+        positions[i + 5] += delta * 10;
 
         //reset z coordinates
         if (positions[i + 2] > 5) {
@@ -118,15 +132,20 @@ const WarpStarField = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
       mountRef.current.removeChild(renderer.domElement);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  return <><div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}} /><FPSStats /></>;
+  return (
+    <>
+      <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />
+      <FPSStats />
+    </>
+  );
 };
 
 export default WarpStarField;

@@ -1,20 +1,26 @@
-import React, {useEffect, useRef} from 'react';
-import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const MilkyWay = () => {
   const mountRef = useRef(null);
 
   useEffect(() => {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
     const renderer = new THREE.WebGLRenderer({ canvas: mountRef.current });
     renderer.setSize(window.innerWidth, window.innerHeight);
     // mountRef.current.appendChild(renderer.domElement);
 
     const textureLoader = new THREE.TextureLoader();
-    const alphaMap = textureLoader.load("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/sprites/circle.png");
-
+    const alphaMap = textureLoader.load(
+      "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/sprites/circle.png",
+    );
 
     // Particle system (Milky Way stars)
     const starsGeometry = new THREE.BufferGeometry();
@@ -36,7 +42,7 @@ const MilkyWay = () => {
       colors[i * 3 + 2] = color.b;
     }
 
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    starsGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     starsGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     const starsMaterial = new THREE.PointsMaterial({
       size: 0.2,
@@ -44,7 +50,7 @@ const MilkyWay = () => {
       transparent: true,
       alphaMap: alphaMap,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
     });
     const stars = new THREE.Points(starsGeometry, starsMaterial);
     scene.add(stars);
@@ -71,18 +77,17 @@ const MilkyWay = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
     };
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener("resize", onWindowResize);
 
     return () => {
       // mountRef.current.removeChild(renderer.domElement);
-      window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener("resize", onWindowResize);
     };
   }, []);
 
-  return <canvas
-    ref={mountRef}
-    style={{width: '100vw', position: "absolute", top: "0", left: "0"}}
-  />
+  return (
+    <canvas ref={mountRef} style={{ width: "100vw", position: "absolute", top: "0", left: "0" }} />
+  );
 };
 
 export default MilkyWay;

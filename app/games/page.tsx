@@ -41,7 +41,6 @@ export default function Games() {
     <>
       {/*<LorenzAttractor/>*/}
       <div
-
         style={{
           display: "flex",
           justifyContent: "center",

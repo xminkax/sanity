@@ -1,7 +1,7 @@
 "use client";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import FPSStats from "react-fps-stats";
 function getColorFromTime(time) {
   let index = Math.floor(time * colorPalette.length) % colorPalette.length;
@@ -10,14 +10,13 @@ function getColorFromTime(time) {
 const colorPalette = [
   new THREE.Color(65 / 255, 105 / 255, 225 / 255), // Base Royal Blue
   new THREE.Color(106 / 255, 144 / 255, 241 / 255), // Lighter Blue
-  new THREE.Color(31 / 255, 60 / 255, 126 / 255),  // Darker Blue
+  new THREE.Color(31 / 255, 60 / 255, 126 / 255), // Darker Blue
   new THREE.Color(58 / 255, 107 / 255, 155 / 255), // Muted Blue
-  new THREE.Color(76 / 255, 128 / 255, 179 / 255)  // Desaturated Blue
+  new THREE.Color(76 / 255, 128 / 255, 179 / 255), // Desaturated Blue
 ];
 function getBlueGradient(t) {
   // t goes from 0 to 1
   let r, g, b;
-
 
   if (t < 0.33) {
     // Dark Red → Mid Orange
@@ -46,37 +45,52 @@ const LorenzAttractor = () => {
   const [animationStarted, setAnimationStarted] = useState(false);
   const clock = new THREE.Clock();
 
-
   useEffect(() => {
     setTimeout(() => {
       setAnimationStarted(true);
-    }, 0); // 3 seconds delay
+    }, 8000); // 3 seconds delay
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000,
+    );
     camera.position.set(0, 0, 80);
     // scene.background = new THREE.Color(0x111111);
 
-    const renderer = new THREE.WebGLRenderer({canvas: mountRef.current, antialias: true, alpha:true });
+    const renderer = new THREE.WebGLRenderer({
+      canvas: mountRef.current,
+      antialias: true,
+      alpha: true,
+    });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     // scene.fog = new THREE.Fog(0xffffff, 1, 1500);
     // mountRef.current.appendChild(renderer.domElement);
 
     const points = [];
-    let x = 2, y = 2, z = 2;
+    let x = 2,
+      y = 2,
+      z = 2;
     const dt = 0.02;
-    const sigma = 10.0, rho = 28.0, beta = 8.0 / 3.0;
+    const sigma = 10.0,
+      rho = 28.0,
+      beta = 8.0 / 3.0;
 
     const geometry = new THREE.BufferGeometry();
     const maxPoints = 6000;
     const vertices = new Float32Array(maxPoints * 3);
     const colors = new Float32Array(maxPoints * 3);
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
-      vertexColors: true, size: window.innerWidth < 768 ? 0.2 : 0.2, opacity: 1, fog: true
+      vertexColors: true,
+      size: window.innerWidth < 768 ? 0.2 : 0.2,
+      opacity: 1,
+      fog: true,
       // transparent: true
     });
     const pointCloud = new THREE.Points(geometry, material);
@@ -92,7 +106,7 @@ const LorenzAttractor = () => {
 
       time += 0.05;
       requestAnimationFrame(animate);
-      if(animationStarted) {
+      if (animationStarted) {
         // let colorsA = geometry.getAttribute("color");
 
         if (index < maxPoints) {
@@ -109,7 +123,6 @@ const LorenzAttractor = () => {
           vertices[index * 3] = x + rippleFactor * Math.sin(time + index);
           vertices[index * 3 + 1] = y + rippleFactor * Math.sin(time + index);
           vertices[index * 3 + 2] = z;
-
 
           // let r = Math.abs(Math.sin(x)) * 255;
           // let g = Math.abs(Math.sin(y)) * 255;
@@ -131,7 +144,7 @@ const LorenzAttractor = () => {
           let r = x / 30 + 0.5;
           let g = y / 30 + 0.5;
           let b = z / 30 + 0.5;
-          const lala = new THREE.Color().setHSL(r,g,b);
+          const lala = new THREE.Color().setHSL(r, g, b);
           // if (r === 0.7) {
           //   r = 0.8;
           //   g = 0.4;
@@ -144,17 +157,17 @@ const LorenzAttractor = () => {
           // colorsA.setXYZ(x / 30 + 0.5,y / 30 + 0.5,z / 30 + 0.5);
           // geometry.attributes.color.setXYZ(index,x / 30 + 0.5, y / 30 + 0.5, z / 30 + 0.5);
           // let r,g,b;
-          if (x<0) {
+          if (x < 0) {
             r = 0;
-            g = 0.6+deltaTime*10;
-            b =  1-deltaTime*10;
+            g = 0.6 + deltaTime * 10;
+            b = 1 - deltaTime * 10;
             // colors.push(0, 1, 1); // Cyan
           } else {
-            r = 1-deltaTime*10;
-            g = 0.4+deltaTime*10;
-            b =  0.6+deltaTime*10;
+            r = 1 - deltaTime * 10;
+            g = 0.4 + deltaTime * 10;
+            b = 0.6 + deltaTime * 10;
           }
-          console.log(r,g,b, "check");
+          console.log(r, g, b, "check");
           // if (r === 0.5) {
           //   r = 1;
           //   g = 0.5;
@@ -164,7 +177,7 @@ const LorenzAttractor = () => {
           //   b = 0.8;
           //   g = 0.5;
           // }
-          geometry.attributes.color.setXYZ(index,r,g,b);
+          geometry.attributes.color.setXYZ(index, r, g, b);
           // colors[index * 3] = 1; // Ranges red
           // colors[index * 3 + 1] = 1; // Green for a smooth gradient
           // colors[index * 3 + 2] = b; // Blue for contrast
@@ -205,7 +218,7 @@ const LorenzAttractor = () => {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if(!mountRef.current) {
+      if (!mountRef.current) {
         return;
       }
       try {
@@ -215,18 +228,16 @@ const LorenzAttractor = () => {
         material.dispose();
         scene.remove(pointCloud);
         renderer.dispose();
-      } catch(e) {
-
-      }
+      } catch (e) {}
     };
   }, [animationStarted]);
 
-  return <>
-    <FPSStats/>
-    <canvas
-    ref={mountRef}
-    style={{position: "absolute", top: "0", right: "0"}}
-  /></>
+  return (
+    <>
+      <FPSStats />
+      <canvas ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />
+    </>
+  );
 };
 
 export default LorenzAttractor;
