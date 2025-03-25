@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Space_Mono } from "next/font/google";
+import {Space_Mono} from "next/font/google";
 
 const rajdhani = Space_Mono({
   subsets: ["latin"],
@@ -10,13 +10,14 @@ const rajdhani = Space_Mono({
 interface Props {
   texts: string[];
   title: string;
+  isOffsetAnimation: boolean,
   button: {
     label: string;
     url: string;
   };
 }
 
-const Panel: React.FC<Props> = ({ texts, title, button }) => {
+const Panel: React.FC<Props> = ({texts, title, button, isOffsetAnimation = false}) => {
   return (
     <section
       className={`sm:p-6 p-4 panel relative backdrop-blur-lg backdrop-filter sm:mb-12 mb-7 flex flex-col fade-in mx-4 el max-w-[48rem] self-center`}
@@ -33,7 +34,7 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
           <p
             key={key}
             className={`text-textColor sm:my-4 my-3 sm:text-base text-sm panel__description ${rajdhani.className}`}
-            dangerouslySetInnerHTML={{ __html: item }}
+            dangerouslySetInnerHTML={{__html: item}}
           />
         ))
       }
@@ -52,7 +53,7 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
           {button.label}
         </a>
       </div>
-      <div className="border-beam" />
+      {isOffsetAnimation && <div className="border-beam"/>}
     </section>
   );
 };
