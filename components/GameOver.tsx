@@ -6,7 +6,7 @@ import {
   generatePastelColor,
   generateSimilarShadeColorForParticles,
 } from "@/lib/snake/color";
-import FPSStats from "react-fps-stats";
+// import FPSStats from "react-fps-stats";
 
 const WarpStarField = () => {
   const mountRef = useRef(null);
@@ -143,7 +143,6 @@ const WarpStarField = () => {
   return (
     <>
       <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />
-      <FPSStats />
     </>
   );
 };
