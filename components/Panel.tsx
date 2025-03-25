@@ -10,7 +10,7 @@ const rajdhani = Space_Mono({
 interface Props {
   texts: string[];
   title: string;
-  isOffsetAnimation: boolean,
+  isOffsetAnimation?: boolean,
   button: {
     label: string;
     url: string;
