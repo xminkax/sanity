@@ -6,7 +6,11 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import MilkyWay from "@/components/MilkyWay";
 import LorenzAttractor from "@/components/LorenzAttractor";
+import LorenzAttractor2 from "@/components/LorenzAttractor2";
 import GameOver from "@/components/GameOver";
+import Galaxy from "@/components/NightSky";
+import NightSky from "@/components/NightSky";
+import IcelandicSky from "@/components/IcelandicSky";
 
 const NUM_STARS: number = 100;
 
@@ -60,22 +64,26 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
           </div>
         </>
       )}
-        {/*{background === LevelWinBackgrounds["level_0"] && (*/}
-        {/*  <div className="stars">{generateStars()}</div>*/}
-        {/*)}*/}
-        {/*{background === LevelWinBackgrounds["level_2"] && (*/}
-        {/*  <div className="stars">*/}
-        {/*    <div className="sky">*/}
-        {/*      <div className="star-snake"></div>*/}
-        {/*    </div>*/}
-        {/*    {generateStars()}*/}
-        {/*  </div>*/}
-        {/*)}*/}
+      {/*{background === LevelWinBackgrounds["level_0"] && (*/}
+      {/*  <div className="stars">{generateStars()}</div>*/}
+      {/*)}*/}
+      {/*{background === LevelWinBackgrounds["level_2"] && (*/}
+      {/*  <div className="stars">*/}
+      {/*    <div className="sky">*/}
+      {/*      <div className="star-snake"></div>*/}
+      {/*    </div>*/}
+      {/*    {generateStars()}*/}
+      {/*  </div>*/}
+      {/*)}*/}
       {/*{background === LevelWinBackgrounds["level_1"] && (*/}
       {/*  <div className="stars"><MilkyWay/></div>*/}
       {/*)}*/}
       <div className="stars">
-        <LorenzAttractor/>
+        {/*<LorenzAttractor />*/}
+        {/*<IcelandicSky/>*/}
+        {/*<NightSky/>*/}
+        <LorenzAttractor2/>
+        {/*<NightSky/>*/}
         {/*<GameOver/>*/}
       </div>
 

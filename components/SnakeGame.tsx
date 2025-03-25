@@ -22,7 +22,7 @@ const generateFoodPosition = (canvasWidth, canvasHeight, unitSize) => {
   };
 };
 
-export default function SnakeGame({ gameState, win, startGame, gameOver, level }) {
+export default function SnakeGame({ gameState, win, startGame = {}, gameOver, level }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState(null);
   const [startX, setStartX] = useState(null);
@@ -302,13 +302,15 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
             ref={canvasRef}
             width={canvasConfig.width}
             height={canvasConfig.height}
-            style={{
-              // border: "8px solid",
-              // borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
-              // touchAction: "none",
-              // backgroundColor: "rgba(182, 255, 198, 1)",
-              // zIndex: 2,
-            }}
+            style={
+              {
+                // border: "8px solid",
+                // borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
+                // touchAction: "none",
+                // backgroundColor: "rgba(182, 255, 198, 1)",
+                // zIndex: 2,
+              }
+            }
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
           />
