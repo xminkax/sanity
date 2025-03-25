@@ -98,6 +98,12 @@ body {
   }
 }
 
+@keyframes remove-border {
+  to {
+    border-color: rgba(240, 150, 132, 0);
+  }
+}
+
 /* typewriter effect end */
 
 .btn-snake {

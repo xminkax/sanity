@@ -18,7 +18,7 @@ const LorenzAttractor = () => {
       0.1,
       1000
     );
-    camera.position.set(0, -10, 70);
+    camera.position.set(0, 0, 70);
 
     const renderer = new THREE.WebGLRenderer({
       canvas: mountRef.current,
@@ -29,7 +29,7 @@ const LorenzAttractor = () => {
     document.body.appendChild(renderer.domElement);
 
     // Create a dynamic buffer for the drawn points
-    const maxPoints = 10000;
+    const maxPoints = 12000;
     const positions = new Float32Array(maxPoints * 3);
     const colors = new Float32Array(maxPoints * 3);
 
@@ -102,7 +102,7 @@ const LorenzAttractor = () => {
     const beta = 8.0 / 3.0;
     const dt = 0.005;
     let time = 0;
-    let pointsPerFrame = 2;
+    let pointsPerFrame = 3;
 
     // Animation loop: compute a new point every frame and update the buffer
     const animate = () => {
@@ -132,13 +132,13 @@ const LorenzAttractor = () => {
           let b = z / 30 + 0.5;
           if (x < 0) {
             r = 0;
-            g = 0.6 + deltaTime * 10;
+            g = 0.6;
             b = 1 - deltaTime * 10;
             // colors.push(0, 1, 1); // Cyan
           } else {
-            r = 1 - deltaTime * 10;
-            g = 0.4 + deltaTime * 10;
-            b = 0.6 + deltaTime * 10;
+            r = 1  - deltaTime * 10;
+            g = 0.4;
+            b = 0.7;
           }
           positions[count * 3 + 2] = z;
 
@@ -176,7 +176,7 @@ const LorenzAttractor = () => {
     };
   }, []);
 
-  return <canvas ref={mountRef} style={{position: "absolute", top: "0", right: "0" ,zIndex: -2}}/>
+  return <canvas ref={mountRef} style={{position: "absolute", top: "0", right: "0" ,zIndex: -1}}/>
 };
 
 export default LorenzAttractor;

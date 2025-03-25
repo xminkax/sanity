@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
   const text = pathname === "/games" && pressStart2P.className;
   return (
     <header
-      className={`${pathname === "/games" && "text-[#F0E6D2]"}  header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-10 backdrop-blur-md sm:h-[4rem] h-[3.4rem]`}
+      className={`${pathname === "/games" && "text-[#F0E6D2]"} header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-20 backdrop-blur-md sm:h-[4rem] h-[3.4rem]`}
     >
       <div className="">
         <Link href="/">
