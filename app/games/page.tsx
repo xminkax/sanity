@@ -71,22 +71,22 @@ export default function Games() {
             />
           </div>
         )}
-        {gameState === GameState.WIN && (
-          <div className="snake-animated-state">
-            <NextLevel
-              handleNextLevel={() => {
-                setGameState(GameState.PLAYING);
-              }}
-              nextLevel={Number(levelWin) + 1}
-              // resetGame={resetGame}
-            />
-          </div>
-        )}
-        {gameState === GameState.GAME_OVER && (
-          <div className="snake-animated-state">
-            <GameOverMobile resetGame={resetGame} />
-          </div>
-        )}
+        {/*{gameState === GameState.WIN && (*/}
+        {/*  <div className="snake-animated-state">*/}
+        {/*    <NextLevel*/}
+        {/*      handleNextLevel={() => {*/}
+        {/*        setGameState(GameState.PLAYING);*/}
+        {/*      }}*/}
+        {/*      nextLevel={Number(levelWin) + 1}*/}
+        {/*      // resetGame={resetGame}*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*)}*/}
+        {/*{gameState === GameState.GAME_OVER && (*/}
+        {/*  <div className="snake-animated-state">*/}
+        {/*    /!*<GameOverMobile resetGame={resetGame} />*!/*/}
+        {/*  </div>*/}
+        {/*)}*/}
       </div>
     </>
   );
