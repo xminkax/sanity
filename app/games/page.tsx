@@ -78,7 +78,7 @@ export default function Games() {
                 setGameState(GameState.PLAYING);
               }}
               nextLevel={Number(levelWin) + 1}
-              resetGame={resetGame}
+              // resetGame={resetGame}
             />
           </div>
         )}
