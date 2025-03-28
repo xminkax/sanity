@@ -1,3 +1,6 @@
+// background effect is using perlin noise: https://en.wikipedia.org/wiki/Perlin_noise and fbm: https://en.wikipedia.org/wiki/Fractional_Brownian_motion based on chatgpt and my code
+// aurora in front is using kind of fbm and kind of noise with a pattern based on triangular waves from here: https://www.shadertoy.com/view/XtGGRt
+
 uniform float iTime;
 uniform vec2 iResolution;
 
@@ -27,7 +30,7 @@ float noise(vec2 p) {
     return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
 }
 
-float fbm(vec2 p) {
+float fbmBackground(vec2 p) {
     float v = 0.0;
     float a = 0.5;
     for (int i = 0; i < 5; i++) {
@@ -75,14 +78,13 @@ float fbmAurora(vec2 p) {
 }
 
 void main() {
-
+    // background effect aurora
     vec2 uv = gl_FragCoord.xy / iResolution.xy;
     uv.y = pow(uv.y, 0.4) * 0.8; // Curve to form an arc
     uv.x += sin(uv.y * PI) * 0.1; // Create a banded effect
 
     float time = iTime * 0.0002;
     float n = fbmAurora(vec2(uv.x * 1.6, uv.y * 1.0));
-
 
     float wave = sin(uv.y * 1.2 + n * 0.8 * 1.2) * 0.5 + 0.8;
 
@@ -104,13 +106,15 @@ void main() {
 
     auroraColor = mix(auroraColor, auroraColors[4], pow(uv.y, 3.0));
 
+    // stars
     vec3 background = nightSky(uv);
     vec3 finalColor = mix(background, auroraColor, intensity);
 
+    //aurora
     uv.y = pow(uv.y, 0.8) * 0.6; // Curve to form an arc
     uv.x += sin(uv.y * PI) * 2.2; // Create a banded effect
     time = iTime * 0.4;
-    float n2 = fbm(vec2(uv.x * 5.0, uv.y * 10.0 + time));
+    float n2 = fbmBackground(vec2(uv.x * 5.0, uv.y * 10.0 + time));
 
     float wave2 = sin(uv.y * 10.0 + n2 * 3.0 + time * 5.0) * 0.2 + 0.8;
     float intensity2 = smoothstep(0.2, 0.9, wave2 * n2);
@@ -133,7 +137,6 @@ void main() {
 
     vec3 background2 = nightSky(uv);
     vec3 finalColor2 = mix(finalColor, auroraColor2, intensity2);
-
 
     gl_FragColor = vec4(finalColor2, 1.0);
 }
