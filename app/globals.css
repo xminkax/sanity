@@ -16,7 +16,12 @@ html {
 
 body {
   color: var(--heading-color);
+  margin: 0 !important;
+  padding: 0 !important;
+  /*overflow: hidden;*/
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
+  /*background: linear-gradient(10deg, rgba(255, 182, 194, 1) 20%, rgba(50, 152, 138, 1) 40%, rgba(0, 14, 60, 1) 70%) transparent;*/
+
 }
 
 .games {
@@ -102,6 +107,28 @@ body {
   to {
     border-color: rgba(240, 150, 132, 0);
   }
+}
+
+:root {
+  --color-1: chartreuse;
+  --color-2: magenta;
+  --color-3: cyan;
+  --color-4: black;
+
+  --aura-size: 200%;
+  --aura-speed: 15s;
+
+  --aura-1: var(--color-1);
+  --aura-2: var(--color-2);
+  --aura-3: var(--color-3);
+  --aura-4: var(--color-4);
+}
+
+.play4 {
+
+
+
+
 }
 
 /* typewriter effect end */
