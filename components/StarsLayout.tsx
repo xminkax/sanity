@@ -5,12 +5,16 @@ import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import MilkyWay from "@/components/MilkyWay";
-import LorenzAttractor from "@/components/LorenzAttractor";
+import LorenzAttractor from "@/components/LorenzAttractor2";
 import LorenzAttractor2 from "@/components/LorenzAttractor2";
+import PostProcess from "@/components/PostProcess";
 import GameOver from "@/components/GameOver";
 import Galaxy from "@/components/NightSky";
 import NightSky from "@/components/NightSky";
 import IcelandicSky from "@/components/IcelandicSky";
+import Playground from "@/components/Particles";
+// import Nehe2_19 from "@/components/Nehe19Works";
+// import Nehe2_19 from "@/components/nehe2_19";
 
 const NUM_STARS: number = 100;
 
@@ -28,13 +32,7 @@ const generateStars = (): JSX.Element[] => {
       top: Math.random() * 100 + "vh",
     };
 
-    return (
-      <div
-        key={index}
-        className={["star", index % 20 === 0 ? " yellow-star" : ""].join("")}
-        style={starStyle}
-      ></div>
-    );
+    return <div key={index} className="star" style={starStyle}></div>;
   });
 };
 
@@ -79,10 +77,15 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       {/*  <div className="stars"><MilkyWay/></div>*/}
       {/*)}*/}
       <div className="stars">
-        {/*<LorenzAttractor />*/}
+        {generateStars()}
+        <LorenzAttractor />
         {/*<IcelandicSky/>*/}
         {/*<NightSky/>*/}
-        <LorenzAttractor2/>
+        {/*<Playground />*/}
+        {/*<PostProcess/>*/}
+        {/*<Nehe2_19/>*/}
+        {/*<IcelandicSky/>*/}
+        {/*<LorenzAttractor2/>*/}
         {/*<NightSky/>*/}
         {/*<GameOver/>*/}
       </div>

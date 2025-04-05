@@ -1,5 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
-import * as THREE from 'three';
+import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import vertexShader from "@/components/Particles/Stars.vert";
+import fragmentShader from "@/components/Particles/Stars.frag";
+import FPSStats from "react-fps-stats";
 
 const LorenzAttractor = () => {
   const clock = new THREE.Clock();
@@ -16,9 +19,10 @@ const LorenzAttractor = () => {
       75,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      1000,
     );
     camera.position.set(0, 0, 70);
+    camera.rotation.z = 10;
 
     const renderer = new THREE.WebGLRenderer({
       canvas: mountRef.current,
@@ -29,12 +33,14 @@ const LorenzAttractor = () => {
     document.body.appendChild(renderer.domElement);
 
     // Create a dynamic buffer for the drawn points
-    const maxPoints = 12000;
+    const maxPoints = 30000;
     const positions = new Float32Array(maxPoints * 3);
     const colors = new Float32Array(maxPoints * 3);
 
     // Start at an initial point for the Lorenz attractor
-    let x = 0.1, y = 0.0, z = 0.0;
+    let x = 0.1,
+      y = 0.0,
+      z = 0.0;
     // Place the first point
     positions[0] = x;
     positions[1] = y;
@@ -46,13 +52,11 @@ const LorenzAttractor = () => {
 
     // Create BufferGeometry and only draw up to the current count of points
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
     geometry.setDrawRange(0, count);
     let uniforms = {
-
-      pointTexture: {value: new THREE.TextureLoader().load('spark1.png')}
-
+      pointTexture: { value: new THREE.TextureLoader().load("spark1.png") },
     };
 
     // Custom shaders for styling the drawn points
@@ -63,7 +67,7 @@ const LorenzAttractor = () => {
       void main() {
         vColor = color;
         // Set a constant alpha for demonstration (could also vary by vertex)\n
-        vAlpha = 0.9;
+        vAlpha = 2.5;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         gl_PointSize = 3.0;
       }
@@ -88,8 +92,8 @@ const LorenzAttractor = () => {
 
       blending: THREE.AdditiveBlending,
       depthTest: false,
-      transparent: true,
-      vertexColors: true
+      // transparent: true,
+      vertexColors: true,
     });
 
     // Create the points object and add it to the scene
@@ -109,11 +113,12 @@ const LorenzAttractor = () => {
       // if(!animationStarted){
       //   return;
       // }
-      time += 0.05;
+
       const deltaTime = clock.getDelta();
+      time += deltaTime;
       requestAnimationFrame(animate);
       // if (animationStarted) {
-      for (let j = 0; j < pointsPerFrame; j++) {
+      for (let j = 0; j < Math.floor((pointsPerFrame * time) / 4); j++) {
         if (count < maxPoints) {
           // Euler integration for Lorenz equations
           const dx = sigma * (y - x) * dt;
@@ -125,20 +130,21 @@ const LorenzAttractor = () => {
 
           // Append the new point into the positions buffer
           const rippleFactor = 0;
-          positions[count * 3] = x + 0.01 * Math.sin(10 * count* dt);
+          positions[count * 3] = x + 0.01 * Math.sin(10 * count * dt);
           positions[count * 3 + 1] = y + 0.01 * Math.sin(10 * count * dt);
           let r = x / 30 + 0.5;
           let g = y / 30 + 0.5;
           let b = z / 30 + 0.5;
           if (x < 0) {
+            // Cyan shades
             r = 0;
-            g = 0.6;
-            b = 1 - deltaTime * 10;
-            // colors.push(0, 1, 1); // Cyan
+            g = 0.7;
+            b = 0.9 - deltaTime * 0.5; // Slight fade or variation in blue
           } else {
-            r = 1  - deltaTime * 10;
-            g = 0.4;
-            b = 0.7;
+            // Orange shades
+            r = 1;
+            g = 0.622 - deltaTime * 0.2; // Slight variation in green
+            b = 0.78; // Keep blue low for orange
           }
           positions[count * 3 + 2] = z;
 
@@ -156,27 +162,31 @@ const LorenzAttractor = () => {
       // points.rotation.y += 0.0005;
       points.rotation.z += 0.0005;
       renderer.render(scene, camera);
-    }
+    };
     // };
     const timeoutId = setTimeout(() => {
       animate();
-    }, 6000);
+    }, 5000);
 
     // Handle window resizing
     const onWindowResize = () => {
-      // camera.aspect = window.innerWidth / window.innerHeight;
-      // camera.updateProjectionMatrix();
-      // renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     };
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener("resize", onWindowResize);
 
     return () => {
-      window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener("resize", onWindowResize);
       document.body.removeChild(renderer.domElement);
     };
   }, []);
 
-  return <canvas ref={mountRef} style={{position: "absolute", top: "0", right: "0" ,zIndex: -1}}/>
+  return (
+    <>
+      <canvas ref={mountRef} style={{ position: "absolute", top: "0", right: "0", zIndex: -1 }} />
+    </>
+  );
 };
 
 export default LorenzAttractor;
