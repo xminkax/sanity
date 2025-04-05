@@ -1,18 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import FPSStats from "react-fps-stats";
-import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
-import ParticlesSystem from "@/components/Particles/Particles"; // Import OrbitControls
+import {PerspectiveCamera, Scene, WebGLRenderer} from "three";
+import ParticlesSystem from "@/components/Particles/Particles";
 import StarsSystem from "@/components/Particles/Stars";
-import Particles from "@/components/Particles/Particles";
-import Stars from "@/components/Particles/Stars"; // Import OrbitControls
 
 const ParticleSystem = () => {
-  const mountRef = useRef(null);
+  const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = new THREE.Clock();
 
   useEffect(() => {
+    if (!mountRef.current) {
+      return;
+    }
     const scene: Scene = new THREE.Scene();
     const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
       75,
@@ -20,16 +21,16 @@ const ParticleSystem = () => {
       1,
       2000,
     );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    mountRef.current.appendChild(renderer.domElement);
+    mountRef.current!.appendChild(renderer.domElement);
 
-    const particleSystem: Particles = new ParticlesSystem();
+    const particleSystem:ParticlesSystem = new ParticlesSystem();
     particleSystem.init();
     scene.add(particleSystem.system!);
 
-    const starsSystem: Stars = new StarsSystem();
+    const starsSystem: StarsSystem = new StarsSystem();
     starsSystem.init();
     scene.add(starsSystem.system!);
 
@@ -60,22 +61,18 @@ const ParticleSystem = () => {
 
     camera.position.z = 30;
 
-    const keys = {};
     const handleKeyDown = (event) => {
-      keys[event.key] = true;
-    };
-
-    const handleKeyUp = (event) => {
-      keys[event.key] = false;
+      if (particleSystem) {
+        particleSystem.handleKey(event.key);
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
 
     const animate = () => {
       const delta = clock.getDelta();
       requestAnimationFrame(animate);
-      particleSystem.animate(delta, keys);
+      particleSystem.animate();
       starsSystem.animate(delta);
       renderer.render(scene, camera);
     };
@@ -101,15 +98,14 @@ const ParticleSystem = () => {
       starsSystem.dispose();
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-      mountRef.current.removeChild(renderer.domElement);
+      mountRef.current!.removeChild(renderer.domElement);
     };
   }, [clock]);
 
   return (
     <>
-      <FPSStats />
-      <div ref={mountRef} style={{ position: "fixed", top: "0", right: "0" }} />
+      <FPSStats/>
+      <div ref={mountRef} style={{position: "fixed", top: "0", right: "0"}}/>
     </>
   );
 };

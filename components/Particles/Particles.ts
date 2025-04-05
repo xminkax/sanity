@@ -31,6 +31,7 @@ class Particles {
   opacity: number[] = [];
   size: number[] = [];
   colorCounter: number = 0;
+  velocitySpeed: number = 1;
   system: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
   material: THREE.ShaderMaterial;
   geometry: THREE.BufferGeometry;
@@ -88,7 +89,7 @@ class Particles {
     this.system = new THREE.Points(this.geometry, this.material);
   }
 
-  animate(delta: number, keys: Keys): void {
+  animate(): void {
     if (!this.system) return;
 
     const position = this.geometry.attributes.position.array as Float32Array;
@@ -97,7 +98,7 @@ class Particles {
     this.colorCounter++;
 
     for (let i = 0; i < MAX_PARTICLES; i++) {
-      this.velocity[i * 3] += this.gravity[i * 3];
+      this.velocity[i * 3] += this.gravity[i * 3] * this.velocitySpeed;
       this.velocity[i * 3 + 1] += this.gravity[i * 3 + 1];
       this.velocity[i * 3 + 2] += this.gravity[i * 3 + 2];
 
@@ -124,18 +125,20 @@ class Particles {
         this.velocity[i * 3 + 1] = Math.floor(Math.random() * 120) - 30;
         this.velocity[i * 3 + 2] = Math.floor(Math.random() * 120) - 30;
       }
-
-      if (keys["ArrowLeft"]) {
-        this.velocity[i * 3] -= 10;
-      }
-      if (keys["ArrowRight"]) {
-        this.velocity[i * 3] += 10;
-      }
     }
 
     this.geometry.attributes.position.needsUpdate = true;
     this.geometry.attributes.opacity.needsUpdate = true;
     this.geometry.attributes.color.needsUpdate = true;
+  }
+
+  handleKey(key): void {
+    if (key === 'ArrowLeft') {
+      this.velocitySpeed = 1.1;
+    }
+    if (key === 'ArrowRight') {
+      this.velocitySpeed = -1.1;
+    }
   }
 
   dispose(): void {
