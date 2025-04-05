@@ -43,12 +43,14 @@ const ParticleSystem = () => {
       transparent: true,
     });
 
-    const skySphere: THREE.Mesh<THREE.SphereGeometry, THREE.MeshPhysicalMaterial> =
-      new THREE.Mesh(skyGeometry, skyMaterial);
+    const skySphere: THREE.Mesh<THREE.SphereGeometry, THREE.MeshPhysicalMaterial> = new THREE.Mesh(
+      skyGeometry,
+      skyMaterial,
+    );
     skySphere.position.set(4, 10, -1);
     scene.add(skySphere);
 
-// Create point light
+    // Create point light
     const pointLight: THREE.PointLight = new THREE.PointLight(0x00ffff, 20, -10);
     pointLight.position.set(-2, 10, -18);
     scene.add(pointLight);
@@ -90,6 +92,13 @@ const ParticleSystem = () => {
 
     // === Cleanup ===
     return () => {
+      skyGeometry.dispose();
+      skyMaterial.dispose();
+      scene.remove(pointLight);
+      scene.remove(skySphere);
+      controls.dispose();
+      particleSystem.dispose();
+      starsSystem.dispose();
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);

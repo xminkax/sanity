@@ -31,13 +31,15 @@ class Particles {
   opacity: number[] = [];
   size: number[] = [];
   colorCounter: number = 0;
-  system: THREE.Points | null = null;
+  system: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
+  material: THREE.ShaderMaterial;
+  geometry: THREE.BufferGeometry;
 
   init(): void {
     const position: number[] = [];
     const color: number[] = [];
 
-    const geometry = new THREE.BufferGeometry();
+    this.geometry = new THREE.BufferGeometry();
 
     for (let i = 0; i < MAX_PARTICLES; i++) {
       this.size[i] = SIZE;
@@ -63,17 +65,17 @@ class Particles {
       color[i * 3 + 2] = colors[colorIndex][2];
     }
 
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(position, 3));
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(color, 3));
-    geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(this.opacity, 1));
-    geometry.setAttribute(
+    this.geometry.setAttribute("position", new THREE.Float32BufferAttribute(position, 3));
+    this.geometry.setAttribute("color", new THREE.Float32BufferAttribute(color, 3));
+    this.geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(this.opacity, 1));
+    this.geometry.setAttribute(
       "size",
       new THREE.Float32BufferAttribute(this.size, 1).setUsage(THREE.DynamicDrawUsage),
     );
 
-    const material = new THREE.ShaderMaterial({
+    this.material = new THREE.ShaderMaterial({
       uniforms: {
-        pointTexture: { value: new THREE.TextureLoader().load("spark1.png") },
+        pointTexture: {value: new THREE.TextureLoader().load("spark1.png")},
       },
       vertexColors: true,
       blending: THREE.AdditiveBlending,
@@ -83,16 +85,15 @@ class Particles {
       depthTest: false,
     });
 
-    this.system = new THREE.Points(geometry, material);
-    return this.system;
+    this.system = new THREE.Points(this.geometry, this.material);
   }
 
   animate(delta: number, keys: Keys): void {
     if (!this.system) return;
 
-    const position = this.system.geometry.attributes.position.array as Float32Array;
-    const opacity = this.system.geometry.attributes.opacity.array as Float32Array;
-    const color = this.system.geometry.attributes.color.array as Float32Array;
+    const position = this.geometry.attributes.position.array as Float32Array;
+    const opacity = this.geometry.attributes.opacity.array as Float32Array;
+    const color = this.geometry.attributes.color.array as Float32Array;
     this.colorCounter++;
 
     for (let i = 0; i < MAX_PARTICLES; i++) {
@@ -132,9 +133,14 @@ class Particles {
       }
     }
 
-    this.system.geometry.attributes.position.needsUpdate = true;
-    this.system.geometry.attributes.opacity.needsUpdate = true;
-    this.system.geometry.attributes.color.needsUpdate = true;
+    this.geometry.attributes.position.needsUpdate = true;
+    this.geometry.attributes.opacity.needsUpdate = true;
+    this.geometry.attributes.color.needsUpdate = true;
+  }
+
+  dispose(): void {
+    this.geometry.dispose();
+    this.material.dispose();
   }
 }
 
