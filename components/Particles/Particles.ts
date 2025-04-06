@@ -2,7 +2,7 @@ import * as THREE from "three";
 import fragmentShader from "./Stars.frag";
 import vertexShader from "./Stars.vert";
 
-const colors: [number, number, number][] = [
+const colorsShades: [number, number, number][] = [
   [0.5, 0.6, 0.6],
   [0.6, 0.6, 0.5],
   [0.7, 0.55, 0.4],
@@ -17,18 +17,15 @@ const colors: [number, number, number][] = [
   [1.0, 1.0, 0.6],
 ];
 
-const MAX_PARTICLES = 5000;
-const SIZE = 32;
-const SLOWDOWN = 4;
-
-type Keys = { [key: string]: boolean };
+const MAX_PARTICLES: number = 5000;
+const SIZE: number = 32;
+const SLOWDOWN: number = 4;
 
 class Particles {
   velocity: number[] = [];
   gravity: number[] = [];
   life: number[] = [];
   fade: number[] = [];
-  opacity: number[] = [];
   size: number[] = [];
   colorCounter: number = 0;
   velocitySpeed: number = 1;
@@ -37,20 +34,21 @@ class Particles {
   geometry: THREE.BufferGeometry;
 
   init(): void {
-    const position: number[] = [];
-    const color: number[] = [];
+    const positions: number[] = [];
+    const colors: number[] = [];
+    const opacities: number[] = [];
 
     this.geometry = new THREE.BufferGeometry();
 
     for (let i = 0; i < MAX_PARTICLES; i++) {
       this.size[i] = SIZE;
       this.life[i] = 1;
-      this.opacity[i] = 1;
       this.fade[i] = ((Math.random() * 100) / 1000 + 0.003) / 14;
+      opacities[i] = 1;
 
-      position[i * 3] = 5;
-      position[i * 3 + 1] = 11;
-      position[i * 3 + 2] = 0;
+      positions[i * 3] = 5;
+      positions[i * 3 + 1] = 11;
+      positions[i * 3 + 2] = 0;
 
       this.velocity[i * 3] = (Math.random() * 50 - 26.0) * 30.0;
       this.velocity[i * 3 + 1] = (Math.random() * 50 - 25.0) * 30.0;
@@ -61,14 +59,14 @@ class Particles {
       this.gravity[i * 3 + 2] = -2;
 
       const colorIndex = Math.floor(i * (12 / MAX_PARTICLES));
-      color[i * 3] = colors[colorIndex][0];
-      color[i * 3 + 1] = colors[colorIndex][1];
-      color[i * 3 + 2] = colors[colorIndex][2];
+      colors[i * 3] = colorsShades[colorIndex][0];
+      colors[i * 3 + 1] = colorsShades[colorIndex][1];
+      colors[i * 3 + 2] = colorsShades[colorIndex][2];
     }
 
-    this.geometry.setAttribute("position", new THREE.Float32BufferAttribute(position, 3));
-    this.geometry.setAttribute("color", new THREE.Float32BufferAttribute(color, 3));
-    this.geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(this.opacity, 1));
+    this.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    this.geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    this.geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(opacities, 1));
     this.geometry.setAttribute(
       "size",
       new THREE.Float32BufferAttribute(this.size, 1).setUsage(THREE.DynamicDrawUsage),
@@ -92,9 +90,9 @@ class Particles {
   animate(): void {
     if (!this.system) return;
 
-    const position = this.geometry.attributes.position.array as Float32Array;
-    const opacity = this.geometry.attributes.opacity.array as Float32Array;
-    const color = this.geometry.attributes.color.array as Float32Array;
+    const positions: Float32Array = this.geometry.attributes.position.array as Float32Array;
+    const opacities: Float32Array = this.geometry.attributes.opacity.array as Float32Array;
+    const colors: Float32Array = this.geometry.attributes.color.array as Float32Array;
     this.colorCounter++;
 
     for (let i = 0; i < MAX_PARTICLES; i++) {
@@ -102,24 +100,24 @@ class Particles {
       this.velocity[i * 3 + 1] += this.gravity[i * 3 + 1];
       this.velocity[i * 3 + 2] += this.gravity[i * 3 + 2];
 
-      position[i * 3] += this.velocity[i * 3] / (SLOWDOWN * 1000);
-      position[i * 3 + 1] += this.velocity[i * 3 + 1] / (SLOWDOWN * 1000);
-      position[i * 3 + 2] += this.velocity[i * 3 + 2] / (SLOWDOWN * 1000);
+      positions[i * 3] += this.velocity[i * 3] / (SLOWDOWN * 1000);
+      positions[i * 3 + 1] += this.velocity[i * 3 + 1] / (SLOWDOWN * 1000);
+      positions[i * 3 + 2] += this.velocity[i * 3 + 2] / (SLOWDOWN * 1000);
 
-      opacity[i] = this.life[i];
+      opacities[i] = this.life[i];
       this.life[i] -= this.fade[i];
 
       if (this.life[i] < 0) {
         const colorIndex = this.colorCounter % colors.length;
-        color[i * 3] = colors[colorIndex][0];
-        color[i * 3 + 1] = colors[colorIndex][1];
-        color[i * 3 + 2] = colors[colorIndex][2];
+        colors[i * 3] = colorsShades[colorIndex][0];
+        colors[i * 3 + 1] = colorsShades[colorIndex][1];
+        colors[i * 3 + 2] = colorsShades[colorIndex][2];
 
         this.life[i] = 1;
 
-        position[i * 3] = 5;
-        position[i * 3 + 1] = 11;
-        position[i * 3 + 2] = 0;
+        positions[i * 3] = 5;
+        positions[i * 3 + 1] = 11;
+        positions[i * 3 + 2] = 0;
 
         this.velocity[i * 3] = Math.floor(Math.random() * 120) - 32;
         this.velocity[i * 3 + 1] = Math.floor(Math.random() * 120) - 30;

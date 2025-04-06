@@ -1,11 +1,10 @@
 varying vec3 vColor;
-attribute float size;
-attribute float opacity;
-varying float vOpacity;
-
+varying float vAlpha;
 void main() {
-  vColor = color;
-  vOpacity = opacity;
-  gl_PointSize = size;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    vColor = color;
+    // Set a constant alpha for demonstration (could also vary by vertex)
+
+    vAlpha = 2.5;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = 3.0;
 }
