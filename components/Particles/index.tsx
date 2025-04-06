@@ -9,6 +9,7 @@ import StarsSystem from "@/components/Particles/Stars";
 const ParticleSystem = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = new THREE.Clock();
+  const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
     if (!mountRef.current) {
@@ -71,7 +72,7 @@ const ParticleSystem = () => {
 
     const animate = () => {
       const delta = clock.getDelta();
-      requestAnimationFrame(animate);
+      animationFrameId.current = requestAnimationFrame(animate);
       particleSystem.animate();
       starsSystem.animate(delta);
       renderer.render(scene, camera);
@@ -89,6 +90,7 @@ const ParticleSystem = () => {
 
     // === Cleanup ===
     return () => {
+      cancelAnimationFrame(animationFrameId.current);
       skyGeometry.dispose();
       skyMaterial.dispose();
       scene.remove(pointLight);
@@ -96,6 +98,7 @@ const ParticleSystem = () => {
       controls.dispose();
       particleSystem.dispose();
       starsSystem.dispose();
+      renderer.dispose();
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyDown);
       mountRef.current!.removeChild(renderer.domElement);

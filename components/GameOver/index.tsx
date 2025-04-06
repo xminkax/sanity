@@ -13,6 +13,7 @@ const pastelColors: [number, number, number][] = [
 const GameOver: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef<THREE.Clock>(new THREE.Clock());
+  const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
     const scene: Scene = new THREE.Scene();
@@ -70,11 +71,9 @@ const GameOver: React.FC = () => {
     const starField: LineSegments = new THREE.LineSegments(geometry, lineMaterial);
     scene.add(starField);
 
-    let animationFrameId: number;
-
     const animate = () => {
       const delta: number = clock.current.getDelta();
-      animationFrameId = requestAnimationFrame(animate);
+      animationFrameId.current = requestAnimationFrame(animate);
 
       const posArray: Float32Array = geometry.attributes.position.array as Float32Array;
       for (let i = 0; i < stars; i++) {
@@ -105,12 +104,9 @@ const GameOver: React.FC = () => {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animationFrameId.current);
       window.removeEventListener("resize", handleResize);
-
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
+      mountRef.current!.removeChild(renderer.domElement);
 
       geometry.dispose();
       lineMaterial.dispose();
