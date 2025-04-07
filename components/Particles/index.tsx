@@ -8,7 +8,7 @@ import StarsSystem from "@/components/Particles/Stars";
 
 const ParticleSystem = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const clock = new THREE.Clock();
+  const clock = useRef(new THREE.Clock());
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const ParticleSystem = () => {
     window.addEventListener("keydown", handleKeyDown);
 
     const animate = () => {
-      const delta = clock.getDelta();
+      const delta = clock.current.getDelta();
       animationFrameId.current = requestAnimationFrame(animate);
       particleSystem.animate();
       starsSystem.animate(delta);
@@ -103,7 +103,7 @@ const ParticleSystem = () => {
       window.removeEventListener("keydown", handleKeyDown);
       mountRef.current!.removeChild(renderer.domElement);
     };
-  }, [clock]);
+  }, []);
 
   return (
     <>
