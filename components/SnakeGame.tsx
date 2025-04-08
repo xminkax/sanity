@@ -15,18 +15,39 @@ const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
 const SCORE_LEVEL_MULTIPLICATOR = 3;
 
-const generateFoodPosition = (canvasWidth, canvasHeight, unitSize) => {
+const generateFoodPosition = (
+  canvasWidth: number,
+  canvasHeight: number,
+  unitSize: number,
+): {
+  x: number;
+  y: number;
+} => {
   return {
     x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
     y: Math.floor(Math.random() * (canvasHeight / unitSize)) * unitSize,
   };
 };
 
-export default function SnakeGame({ gameState, win, startGame = {}, gameOver, level }) {
+type props = {
+  gameState?: string;
+  win: () => void;
+  startGame?: () => void;
+  gameOver: () => void;
+  level: number;
+};
+
+export default function SnakeGame({ gameState, win, startGame, gameOver, level }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canvasConfig, setCanvasConfig] = useState(null);
-  const [startX, setStartX] = useState(null);
-  const [startY, setStartY] = useState(null);
+  const [canvasConfig, setCanvasConfig] = useState<{
+    width: number;
+    height: number;
+    unitSize: number;
+  } | null>(null);
+  //todo join to one
+  const [startX, setStartX] = useState<number | null>(null);
+  const [startY, setStartY] = useState<number | null>(null);
+  // const [startY, setStartY] = useState(null);
   const [counter, setCounter] = useState<number>(0);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>();
   const [food, setFood] = useState<{
@@ -67,15 +88,14 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
       },
     ]);
     //todo add check that it doesn't exist
-    setFood(
-      generateFoodPosition(width, height, unitSize, {
-        x: defaultSnakePosition * unitSize,
-        y: defaultSnakePosition * unitSize,
-      }),
-    );
+    setFood(generateFoodPosition(width, height, unitSize));
   }, []);
 
   const updateSnake = useCallback(() => {
+    if (!canvasConfig) {
+      return;
+    }
+    if (!snake || snake.length === 0) return;
     const { width, height, unitSize } = canvasConfig;
     const newSnakeHead = {
       x: snake[0].x + direction.x,
@@ -100,20 +120,23 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
 
     //eats food
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
-      setSnake((prev) => [newSnakeHead, ...prev]);
+      setSnake((prev) => [newSnakeHead, ...(prev ?? [])]);
       setShouldAnimate(true);
-      setFood(generateFoodPosition(width, height, unitSize, snake));
+      setFood(generateFoodPosition(width, height, unitSize));
       setCounter(counter + 1);
     } else {
       setSnake((prev) => {
-        const newSnake = [newSnakeHead, ...prev];
+        const newSnake = [newSnakeHead, ...(prev ?? [])];
         newSnake.pop();
         return newSnake;
       });
     }
   }, [counter, direction.x, direction.y, food.x, food.y, snake, canvasConfig, gameOver]);
 
-  function isOppositeDirection(val1, val2) {
+  type Direction = { x: number; y: number };
+  type DirectionText = "left" | "right" | "up" | "down";
+
+  function isOppositeDirection(val1: Direction, val2: Direction): boolean {
     if ((val1.x < 0 && val2.x > 0) || (val1.x > 0 && val2.x < 0)) {
       return true;
     }
@@ -124,7 +147,10 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
   }
 
   const setDirectionFromEvents = useCallback(
-    (directionText) => {
+    (directionText: DirectionText) => {
+      if (!canvasConfig) {
+        return;
+      }
       const { unitSize } = canvasConfig;
       let directionTemp;
       switch (directionText) {
@@ -176,6 +202,7 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
   );
 
   const paint = useCallback(() => {
+    if (!snake || snake.length === 0) return;
     if (gameState !== GameState.PLAYING) return;
     if (!canvasConfig) {
       return;
@@ -218,10 +245,13 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
         }
       });
     }
+    if (!ctx) {
+      return;
+    }
     ctx.fillStyle = FOOD_COLOR;
     ctx.fillRect(food.x, food.y, unitSize, unitSize);
 
-    ctx.backgroundColor = "#111111";
+    // ctx.backgroundColor = "#111111";
   }, [gameState, canvasConfig, food.x, food.y, snake]);
 
   useEffect(() => {
@@ -233,7 +263,7 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
     }
   }, [snake, food, counter, paint, win]);
 
-  const handleTouchMove = (event) => {
+  const handleTouchMove = (event: React.TouchEvent) => {
     if (!startX || !startY) return;
 
     const diffX = event.touches[0].clientX - startX;
@@ -279,7 +309,7 @@ export default function SnakeGame({ gameState, win, startGame = {}, gameOver, le
     };
   }, [direction, snake, updateSnake, level]);
 
-  const handleTouchStart = (event) => {
+  const handleTouchStart = (event: React.TouchEvent) => {
     // event.preventDefault();
     setStartX(event.touches[0].clientX);
     setStartY(event.touches[0].clientY);

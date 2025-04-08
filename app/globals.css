@@ -21,7 +21,6 @@ body {
   /*overflow: hidden;*/
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
   /*background: linear-gradient(10deg, rgba(255, 182, 194, 1) 20%, rgba(50, 152, 138, 1) 40%, rgba(0, 14, 60, 1) 70%) transparent;*/
-
 }
 
 .games {
@@ -125,10 +124,6 @@ body {
 }
 
 .play4 {
-
-
-
-
 }
 
 /* typewriter effect end */

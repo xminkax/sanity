@@ -1,21 +1,21 @@
 import * as THREE from "three";
 import fragmentShader from "./Stars.frag";
 import vertexShader from "./Stars.vert";
-import {Color, TextureLoader} from "three";
+import { Color, TextureLoader } from "three";
 
 const MAX_STARS = 3000;
 const RADIUS = 50;
 
 class Stars {
   system: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
-  material: THREE.ShaderMaterial;
-  geometry: THREE.BufferGeometry;
+  material!: THREE.ShaderMaterial;
+  geometry!: THREE.BufferGeometry;
 
   init(): void {
     const textureLoader: TextureLoader = new THREE.TextureLoader();
 
     const uniforms: Record<string, THREE.IUniform> = {
-      pointTexture: {value: textureLoader.load("spark1.png")},
+      pointTexture: { value: textureLoader.load("spark1.png") },
     };
 
     this.material = new THREE.ShaderMaterial({

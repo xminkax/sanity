@@ -30,8 +30,8 @@ class Particles {
   colorCounter: number = 0;
   velocitySpeed: number = 1;
   system: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
-  material: THREE.ShaderMaterial;
-  geometry: THREE.BufferGeometry;
+  material!: THREE.ShaderMaterial;
+  geometry!: THREE.BufferGeometry;
 
   init(): void {
     const positions: number[] = [];
@@ -74,7 +74,7 @@ class Particles {
 
     this.material = new THREE.ShaderMaterial({
       uniforms: {
-        pointTexture: {value: new THREE.TextureLoader().load("spark1.png")},
+        pointTexture: { value: new THREE.TextureLoader().load("spark1.png") },
       },
       vertexColors: true,
       blending: THREE.AdditiveBlending,
@@ -130,11 +130,11 @@ class Particles {
     this.geometry.attributes.color.needsUpdate = true;
   }
 
-  handleKey(key): void {
-    if (key === 'ArrowLeft') {
+  handleKey(key: string): void {
+    if (key === "ArrowLeft") {
       this.velocitySpeed = 1.1;
     }
-    if (key === 'ArrowRight') {
+    if (key === "ArrowRight") {
       this.velocitySpeed = -1.1;
     }
   }

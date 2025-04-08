@@ -14,13 +14,11 @@ const nextConfig = {
     ];
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.module.rules.push(
-      {
-        test: /\.(glsl|vs|fs|frag|vert)$/,  // Match GLSL files
-        use: 'raw-loader',
-      },
-    )
-    return config
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|frag|vert)$/, // Match GLSL files
+      use: "raw-loader",
+    });
+    return config;
   },
 };
 

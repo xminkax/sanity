@@ -4,17 +4,12 @@ import { useLocalStorage } from "usehooks-ts";
 import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
-import MilkyWay from "@/components/MilkyWay";
-import LorenzAttractor from "@/components/LorenzAttractor2";
-import LorenzAttractor2 from "@/components/LorenzAttractor2";
-import PostProcess from "@/components/PostProcess";
-import GameOver from "@/components/GameOver";
-import Galaxy from "@/components/NightSky";
-import NightSky from "@/components/NightSky";
-import IcelandicSky from "@/components/IcelandicSky";
-import Playground from "@/components/Particles";
-// import Nehe2_19 from "@/components/Nehe19Works";
-// import Nehe2_19 from "@/components/nehe2_19";
+import LorenzAttractor from "@/components/LorenzAttractor/Index";
+// import LorenzAttractor from "@/components/LorenzAttractor";
+// import GameOver from "@/components/GameOver";
+// import NightSky from "@/components/NightSky";
+// import IcelandicSky from "@/components/IcelandicSky";
+// import Particles from "@/components/Particles";
 
 const NUM_STARS: number = 100;
 
@@ -78,14 +73,14 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       {/*)}*/}
       <div className="stars">
         {generateStars()}
-        <LorenzAttractor />
+        {/*<LorenzAttractor />*/}
         {/*<IcelandicSky/>*/}
         {/*<NightSky/>*/}
         {/*<Playground />*/}
         {/*<PostProcess/>*/}
         {/*<Nehe2_19/>*/}
         {/*<IcelandicSky/>*/}
-        {/*<LorenzAttractor2/>*/}
+        <LorenzAttractor />
         {/*<NightSky/>*/}
         {/*<GameOver/>*/}
       </div>

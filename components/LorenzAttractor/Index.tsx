@@ -1,8 +1,8 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import fragmentShader from "./LorenzAttractor.frag";
 import vertexShader from "./LorenzAttractor.vert";
-import {BufferGeometry, PerspectiveCamera, Points, Scene, WebGLRenderer} from "three";
+import { BufferGeometry, PerspectiveCamera, Points, Scene, WebGLRenderer } from "three";
 
 const DELAY_ANIMATION = 5000;
 
@@ -17,7 +17,7 @@ const LorenzAttractor: React.FC = () => {
       75,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      1000,
     );
     camera.position.set(0, 0, 70);
     camera.rotation.z = 10;
@@ -54,8 +54,8 @@ const LorenzAttractor: React.FC = () => {
 
     const material = new THREE.ShaderMaterial({
       uniforms: {
-        pointTexture: {value: new THREE.TextureLoader().load("spikey.png")},
-        pointSize: {value: 10.0},
+        pointTexture: { value: new THREE.TextureLoader().load("spikey.png") },
+        pointSize: { value: 10.0 },
       },
       vertexShader,
       fragmentShader,
@@ -111,7 +111,7 @@ const LorenzAttractor: React.FC = () => {
       renderer.render(scene, camera);
     };
 
-    let timeoutId: NodeJS.Timeout = setTimeout(() => {
+    let timeoutId: NodeJS.Timeout | null = setTimeout(() => {
       animate();
       timeoutId = null;
     }, DELAY_ANIMATION);
@@ -134,7 +134,9 @@ const LorenzAttractor: React.FC = () => {
       }
 
       cancelAnimationFrame(animationFrameId.current);
-      clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
 
       geometry.dispose();
       material.dispose();
@@ -143,7 +145,7 @@ const LorenzAttractor: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{position: "absolute", top: "0", right: "0", zIndex: -1}}/>;
+  return <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0", zIndex: -1 }} />;
 };
 
 export default LorenzAttractor;

@@ -1,8 +1,7 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
-import FPSStats from "react-fps-stats";
-import {PerspectiveCamera, Scene, WebGLRenderer} from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import ParticlesSystem from "@/components/Particles/Particles";
 import StarsSystem from "@/components/Particles/Stars";
 
@@ -22,12 +21,12 @@ const ParticleSystem = () => {
       1,
       2000,
     );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({alpha: true});
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current!.appendChild(renderer.domElement);
 
-    const particleSystem:ParticlesSystem = new ParticlesSystem();
+    const particleSystem: ParticlesSystem = new ParticlesSystem();
     particleSystem.init();
     scene.add(particleSystem.system!);
 
@@ -62,7 +61,7 @@ const ParticleSystem = () => {
 
     camera.position.z = 30;
 
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (particleSystem) {
         particleSystem.handleKey(event.key);
       }
@@ -105,12 +104,7 @@ const ParticleSystem = () => {
     };
   }, []);
 
-  return (
-    <>
-      <FPSStats/>
-      <div ref={mountRef} style={{position: "fixed", top: "0", right: "0"}}/>
-    </>
-  );
+  return <div ref={mountRef} style={{ position: "fixed", top: "0", right: "0" }} />;
 };
 
 export default ParticleSystem;

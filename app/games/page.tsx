@@ -2,14 +2,14 @@
 import SnakeGame from "@/components/SnakeGame";
 import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import GameOver from "@/components/GameOver";
-import StatusScreen from "@/components/NextLevel";
+// import Index from "@/components/GameOver";
+// import StatusScreen from "@/components/NextLevel";
 import Menu from "@/components/Menu";
-import GameOverMobile from "@/components/GameOverMobile";
+// import GameOverMobile from "@/components/GameOverMobile";
 import { GameState } from "@/constants/snake";
-import NextLevel from "@/components/NextLevel";
+// import NextLevel from "@/components/NextLevel";
 import { Press_Start_2P } from "next/font/google";
-import LorenzAttractor from "@/components/LorenzAttractor";
+// import LorenzAttractor from "@/components/LorenzAttractor";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",

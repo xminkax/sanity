@@ -1,12 +1,18 @@
 import { Press_Start_2P } from "next/font/google";
 import React, { useEffect, useState } from "react";
 
+type props = {
+  resetGame: () => void;
+  handleNextLevel: () => void;
+  nextLevel: number;
+};
+
 const pressStart2P = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
-export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }) {
+export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: props) {
   return (
     <div
       className={`game-over-mobile flex flex-col items-center justify-center h-screen ${pressStart2P.className}`}
