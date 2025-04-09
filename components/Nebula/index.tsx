@@ -117,6 +117,9 @@ const Nebula: React.FC = () => {
     scene.add(blueLight);
 
     const purpleLight = new PointLight(0x0a2430, 100, 100, 0.5);
+    purpleLight.castShadow = true;
+    purpleLight.position.set(4, 1, 0);
+
     scene.add(purpleLight);
 
     const bloomPass = new UnrealBloomPass(
