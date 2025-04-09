@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import {
   BufferGeometry,
@@ -8,7 +8,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
-import { generateSimilarShadeColorForParticles, Color } from "@/lib/snake/color";
+import {generateSimilarShadeColorForParticles, Color} from "@/lib/snake/color";
 
 const pastelColors: [number, number, number][] = [
   [1.0, 0.2, 0.5], // Hot pink
@@ -23,6 +23,8 @@ const GameOver: React.FC = () => {
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
+    if (!mountRef.current) return;
+
     const scene: Scene = new THREE.Scene();
     const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
       75,
@@ -32,7 +34,7 @@ const GameOver: React.FC = () => {
     );
     camera.position.z = 20;
 
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -126,7 +128,7 @@ const GameOver: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />;
+  return <div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}}/>;
 };
 
 export default GameOver;
