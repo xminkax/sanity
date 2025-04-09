@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {
+  AmbientLight,
   Clock,
   DirectionalLight,
   FogExp2,
@@ -21,16 +22,9 @@ import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer";
 import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
 import StarsSystem from "@/components/Particles/Stars";
 
-// You can adjust this if StarsSystem has a different shape
-interface IStarsSystem {
-  init: () => void;
-  animate: (delta: number) => void;
-  system?: THREE.Object3D;
-}
-
 const Nebula: React.FC = () => {
   const sceneRef = useRef<HTMLDivElement | null>(null);
-  const clock = useRef(new THREE.Clock());
+  const clock = useRef(new Clock());
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
@@ -65,7 +59,7 @@ const Nebula: React.FC = () => {
     const textureLoader: TextureLoader = new TextureLoader();
     const cloudTexture: Texture = textureLoader.load("smoke.png");
 
-    const ambientLight = new THREE.AmbientLight(0x555555);
+    const ambientLight: AmbientLight = new THREE.AmbientLight(0x555555);
     scene.add(ambientLight);
 
     const starsSystem: StarsSystem = new StarsSystem(4);
@@ -88,7 +82,7 @@ const Nebula: React.FC = () => {
     });
 
     const createCloud = () => {
-      const cloud = new Mesh(geometry, material);
+      const cloud: Mesh = new Mesh(geometry, material);
       cloud.receiveShadow = true;
       cloud.castShadow = true;
       cloud.position.set(Math.random() * 18 - 4, Math.random() * 8 - 4, Math.random() * 6 - 6);
@@ -102,28 +96,28 @@ const Nebula: React.FC = () => {
       createCloud();
     }
 
-    const orangeLight = new PointLight(0x420a52, 50, 450, 2);
+    const orangeLight: PointLight = new PointLight(0x420a52, 50, 450, 2);
     orangeLight.castShadow = true;
     orangeLight.position.set(2, 4, 2);
     scene.add(orangeLight);
 
-    const pinkLight = new PointLight(0x7d1875, 10, 450, 1.7);
+    const pinkLight: PointLight = new PointLight(0x7d1875, 10, 450, 1.7);
     pinkLight.castShadow = true;
     pinkLight.position.set(2, 4, 2);
     scene.add(pinkLight);
 
-    const blueLight = new PointLight(0x3677ac, 50, 0, 2);
+    const blueLight: PointLight = new PointLight(0x3677ac, 50, 0, 2);
     blueLight.castShadow = true;
     blueLight.position.set(2, 4, 10);
     scene.add(blueLight);
 
-    const purpleLight = new PointLight(0x0a2430, 100, 100, 0.5);
+    const purpleLight: PointLight = new PointLight(0x0a2430, 100, 100, 0.5);
     purpleLight.castShadow = true;
     purpleLight.position.set(4, 1, 0);
 
     scene.add(purpleLight);
 
-    const bloomPass = new UnrealBloomPass(
+    const bloomPass: UnrealBloomPass = new UnrealBloomPass(
       new Vector2(window.innerWidth, window.innerHeight),
       0.6,
       1.0,
@@ -131,7 +125,7 @@ const Nebula: React.FC = () => {
     );
     bloomPass.renderToScreen = true;
 
-    const composer = new EffectComposer(renderer);
+    const composer: EffectComposer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
     composer.addPass(bloomPass);
 
