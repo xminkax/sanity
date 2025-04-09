@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {
   Clock,
   DirectionalLight,
@@ -16,9 +16,9 @@ import {
   Vector2,
   WebGLRenderer,
 } from "three";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
+import {UnrealBloomPass} from "three/examples/jsm/postprocessing/UnrealBloomPass";
+import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer";
+import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
 import StarsSystem from "@/components/Particles/Stars";
 
 // You can adjust this if StarsSystem has a different shape
@@ -30,11 +30,12 @@ interface IStarsSystem {
 
 const Nebula: React.FC = () => {
   const sceneRef = useRef<HTMLDivElement | null>(null);
+  const clock = useRef(new THREE.Clock());
+  const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
     if (!sceneRef.current) return;
 
-    const clock: Clock = new Clock();
     const scene: Scene = new Scene();
     const camera: PerspectiveCamera = new PerspectiveCamera(
       75,
@@ -135,8 +136,8 @@ const Nebula: React.FC = () => {
     composer.addPass(bloomPass);
 
     const animate = () => {
-      const delta = clock.getDelta();
-      requestAnimationFrame(animate);
+      const delta = clock.current.getDelta();
+      animationFrameId.current = requestAnimationFrame(animate);
 
       starsSystem.animate(delta * 0.1);
 
@@ -162,10 +163,39 @@ const Nebula: React.FC = () => {
     return () => {
       window.removeEventListener("resize", onResize);
       renderer.dispose();
+      cancelAnimationFrame(animationFrameId.current);
+      controls.dispose();
+      composer.dispose();
+
+      cloudParticles.forEach((cloud) => {
+        cloud.geometry.dispose();
+        if (Array.isArray(cloud.material)) {
+          cloud.material.forEach((mat) => mat.dispose());
+        } else {
+          cloud.material.dispose();
+        }
+        scene.remove(cloud);
+      });
+
+      geometry.dispose();
+      material.dispose();
+      cloudTexture.dispose();
+
+      while (scene.children.length > 0) {
+        scene.remove(scene.children[0]);
+      }
+
+      if (starsSystem.system) {
+        scene.remove(starsSystem.system);
+      }
+
+      starsSystem.dispose();
+
+      sceneRef.current!.removeChild(renderer.domElement);
     };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: "fixed", top: "0", right: "0" }} />;
+  return <div ref={sceneRef} style={{position: "fixed", top: "0", right: "0"}}/>;
 };
 
 export default Nebula;
