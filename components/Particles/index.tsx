@@ -30,7 +30,7 @@ const ParticleSystem = () => {
     particleSystem.init();
     scene.add(particleSystem.system!);
 
-    const starsSystem: StarsSystem = new StarsSystem();
+    const starsSystem: StarsSystem = new StarsSystem(10);
     starsSystem.init();
     scene.add(starsSystem.system!);
 

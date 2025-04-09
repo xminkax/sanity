@@ -10,6 +10,11 @@ class Stars {
   system: THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial> | null = null;
   material!: THREE.ShaderMaterial;
   geometry!: THREE.BufferGeometry;
+  size: number;
+
+  constructor(size: number) {
+    this.size = size;
+  }
 
   init(): void {
     const textureLoader: TextureLoader = new THREE.TextureLoader();
@@ -45,7 +50,7 @@ class Stars {
       const color: Color = new THREE.Color(Math.random() * 0.5 + 0.8, 1.0, 0.9);
       colors.push(color.r, color.g, color.b);
 
-      sizes.push(10);
+      sizes.push(this.size);
     }
 
     this.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));

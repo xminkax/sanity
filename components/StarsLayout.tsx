@@ -5,6 +5,7 @@ import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import LorenzAttractor from "@/components/LorenzAttractor/Index";
+import Nebula from "@/components/Nebula/index";
 // import LorenzAttractor from "@/components/LorenzAttractor";
 // import GameOver from "@/components/GameOver";
 // import NightSky from "@/components/NightSky";
@@ -71,8 +72,8 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       {/*{background === LevelWinBackgrounds["level_1"] && (*/}
       {/*  <div className="stars"><MilkyWay/></div>*/}
       {/*)}*/}
-      <div className="stars">
-        {generateStars()}
+      <div className="">
+        {/*{generateStars()}*/}
         {/*<LorenzAttractor />*/}
         {/*<IcelandicSky/>*/}
         {/*<NightSky/>*/}
@@ -80,7 +81,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         {/*<PostProcess/>*/}
         {/*<Nehe2_19/>*/}
         {/*<IcelandicSky/>*/}
-        <LorenzAttractor />
+        <Nebula />
         {/*<NightSky/>*/}
         {/*<GameOver/>*/}
       </div>
