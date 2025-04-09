@@ -38,7 +38,7 @@ const GameOver: React.FC = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    mountRef.current?.appendChild(renderer.domElement);
+    mountRef.current.appendChild(renderer.domElement);
 
     const stars = 2000;
     const positions: number[] = [];
