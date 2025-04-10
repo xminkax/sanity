@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import {
   BufferGeometry,
@@ -8,7 +8,14 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
-import { generateSimilarShadeColorForParticles, Color } from "@/lib/snake/color";
+import {generateSimilarShadeColorForParticles, Color} from "@/lib/snake/color";
+import {Press_Start_2P} from "next/font/google";
+
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const pastelColors: [number, number, number][] = [
   [1.0, 0.2, 0.5], // Hot pink
@@ -17,7 +24,11 @@ const pastelColors: [number, number, number][] = [
   [0.7, 0.3, 1.0], // Vibrant violet
 ];
 
-const GameOver: React.FC = () => {
+type props = {
+  resetGame: () => void;
+};
+
+const GameOver: React.FC<props> = ({resetGame}: props) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef<THREE.Clock>(new THREE.Clock());
   const animationFrameId = useRef<number>(0);
@@ -34,11 +45,12 @@ const GameOver: React.FC = () => {
     );
     camera.position.z = 20;
 
-    const renderer: WebGLRenderer = new WebGLRenderer({ antialias: true, alpha: true });
+    const renderer: WebGLRenderer = new WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    if (mountRef.current) {
-      mountRef.current.appendChild(renderer.domElement);
+    const mount = mountRef.current;
+    if (mount) {
+      mount.appendChild(renderer.domElement);
     }
 
     const stars = 2000;
@@ -118,7 +130,8 @@ const GameOver: React.FC = () => {
     return () => {
       cancelAnimationFrame(animationFrameId.current);
       window.removeEventListener("resize", handleResize);
-      mountRef.current!.removeChild(renderer.domElement);
+      if (mount && mount.contains(renderer.domElement))
+        mount.removeChild(renderer.domElement);
 
       geometry.dispose();
       lineMaterial.dispose();
@@ -126,7 +139,20 @@ const GameOver: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />;
+  return <div className={`w-full h-64 ${pressStart2P.className}`}>
+    <div ref={mountRef} className="absolute  top-0 left-0 w-full"/>
+    <div
+      className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
+    >
+      <h1
+        className="text-6xl uppercase  mb-8 font-bold text-center text-[wheat]"
+        style={{textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)"}}
+      >
+        Game over
+      </h1>
+      <button onClick={resetGame} className="mt-6 px-6 py-3 reset-btn text-2xl">Play</button>
+    </div>
+  </div>;
 };
 
 export default GameOver;

@@ -1,5 +1,5 @@
 import { Press_Start_2P } from "next/font/google";
-import React from "react";
+import React, {useEffect} from "react";
 
 type MenuProps = {
   startGame: () => void; // Type it explicitly
@@ -12,6 +12,9 @@ const pressStart2P = Press_Start_2P({
   display: "swap",
 });
 export default function Menu({ startGame, nextLevel }: MenuProps) {
+  useEffect(() => {
+    console.log("run");
+  }, []);
   return (
     <div
       className={`game-over-mobile flex flex-col items-center justify-center h-screen ${pressStart2P.className}`}

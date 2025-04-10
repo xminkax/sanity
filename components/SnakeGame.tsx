@@ -13,7 +13,7 @@ import {
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-const SCORE_LEVEL_MULTIPLICATOR = 3;
+const SCORE_LEVEL_MULTIPLICATOR = 9;
 
 const generateFoodPosition = (
   canvasWidth: number,

@@ -1,15 +1,15 @@
 "use client";
 import SnakeGame from "@/components/SnakeGame";
-import React, { useEffect, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
+import React, {useEffect, useRef, useState} from "react";
+import {useLocalStorage} from "usehooks-ts";
 // import Index from "@/components/GameOver";
 // import StatusScreen from "@/components/NextLevel";
 import Menu from "@/components/Menu";
 // import GameOverMobile from "@/components/GameOverMobile";
-import { GameState } from "@/constants/snake";
+import {GameState} from "@/constants/snake";
 // import NextLevel from "@/components/NextLevel";
-import { Press_Start_2P } from "next/font/google";
-// import LorenzAttractor from "@/components/LorenzAttractor";
+import {Press_Start_2P} from "next/font/google";
+import GameOver from "@/components/GameOver/index";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -22,24 +22,21 @@ export default function Games() {
     "levelWin",
     "0",
   );
+  const [score, setScore, removeScore] = useLocalStorage<string | undefined>(
+    "score",
+    "0",
+  );
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   // const [level, setLevel] = useState(null);
-
+  const hasLoadedRef = useRef(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const resetGame = () => {
     setGameState(GameState.MENU);
     removeLevelWin();
   };
-  useEffect(() => {
-    setIsLoaded(true);
-  }, [levelWin]);
-  if (!isLoaded) {
-    return null;
-  }
   return (
     <>
-      {/*<LorenzAttractor/>*/}
       <div
         style={{
           display: "flex",
@@ -82,11 +79,12 @@ export default function Games() {
         {/*    />*/}
         {/*  </div>*/}
         {/*)}*/}
-        {/*{gameState === GameState.GAME_OVER && (*/}
-        {/*  <div className="snake-animated-state">*/}
-        {/*    /!*<GameOverMobile resetGame={resetGame} />*!/*/}
-        {/*  </div>*/}
-        {/*)}*/}
+        {gameState === GameState.GAME_OVER && (
+          <div className="snake-animated-state">
+            <GameOver resetGame={() => setGameState(GameState.PLAYING)}/>
+            {/*<GameOverMobile resetGame={resetGame} />*/}
+          </div>
+        )}
       </div>
     </>
   );
