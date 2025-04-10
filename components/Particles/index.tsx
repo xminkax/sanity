@@ -14,14 +14,14 @@ const ParticleSystem = () => {
     if (!mountRef.current) {
       return;
     }
-    const scene: Scene = new THREE.Scene();
-    const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
+    const scene: Scene = new Scene();
+    const camera: PerspectiveCamera = new PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       1,
       2000,
     );
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer: WebGLRenderer = new WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current!.appendChild(renderer.domElement);
@@ -73,7 +73,7 @@ const ParticleSystem = () => {
       const delta = clock.current.getDelta();
       animationFrameId.current = requestAnimationFrame(animate);
       particleSystem.animate();
-      starsSystem.animate(delta);
+      starsSystem.animate(delta, 0.04);
       renderer.render(scene, camera);
     };
     controls.update();

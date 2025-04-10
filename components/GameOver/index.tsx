@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import {
   BufferGeometry,
@@ -8,7 +8,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
-import {generateSimilarShadeColorForParticles, Color} from "@/lib/snake/color";
+import { generateSimilarShadeColorForParticles, Color } from "@/lib/snake/color";
 
 const pastelColors: [number, number, number][] = [
   [1.0, 0.2, 0.5], // Hot pink
@@ -25,8 +25,8 @@ const GameOver: React.FC = () => {
   useEffect(() => {
     if (!mountRef.current) return;
 
-    const scene: Scene = new THREE.Scene();
-    const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
+    const scene: Scene = new Scene();
+    const camera: PerspectiveCamera = new PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       0.1,
@@ -34,7 +34,7 @@ const GameOver: React.FC = () => {
     );
     camera.position.z = 20;
 
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    const renderer: WebGLRenderer = new WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     if (mountRef.current) {
@@ -43,9 +43,8 @@ const GameOver: React.FC = () => {
 
     const stars = 2000;
     const positions: number[] = [];
-    const opacities: number[] = [];
     const colors: number[] = [];
-    const geometry: BufferGeometry = new THREE.BufferGeometry();
+    const geometry: BufferGeometry = new BufferGeometry();
     const acceleration: number[] = [];
 
     const randomColor: [number, number, number] =
@@ -56,7 +55,6 @@ const GameOver: React.FC = () => {
       const y: number = (Math.random() - 0.5) * 20;
       const z: number = Math.random() * 10;
       positions.push(x, y, z, x, y, z + 1);
-      opacities.push(1, 1);
 
       const pastelColor: Color = generateSimilarShadeColorForParticles(
         new THREE.Color(randomColor[0], randomColor[1], randomColor[2]),
@@ -74,7 +72,6 @@ const GameOver: React.FC = () => {
     }
 
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(opacities, 1));
     geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
 
     const lineMaterial: LineBasicMaterial = new THREE.LineBasicMaterial({
@@ -93,8 +90,8 @@ const GameOver: React.FC = () => {
       const posArray: Float32Array = geometry.attributes.position.array as Float32Array;
       for (let i = 0; i < stars; i++) {
         acceleration[i] += acceleration[i];
-        posArray[i * 6 + 2] += delta * 10 + acceleration[i];
-        posArray[i * 6 + 5] += delta * 10 + acceleration[i];
+        posArray[i * 6 + 2] += delta * 8 + acceleration[i];
+        posArray[i * 6 + 5] += delta * 8 + acceleration[i];
 
         if (posArray[i * 6 + 5] > 18) {
           const z: number = Math.random() * 5;
@@ -129,7 +126,7 @@ const GameOver: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{position: "absolute", top: "0", right: "0"}}/>;
+  return <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0" }} />;
 };
 
 export default GameOver;

@@ -39,6 +39,7 @@ class Stars {
     const positions: number[] = [];
     const colors: number[] = [];
     const sizes: number[] = [];
+    const opacities: number[] = [];
 
     for (let i = 0; i < MAX_STARS; i++) {
       positions.push(
@@ -51,10 +52,12 @@ class Stars {
       colors.push(color.r, color.g, color.b);
 
       sizes.push(this.size);
+      opacities[i] = Math.random() * 0.5 + 0.5;
     }
 
     this.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
     this.geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    this.geometry.setAttribute("opacity", new THREE.Float32BufferAttribute(opacities, 1));
     this.geometry.setAttribute(
       "size",
       new THREE.Float32BufferAttribute(sizes, 1).setUsage(THREE.DynamicDrawUsage),
@@ -63,11 +66,22 @@ class Stars {
     this.system = new THREE.Points(this.geometry, this.material);
   }
 
-  animate(delta: number): void {
+  animate(delta: number, rotationSpeed: number): void {
     if (!this.system) return;
 
-    this.system.rotation.x += THREE.MathUtils.degToRad(30) * delta * 0.04;
-    this.system.rotation.y += THREE.MathUtils.degToRad(30) * delta * 0.04;
+    const opacities: Float32Array = this.geometry.attributes.opacity.array as Float32Array;
+
+    for (let i = 0; i < MAX_STARS; i++) {
+      opacities[i] -= delta * 0.06;
+      if (opacities[i] < 0.3) {
+        opacities[i] = Math.random() * 0.5 + 0.5;
+      }
+    }
+
+    this.geometry.attributes.opacity.needsUpdate = true;
+
+    this.system.rotation.x += THREE.MathUtils.degToRad(30) * delta * rotationSpeed;
+    this.system.rotation.y += THREE.MathUtils.degToRad(30) * delta * rotationSpeed;
   }
 
   dispose(): void {

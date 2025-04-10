@@ -12,8 +12,8 @@ const LorenzAttractor: React.FC = () => {
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
-    const scene: Scene = new THREE.Scene();
-    const camera: PerspectiveCamera = new THREE.PerspectiveCamera(
+    const scene: Scene = new Scene();
+    const camera: PerspectiveCamera = new PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       0.1,
@@ -22,7 +22,7 @@ const LorenzAttractor: React.FC = () => {
     camera.position.set(0, 0, 70);
     camera.rotation.z = 10;
 
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer({
+    const renderer: WebGLRenderer = new WebGLRenderer({
       antialias: true,
       alpha: true,
     });
@@ -33,9 +33,9 @@ const LorenzAttractor: React.FC = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
 
-    const maxPoints = 30000;
-    const positions = new Float32Array(maxPoints * 3);
-    const colors = new Float32Array(maxPoints * 3);
+    const maxPoints: number = 30000;
+    const positions: Float32Array = new Float32Array(maxPoints * 3);
+    const colors: Float32Array = new Float32Array(maxPoints * 3);
 
     let x: number = 0.1,
       y: number = 0.0,

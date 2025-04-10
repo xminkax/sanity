@@ -108,7 +108,7 @@ class Particles {
       this.life[i] -= this.fade[i];
 
       if (this.life[i] < 0) {
-        const colorIndex = this.colorCounter % colors.length;
+        const colorIndex = this.colorCounter % colorsShades.length;
         colors[i * 3] = colorsShades[colorIndex][0];
         colors[i * 3 + 1] = colorsShades[colorIndex][1];
         colors[i * 3 + 2] = colorsShades[colorIndex][2];

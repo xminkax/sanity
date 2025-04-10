@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import fragmentShader from "./IcelandicSky.frag";
-import vertexShader from "./IcelandicSky.vert";
+import fragmentShader from "./Aurora/IcelandicSky.frag";
+import vertexShader from "./Aurora/IcelandicSky.vert";
 import FPSStats from "react-fps-stats"; // Import OrbitControls
 const AuroraScene = () => {
   const mountRef = useRef(null);

@@ -1,6 +1,7 @@
-import React, {useEffect, useRef} from "react";
+// created based on https://www.youtube.com/watch?v=5f5wwQb22tE
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import {
   AmbientLight,
   Clock,
@@ -17,9 +18,9 @@ import {
   Vector2,
   WebGLRenderer,
 } from "three";
-import {UnrealBloomPass} from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer";
-import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import StarsSystem from "@/components/Particles/Stars";
 
 const Nebula: React.FC = () => {
@@ -37,7 +38,7 @@ const Nebula: React.FC = () => {
       0.1,
       1000,
     );
-    camera.position.z = 8;
+    camera.position.z = 7;
     camera.rotation.z = Math.PI / 4;
 
     THREE.ColorManagement.enabled = false;
@@ -53,7 +54,7 @@ const Nebula: React.FC = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    scene.fog = new FogExp2(0x000102, 0.01);
+    scene.fog = new FogExp2(0x010104, 0.01);
     renderer.setClearColor(scene.fog.color);
 
     const textureLoader: TextureLoader = new TextureLoader();
@@ -92,36 +93,45 @@ const Nebula: React.FC = () => {
       cloudParticles.push(cloud);
     };
 
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 60; i++) {
       createCloud();
     }
 
-    const orangeLight: PointLight = new PointLight(0x420a52, 50, 450, 2);
+    const orangeLight: PointLight = new PointLight(0x0e84c4, 60, 450, 2);
     orangeLight.castShadow = true;
-    orangeLight.position.set(2, 4, 2);
+    orangeLight.position.set(6, 4, 2);
     scene.add(orangeLight);
 
-    const pinkLight: PointLight = new PointLight(0x7d1875, 10, 450, 1.7);
+    const pinkLight: PointLight = new PointLight(0x3677ac, 70, 450, 1.7);
     pinkLight.castShadow = true;
     pinkLight.position.set(2, 4, 2);
-    scene.add(pinkLight);
+    // scene.add(pinkLight);
 
-    const blueLight: PointLight = new PointLight(0x3677ac, 50, 0, 2);
+    const pinkLight2: PointLight = new PointLight(0x0a2430, 200, 200, 1.7);
+    pinkLight2.castShadow = true;
+    pinkLight2.position.set(-2, 4, 2);
+    scene.add(pinkLight2);
+
+    const blueLight: PointLight = new PointLight(0xff5c33, 200, 100, 2);
     blueLight.castShadow = true;
-    blueLight.position.set(2, 4, 10);
+    blueLight.position.set(5, 0, 20);
     scene.add(blueLight);
 
-    const purpleLight: PointLight = new PointLight(0x0a2430, 100, 100, 0.5);
+    const orangeLight2: PointLight = new PointLight(0xff5c33, 40, 100, 0.5);
+    orangeLight2.castShadow = true;
+    orangeLight2.position.set(4, 0, 0);
+    scene.add(orangeLight2);
+
+    const purpleLight: PointLight = new PointLight(0x6932a8, 60, 450, 0.5);
     purpleLight.castShadow = true;
     purpleLight.position.set(4, 1, 0);
-
     scene.add(purpleLight);
 
     const bloomPass: UnrealBloomPass = new UnrealBloomPass(
       new Vector2(window.innerWidth, window.innerHeight),
       0.6,
       1.0,
-      0.3,
+      0.6,
     );
     bloomPass.renderToScreen = true;
 
@@ -133,7 +143,7 @@ const Nebula: React.FC = () => {
       const delta = clock.current.getDelta();
       animationFrameId.current = requestAnimationFrame(animate);
 
-      starsSystem.animate(delta * 0.1);
+      starsSystem.animate(delta, 0.01);
 
       cloudParticles.forEach((cloud) => {
         cloud.rotation.z -= delta * 0.1;
@@ -189,7 +199,7 @@ const Nebula: React.FC = () => {
     };
   }, []);
 
-  return <div ref={sceneRef} style={{position: "fixed", top: "0", right: "0"}}/>;
+  return <div ref={sceneRef} style={{ position: "fixed", top: "0", right: "0" }} />;
 };
 
 export default Nebula;
