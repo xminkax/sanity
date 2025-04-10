@@ -38,7 +38,7 @@ const Nebula: React.FC = () => {
       0.1,
       1000,
     );
-    camera.position.z = 7;
+    camera.position.z = 8;
     camera.rotation.z = Math.PI / 4;
 
     THREE.ColorManagement.enabled = false;
@@ -105,14 +105,14 @@ const Nebula: React.FC = () => {
     const pinkLight: PointLight = new PointLight(0x3677ac, 70, 450, 1.7);
     pinkLight.castShadow = true;
     pinkLight.position.set(2, 4, 2);
-    // scene.add(pinkLight);
+    scene.add(pinkLight);
 
     const pinkLight2: PointLight = new PointLight(0x0a2430, 200, 200, 1.7);
     pinkLight2.castShadow = true;
     pinkLight2.position.set(-2, 4, 2);
     scene.add(pinkLight2);
 
-    const blueLight: PointLight = new PointLight(0xff5c33, 200, 100, 2);
+    const blueLight: PointLight = new PointLight(0xff5c33, 100, 10, 2);
     blueLight.castShadow = true;
     blueLight.position.set(5, 0, 20);
     scene.add(blueLight);
@@ -131,7 +131,7 @@ const Nebula: React.FC = () => {
       new Vector2(window.innerWidth, window.innerHeight),
       0.6,
       1.0,
-      0.6,
+      0.7,
     );
     bloomPass.renderToScreen = true;
 
