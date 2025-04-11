@@ -24,7 +24,10 @@ const ParticleSystem = () => {
     const renderer: WebGLRenderer = new WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    mountRef.current!.appendChild(renderer.domElement);
+    const mount = mountRef.current;
+    if (mount) {
+      mount.appendChild(renderer.domElement);
+    }
 
     const particleSystem: ParticlesSystem = new ParticlesSystem();
     particleSystem.init();
@@ -99,8 +102,11 @@ const ParticleSystem = () => {
       starsSystem.dispose();
       renderer.dispose();
       window.removeEventListener("resize", handleResize);
+      if (mount && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
       window.removeEventListener("keydown", handleKeyDown);
-      mountRef.current!.removeChild(renderer.domElement);
+
     };
   }, []);
 

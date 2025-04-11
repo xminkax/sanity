@@ -5,15 +5,13 @@ import Image from "next/image";
 import Gesture from "../public/gesture.svg";
 import {
   GameState,
-  levelWinTexts,
-  LevelWinBackgrounds,
   MOBILE_SIZE_CANCAS,
 } from "@/constants/snake";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-const SCORE_LEVEL_MULTIPLICATOR = 9;
+const SCORE_LEVEL_MULTIPLICATOR = 1;
 
 const generateFoodPosition = (
   canvasWidth: number,
@@ -31,7 +29,7 @@ const generateFoodPosition = (
 
 type props = {
   gameState?: string;
-  win: () => void;
+  win: (counter: number) => void;
   startGame?: () => void;
   gameOver: () => void;
   level: number;
@@ -123,7 +121,7 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
       setSnake((prev) => [newSnakeHead, ...(prev ?? [])]);
       setShouldAnimate(true);
       setFood(generateFoodPosition(width, height, unitSize));
-      setCounter(counter + 1);
+      setCounter(prevCount => prevCount + 1);
     } else {
       setSnake((prev) => {
         const newSnake = [newSnakeHead, ...(prev ?? [])];
@@ -259,7 +257,7 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
 
     if (counter === SCORE_LEVEL_MULTIPLICATOR * level) {
       // paint();
-      win();
+      win(counter);
     }
   }, [snake, food, counter, paint, win]);
 

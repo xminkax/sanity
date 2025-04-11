@@ -34,7 +34,9 @@ const GameOver: React.FC<props> = ({resetGame}: props) => {
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    if (!mountRef.current) {
+      return;
+    }
 
     const scene: Scene = new Scene();
     const camera: PerspectiveCamera = new PerspectiveCamera(
@@ -130,8 +132,9 @@ const GameOver: React.FC<props> = ({resetGame}: props) => {
     return () => {
       cancelAnimationFrame(animationFrameId.current);
       window.removeEventListener("resize", handleResize);
-      if (mount && mount.contains(renderer.domElement))
+      if (mount && mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
+      }
 
       geometry.dispose();
       lineMaterial.dispose();

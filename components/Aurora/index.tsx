@@ -1,14 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import * as THREE from "three";
 import fragmentShader from "./IcelandicSky.frag";
 import vertexShader from "./IcelandicSky.vert";
-import { Mesh, PlaneGeometry, Scene, ShaderMaterial } from "three";
+import {Mesh, PlaneGeometry, Scene, ShaderMaterial} from "three";
 
 const Aurora: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const animationFrameIdRef = useRef<number>(0);
 
   useEffect(() => {
+    if (!mountRef.current) {
+      return;
+    }
+
     const scene: Scene = new THREE.Scene();
 
     const camera: THREE.OrthographicCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
@@ -16,7 +20,7 @@ const Aurora: React.FC = () => {
 
     const clock = new THREE.Clock();
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -24,8 +28,8 @@ const Aurora: React.FC = () => {
 
     const material: ShaderMaterial = new ShaderMaterial({
       uniforms: {
-        iTime: { value: 0.0 },
-        iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        iTime: {value: 0.0},
+        iResolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
       },
       transparent: true,
       vertexShader,
@@ -35,8 +39,9 @@ const Aurora: React.FC = () => {
     const mesh: Mesh = new Mesh(geometry, material);
     scene.add(mesh);
 
-    if (mountRef.current) {
-      mountRef.current.appendChild(renderer.domElement);
+    const mount = mountRef.current;
+    if (mount) {
+      mount.appendChild(renderer.domElement);
     }
 
     const animate = () => {
@@ -48,13 +53,22 @@ const Aurora: React.FC = () => {
 
     animate();
 
+    const handleResize = () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    };
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
       if (animationFrameIdRef.current !== undefined) {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
+      window.removeEventListener("resize", handleResize);
 
-      if (mountRef.current?.contains(renderer.domElement)) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (mount && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
       }
 
       geometry.dispose();
@@ -64,7 +78,7 @@ const Aurora: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ position: "fixed", top: 0, right: 0 }} />;
+  return <div ref={mountRef} style={{position: "fixed", top: 0, right: 0}}/>;
 };
 
 export default Aurora;
