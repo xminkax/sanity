@@ -7,6 +7,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react';
+import {GameState} from "@/constants/snake";
 
 // 1. Types
 export type GameState = 'menu' | 'playing' | 'game_over' | 'win';
@@ -26,7 +27,7 @@ type GameStateProviderProps ={
 
 // 4. GameStateProvider component
 export const GameStateProvider: React.FC<GameStateProviderProps> = ({ children }) => {
-  const [gameState, setGameState] = useState<GameState>('menu');
+  const [gameState, setGameState] = useState<GameState>(GameState.START);
 
   return (
     <GameStateContext.Provider value={{ gameState, setGameState }}>

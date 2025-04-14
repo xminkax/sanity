@@ -13,6 +13,7 @@ import Aurora from "@/components/Aurora/index";
 import Particles from "@/components/Particles";
 import {useGameState} from "@/context/SnakeGameContext";
 import Panel from "@/components/Panel";
+import {GameState} from "@/constants/snake";
 
 const NUM_STARS: number = 50;
 
@@ -56,8 +57,8 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
   //   background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
   console.log(gameState, "gameState");
 
-  console.log(snakeStats, 'layout');
-  const {level, state} = snakeStats;
+  // console.log(snakeStats, 'layout');
+  const {level} = snakeStats;
   return (
     <body className="">
     <Header shouldDisplayResetIcon={false}/>
@@ -68,14 +69,14 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
         <LorenzAttractor/>
       </div>
     }
-    {gameState === "playing" && <div className="stars">{generateStars()}</div>}
-    {level === 1 && (pathname !== "/games" || (pathname === "/games" && gameState === "menu")) &&
+    {gameState === GameState.PLAYING && <div className="stars">{generateStars()}</div>}
+    {level === 1 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
       <div><Aurora/>lala</div>
     }
-    {level === 2 && (pathname !== "/games" || (pathname === "/games" && gameState !== "game over")) &&
+    {level === 2 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
       <Particles/>
     }
-    {level === 3 && (pathname !== "/games" || (pathname === "/games" && gameState === "menu"))  &&
+    {level === 3 && (pathname !== "/games" ||  (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
       <Nebula/>
     }
     {/*<div className="stars"></div>*/}

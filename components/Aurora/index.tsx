@@ -7,6 +7,7 @@ import {Mesh, PlaneGeometry, Scene, ShaderMaterial} from "three";
 const Aurora: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const animationFrameIdRef = useRef<number>(0);
+  const clock = useRef<THREE.Clock>(new THREE.Clock());
 
   useEffect(() => {
     if (!mountRef.current) {
@@ -17,8 +18,6 @@ const Aurora: React.FC = () => {
 
     const camera: THREE.OrthographicCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 10;
-
-    const clock = new THREE.Clock();
 
     const renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -45,7 +44,7 @@ const Aurora: React.FC = () => {
     }
 
     const animate = () => {
-      const delta = clock.getDelta();
+      const delta: number = clock.current.getDelta();
       material.uniforms.iTime.value += delta * 0.3;
       renderer.render(scene, camera);
       animationFrameIdRef.current = requestAnimationFrame(animate);

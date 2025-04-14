@@ -1,9 +1,8 @@
 import { Press_Start_2P } from "next/font/google";
-import React, {useEffect} from "react";
+import React from "react";
 
 type MenuProps = {
   startGame: () => void; // Type it explicitly
-  nextLevel: number; // Type it explicitly
 };
 
 const pressStart2P = Press_Start_2P({
@@ -11,15 +10,11 @@ const pressStart2P = Press_Start_2P({
   subsets: ["latin"],
   display: "swap",
 });
-export default function Menu({ startGame, nextLevel }: MenuProps) {
-  useEffect(() => {
-    console.log("run");
-  }, []);
+export default function Menu({ startGame }: MenuProps) {
   return (
     <div
       className={`game-over-mobile flex flex-col items-center justify-center h-screen ${pressStart2P.className}`}
     >
-      {nextLevel && <span>Level {nextLevel}</span>}
       <h1
         className="text-6xl uppercase  mb-8 font-bold text-center text-[wheat]"
         style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}

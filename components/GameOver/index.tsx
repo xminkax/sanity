@@ -143,7 +143,7 @@ const GameOver: React.FC<props> = ({resetGame}: props) => {
   }, []);
 
   return <div className={`w-full h-64 ${pressStart2P.className}`}>
-    <div ref={mountRef} className="absolute  top-0 left-0 w-full"/>
+    <div ref={mountRef} className="fixed  top-0 left-0 w-full"/>
     <div
       className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
     >

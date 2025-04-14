@@ -24,12 +24,12 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import StarsSystem from "@/components/Particles/Stars";
 
 const Nebula: React.FC = () => {
-  const sceneRef = useRef<HTMLDivElement | null>(null);
+  const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef(new Clock());
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
-    if (!sceneRef.current) return;
+    if (!mountRef.current) return;
 
     const scene: Scene = new Scene();
     const camera: PerspectiveCamera = new PerspectiveCamera(
@@ -49,7 +49,10 @@ const Nebula: React.FC = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
 
-    sceneRef.current.appendChild(renderer.domElement);
+    const mount = mountRef.current;
+    if (mount) {
+      mount.appendChild(renderer.domElement);
+    }
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -195,11 +198,13 @@ const Nebula: React.FC = () => {
 
       starsSystem.dispose();
 
-      sceneRef.current!.removeChild(renderer.domElement);
+      if (mount && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
-  return <div ref={sceneRef} style={{ position: "fixed", top: "0", right: "0" }} />;
+  return <div ref={mountRef} style={{ position: "fixed", top: "0", right: "0" }} />;
 };
 
 export default Nebula;

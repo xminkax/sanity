@@ -6,7 +6,7 @@ import {useLocalStorage} from "usehooks-ts";
 // import StatusScreen from "@/components/NextLevel";
 import Menu from "@/components/Menu";
 // import GameOverMobile from "@/components/GameOverMobile";
-import {GameState} from "@/constants/snake";
+import {GameState, calculateTotalScore} from "@/constants/snake";
 import NextLevel from "@/components/NextLevel";
 import {Press_Start_2P} from "next/font/google";
 import GameOver from "@/components/GameOver/index";
@@ -31,11 +31,14 @@ export default function Games() {
   const [snakeStats, setSnakeStats, removeSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
     level: 0,
     highScore: 0,
-    menu: GameState.MENU,
+    menu: GameState.START,
   });
 
   useEffect(() => {
     setHasLoaded(true);
+    if(snakeStats.level > 0) {
+      setGameState(GameState.NEXT_LEVEL);
+    }
   }, []);
 
   if (!hasLoaded) {
@@ -49,7 +52,6 @@ export default function Games() {
       level: 0
     }));
   };
-  console.log(snakeStats, 'game');
   return (
     <>
       <div
@@ -59,7 +61,7 @@ export default function Games() {
           // padding: "8rem",
         }}
       >
-        {gameState === GameState.MENU && (
+        {gameState === GameState.START && (
           <div className="snake-animated-state">
             <Menu
               startGame={() => {
@@ -69,15 +71,15 @@ export default function Games() {
                 }));
                 setGameState(GameState.PLAYING)
               }}
-              nextLevel={Number(snakeStats?.level) + 1}
             />
           </div>
         )}
         {gameState === GameState.PLAYING && (
           <div className="snake-animated-state">
             <SnakeGame
+              highScore={snakeStats.highScore}
+              score={calculateTotalScore(Number(snakeStats?.level))}
               level={Number(snakeStats?.level) + 1}
-              gameState={GameState.PLAYING}
               gameOver={() => {
                 setGameState(GameState.GAME_OVER);
                 setSnakeStats(prev => ({
@@ -86,7 +88,8 @@ export default function Games() {
                 }));
               }}
               win={(score) => {
-                setGameState(GameState.WIN);
+                setGameState(GameState.NEXT_LEVEL);
+                console.log("win");
                 setSnakeStats(prev => ({
                   level: Number(snakeStats?.level) + 1,
                   highScore: score > prev.highScore ? score : prev.highScore
@@ -95,7 +98,7 @@ export default function Games() {
             />
           </div>
         )}
-        {gameState === GameState.WIN && (
+        {gameState === GameState.NEXT_LEVEL && (
           <div className="snake-animated-state">
             <NextLevel
               handleNextLevel={() => {

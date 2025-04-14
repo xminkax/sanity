@@ -4,14 +4,13 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Gesture from "../public/gesture.svg";
 import {
-  GameState,
-  MOBILE_SIZE_CANCAS,
+  MOBILE_SIZE_CANCAS, calculateTotalScore
 } from "@/constants/snake";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-const SCORE_LEVEL_MULTIPLICATOR = 1;
+const SCORE_LEVEL_MULTIPLICATOR = 5;
 
 const generateFoodPosition = (
   canvasWidth: number,
@@ -28,14 +27,13 @@ const generateFoodPosition = (
 };
 
 type props = {
-  gameState?: string;
   win: (counter: number) => void;
-  startGame?: () => void;
   gameOver: () => void;
   level: number;
+  highScore: number;
 };
 
-export default function SnakeGame({ gameState, win, startGame, gameOver, level }: props) {
+export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState<{
     width: number;
@@ -46,7 +44,7 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
   const [startX, setStartX] = useState<number | null>(null);
   const [startY, setStartY] = useState<number | null>(null);
   // const [startY, setStartY] = useState(null);
-  const [counter, setCounter] = useState<number>(0);
+  const [counter, setCounter] = useState<number>(score);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>();
   const [food, setFood] = useState<{
     x: number;
@@ -178,9 +176,6 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (gameState !== GameState.PLAYING) {
-        return;
-      }
       switch (event.key) {
         case "ArrowLeft":
           setDirectionFromEvents("left");
@@ -196,12 +191,11 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
           break;
       }
     },
-    [gameState, setDirectionFromEvents],
+    [setDirectionFromEvents],
   );
 
   const paint = useCallback(() => {
     if (!snake || snake.length === 0) return;
-    if (gameState !== GameState.PLAYING) return;
     if (!canvasConfig) {
       return;
     }
@@ -250,16 +244,16 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
     ctx.fillRect(food.x, food.y, unitSize, unitSize);
 
     // ctx.backgroundColor = "#111111";
-  }, [gameState, canvasConfig, food.x, food.y, snake]);
+  }, [canvasConfig, food.x, food.y, snake]);
 
   useEffect(() => {
-    paint();
-
-    if (counter === SCORE_LEVEL_MULTIPLICATOR * level) {
-      // paint();
+    if (counter === calculateTotalScore(level)) {
       win(counter);
     }
+    paint();
   }, [snake, food, counter, paint, win]);
+
+  // console.log(calculateTotalScore(level), "calculateTotalScore(level+1)")
 
   const handleTouchMove = (event: React.TouchEvent) => {
     if (!startX || !startY) return;
@@ -282,7 +276,7 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [gameState, onKeyDown]);
+  }, [onKeyDown]);
 
   useEffect(() => {
     if (shouldAnimate) {
@@ -316,14 +310,17 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
   return (
     <div className="flex flex-col justify-center h-screen ">
       <div className="flex py-6 justify-self-start">
-        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
-          Score:{counter}/{SCORE_LEVEL_MULTIPLICATOR * level}
+        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+          Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
-          Level:{level}
+        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+          High score: {highScore}
+        </div>
+        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+          Level: {level}
         </div>
       </div>
-      <div style={{ zIndex: 2, position: "relative" }}>
+      <div style={{zIndex: 2, position: "relative"}}>
         {canvasConfig && (
           <canvas
             className="panel"
@@ -342,14 +339,6 @@ export default function SnakeGame({ gameState, win, startGame, gameOver, level }
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
           />
-        )}
-        {canvasConfig && gameState === GameState.MENU && (
-          <div className="overlay">
-            <button className="retro-button btn-snake" onClick={startGame}>
-              Play
-            </button>
-            <Image className="icon-gesture" src={Gesture} alt="Gesture how to play" />
-          </div>
         )}
       </div>
     </div>
