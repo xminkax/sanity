@@ -12,6 +12,9 @@ const LorenzAttractor: React.FC = () => {
   const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
+    if (!mountRef.current) {
+      return;
+    }
     const scene: Scene = new Scene();
     const camera: PerspectiveCamera = new PerspectiveCamera(
       75,
@@ -29,8 +32,9 @@ const LorenzAttractor: React.FC = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    if (mountRef.current) {
-      mountRef.current.appendChild(renderer.domElement);
+    const mount = mountRef.current;
+    if (mount) {
+      mount.appendChild(renderer.domElement);
     }
 
     const maxPoints: number = 30000;
@@ -129,8 +133,8 @@ const LorenzAttractor: React.FC = () => {
     // Cleanup on unmount
     return () => {
       window.removeEventListener("resize", onWindowResize);
-      if (mountRef.current) {
-        mountRef.current!.removeChild(renderer.domElement);
+      if (mount && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
       }
 
       cancelAnimationFrame(animationFrameId.current);

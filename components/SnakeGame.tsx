@@ -1,8 +1,6 @@
 "use client";
 import "@/app/globals.css";
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-import Gesture from "../public/gesture.svg";
+import React, {useRef, useEffect, useState, useCallback} from "react";
 import {
   MOBILE_SIZE_CANCAS, calculateTotalScore
 } from "@/constants/snake";
@@ -10,7 +8,6 @@ import {
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-const SCORE_LEVEL_MULTIPLICATOR = 5;
 
 const generateFoodPosition = (
   canvasWidth: number,
@@ -33,7 +30,7 @@ type props = {
   highScore: number;
 };
 
-export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
+export default function SnakeGame({win, gameOver, level, score, highScore}: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState<{
     width: number;
@@ -49,7 +46,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   const [food, setFood] = useState<{
     x: number;
     y: number;
-  }>({ x: 0, y: 0 });
+  }>({x: 0, y: 0});
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -68,7 +65,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
       width = unitSize * 50;
       height = unitSize * numberOfCells;
     }
-    setCanvasConfig({ width, height, unitSize });
+    setCanvasConfig({width, height, unitSize});
     setSnake([
       {
         x: defaultSnakePosition * unitSize,
@@ -92,7 +89,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
       return;
     }
     if (!snake || snake.length === 0) return;
-    const { width, height, unitSize } = canvasConfig;
+    const {width, height, unitSize} = canvasConfig;
     const newSnakeHead = {
       x: snake[0].x + direction.x,
       y: snake[0].y + direction.y,
@@ -118,8 +115,8 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
       setSnake((prev) => [newSnakeHead, ...(prev ?? [])]);
       setShouldAnimate(true);
-      setFood(generateFoodPosition(width, height, unitSize));
       setCounter(prevCount => prevCount + 1);
+      setFood(generateFoodPosition(width, height, unitSize));
     } else {
       setSnake((prev) => {
         const newSnake = [newSnakeHead, ...(prev ?? [])];
@@ -147,20 +144,20 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
       if (!canvasConfig) {
         return;
       }
-      const { unitSize } = canvasConfig;
+      const {unitSize} = canvasConfig;
       let directionTemp;
       switch (directionText) {
         case "left":
-          directionTemp = { x: -unitSize, y: 0 };
+          directionTemp = {x: -unitSize, y: 0};
           break;
         case "right":
-          directionTemp = { x: unitSize, y: 0 };
+          directionTemp = {x: unitSize, y: 0};
           break;
         case "up":
-          directionTemp = { x: 0, y: -unitSize };
+          directionTemp = {x: 0, y: -unitSize};
           break;
         case "down":
-          directionTemp = { x: 0, y: unitSize };
+          directionTemp = {x: 0, y: unitSize};
           break;
       }
 
@@ -194,12 +191,12 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     [setDirectionFromEvents],
   );
 
-  const paint = useCallback(() => {
+  const paint = useCallback((isWin: boolean) => {
     if (!snake || snake.length === 0) return;
     if (!canvasConfig) {
       return;
     }
-    const { width, height, unitSize } = canvasConfig;
+    const {width, height, unitSize} = canvasConfig;
     const ctx = canvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
@@ -240,17 +237,20 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     if (!ctx) {
       return;
     }
-    ctx.fillStyle = FOOD_COLOR;
-    ctx.fillRect(food.x, food.y, unitSize, unitSize);
+    if (!isWin) {
+      ctx.fillStyle = FOOD_COLOR;
+      ctx.fillRect(food.x, food.y, unitSize, unitSize);
+    }
 
     // ctx.backgroundColor = "#111111";
   }, [canvasConfig, food.x, food.y, snake]);
 
   useEffect(() => {
-    if (counter === calculateTotalScore(level)) {
+    const isWin = counter === calculateTotalScore(level);
+    paint(isWin);
+    if (isWin) {
       win(counter);
     }
-    paint();
   }, [snake, food, counter, paint, win]);
 
   // console.log(calculateTotalScore(level), "calculateTotalScore(level+1)")

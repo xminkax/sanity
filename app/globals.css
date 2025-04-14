@@ -298,7 +298,7 @@ body {
 }
 
 .snake-animated-state {
-  z-index: 20;
+  /*z-index: 20;*/
   opacity: 0; /* Start hidden */
   animation: snakeFadeIn 2s forwards; /* Apply fade-in animation */
 }

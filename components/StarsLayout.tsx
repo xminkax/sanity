@@ -27,7 +27,7 @@ const generateStars = (): JSX.Element[] => {
   return Array.from({length: NUM_STARS}).map((_, index) => {
     const starStyle: StarStyle = {
       left: Math.random() * 100 + "vw",
-      animationDelay: Math.random() * 3 + "s" + " 0s",
+      animationDelay: Math.random() * 3 + "s",
       top: Math.random() * 100 + "vh",
     };
 
@@ -41,7 +41,7 @@ type SnakeStats = {
 };
 
 const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
-  const { gameState, setGameState } = useGameState();
+  const {gameState, setGameState} = useGameState();
   const pathname = usePathname();
   const [hasLoaded, setHasLoaded] = useState(false);
   const [snakeStats, setSnakeStats, removeSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
@@ -60,40 +60,27 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
   // console.log(snakeStats, 'layout');
   const {level} = snakeStats;
   return (
-    <body className="">
+    <body>
     <Header shouldDisplayResetIcon={false}/>
-    {level === 0 && pathname !== "/games" &&
+
+    {hasLoaded && level === 0 && pathname !== "/games" &&
       <div className="stars">
         {/*{generateStars()}*/}
         {/*<Stars/>*/}
         <LorenzAttractor/>
       </div>
     }
-    {gameState === GameState.PLAYING && <div className="stars">{generateStars()}</div>}
-    {level === 1 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
-      <div><Aurora/>lala</div>
+    {hasLoaded && (gameState === GameState.PLAYING || gameState === GameState.START) && <div className="stars">{generateStars()}</div>}
+    {hasLoaded && level === 1 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+      <div><Aurora/></div>
     }
-    {level === 2 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+    {hasLoaded && level === 2 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
       <Particles/>
     }
-    {level === 3 && (pathname !== "/games" ||  (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+    {hasLoaded && level === 3 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
       <Nebula/>
     }
-    {/*<div className="stars"></div>*/}
-    {/*{background === LevelWinBackgrounds["level_0"] && (*/}
-    {/*  <div className="stars">{generateStars()}</div>*/}
-    {/*)}*/}
-    {/*{background === LevelWinBackgrounds["level_2"] && (*/}
-    {/*  <div className="stars">*/}
-    {/*    <div className="sky">*/}
-    {/*      <div className="star-snake"></div>*/}
-    {/*    </div>*/}
-    {/*    {generateStars()}*/}
-    {/*  </div>*/}
-    {/*)}*/}
-    {/*{background === LevelWinBackgrounds["level_1"] && (*/}
-    {/*  <div className="stars"><MilkyWay/></div>*/}
-    {/*)}*/}
+
     {children}
     </body>
   );

@@ -32,7 +32,7 @@ export default function handleNextLevel({resetGame, handleNextLevel, nextLevel}:
       >
         Level {nextLevel - 1} cleared
       </h1>
-      {dictionary["level_" + (nextLevel - 1)].map(item => <p className="text-[#F0E6D2] max-w-xl text-center mb-2">{item}</p>)}
+      {dictionary["level_" + (nextLevel - 1)].map((item,_) => <p key={_} className="text-[#F0E6D2] max-w-xl text-center mb-2">{item}</p>)}
       <div className="flex flex-col items-stretch gap-2">
         <button onClick={handleNextLevel} className="mt-6 px-6 py-3 next-level-btn text-2xl">
           Level {nextLevel}
