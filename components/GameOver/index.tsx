@@ -25,10 +25,10 @@ const pastelColors: [number, number, number][] = [
 ];
 
 type props = {
-  resetGame: () => void;
+  playAgain: () => void;
 };
 
-const GameOver: React.FC<props> = ({resetGame}: props) => {
+const GameOver: React.FC<props> = ({playAgain}: props) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef<THREE.Clock>(new THREE.Clock());
   const animationFrameId = useRef<number>(0);
@@ -153,7 +153,7 @@ const GameOver: React.FC<props> = ({resetGame}: props) => {
       >
         Game over
       </h1>
-      <button onClick={resetGame} className="mt-6 px-6 py-3 reset-btn text-2xl">Play</button>
+      <button onClick={playAgain} className="mt-6 px-6 py-3 reset-btn text-2xl">Play</button>
     </div>
   </div>;
 };

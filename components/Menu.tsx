@@ -16,14 +16,14 @@ export default function Menu({ startGame }: MenuProps) {
       className={`game-over-mobile flex flex-col items-center justify-center h-screen ${pressStart2P.className}`}
     >
       <h1
-        className="text-6xl uppercase  mb-8 font-bold text-center text-[wheat]"
+        className="text-5xl uppercase  mb-8 font-bold text-center text-[wheat]"
         style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
       >
         Snake
       </h1>
-      <h2 className="text-[#F0E6D2] max-w-xl">
-        Welcome in the past. Play snake and observe various effects on the night sky.
-      </h2>
+      <p className="text-[#F0E6D2] max-w-xl mb-4 text-lg text-center">
+        Step into my memories and come beneath a sky of forgotten effects. Each win reveals the sky in motion.
+      </p>
       <div className="flex flex-col items-stretch gap-2">
         <button onClick={startGame} className="mt-6 px-6 py-3 next-level-btn text-2xl">
           Play

@@ -8,6 +8,8 @@ import { Press_Start_2P } from "next/font/google";
 
 interface HeaderProps {
   shouldDisplayResetIcon: boolean;
+  reset: void;
+  isResetDisabled: boolean;
 }
 
 const pressStart2P = Press_Start_2P({
@@ -16,7 +18,7 @@ const pressStart2P = Press_Start_2P({
   display: "swap",
 });
 
-const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
+const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetDisabled }) => {
   const pathname = usePathname();
   const text = pathname === "/games" && pressStart2P.className;
   return (
@@ -55,7 +57,8 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
 
       {shouldDisplayResetIcon && (
         <div className="ml-auto">
-          <button className="image-button">
+          <button onClick={reset} disabled={isResetDisabled} className={`transition-opacity duration-300 ${isResetDisabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:opacity-80'}`}
+          >
             <Image className="sm:w-full w-[2rem]" priority src={undo} alt="reset background" />
           </button>
         </div>

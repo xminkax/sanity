@@ -49,6 +49,8 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
     highScore: 0
   });
 
+  const shouldDisplayBackgroundFromGame = () => hasLoaded && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL))
+
   useEffect(() => {
     setHasLoaded(true);
   }, []);
@@ -57,30 +59,36 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
   //   background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
   console.log(gameState, "gameState");
 
+  const reset = () => {
+    setSnakeStats(prev => ({
+      ...prev,
+      level: 0
+    }));
+    setGameState(GameState.START);
+  }
+
   // console.log(snakeStats, 'layout');
-  const {level} = snakeStats;
+  const {level, highScore} = snakeStats;
   return (
     <body>
-    <Header shouldDisplayResetIcon={false}/>
+    <Header shouldDisplayResetIcon={highScore > 0} reset={reset} isResetDisabled={highScore > 0 && level===0}/>
 
     {hasLoaded && level === 0 && pathname !== "/games" &&
-      <div className="stars">
-        {/*{generateStars()}*/}
-        {/*<Stars/>*/}
+      <div>
         <LorenzAttractor/>
       </div>
     }
-    {hasLoaded && (gameState === GameState.PLAYING || gameState === GameState.START) && <div className="stars">{generateStars()}</div>}
-    {hasLoaded && level === 1 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+    {hasLoaded && ((gameState === GameState.PLAYING || gameState === GameState.START) && pathname === "/games") &&
+      <div>{generateStars()}</div>}
+    {level === 1 && shouldDisplayBackgroundFromGame() &&
       <div><Aurora/></div>
     }
-    {hasLoaded && level === 2 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+    {level === 2 && shouldDisplayBackgroundFromGame() &&
       <Particles/>
     }
-    {hasLoaded && level === 3 && (pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL)) &&
+    {level === 3 && shouldDisplayBackgroundFromGame() &&
       <Nebula/>
     }
-
     {children}
     </body>
   );

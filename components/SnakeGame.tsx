@@ -51,7 +51,9 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     x: 0,
     y: 0,
   });
-  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
+  const [pendingWin, setPendingWin] = useState(false);
+
+  const isWin = () => counter === calculateTotalScore(level);
 
   useEffect(() => {
     let unitSize = 15;
@@ -82,6 +84,11 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     ]);
     //todo add check that it doesn't exist
     setFood(generateFoodPosition(width, height, unitSize));
+
+    if(canvasRef.current) {
+    canvasRef.current.addEventListener('touchstart', handleTouchStart);
+    canvasRef.current.addEventListener('touchmove', handleTouchMove);
+    }
   }, []);
 
   const updateSnake = useCallback(() => {
@@ -97,24 +104,24 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
 
     //wall collision
     if (
-      newSnakeHead.x === width ||
-      newSnakeHead.y === height ||
-      newSnakeHead.x === -unitSize ||
-      newSnakeHead.y === -unitSize
+      !isWin() &&
+      (newSnakeHead.x === width ||
+        newSnakeHead.y === height ||
+        newSnakeHead.x === -unitSize ||
+        newSnakeHead.y === -unitSize)
     ) {
       gameOver();
       return;
     }
 
     //snake collision
-    if (snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
+    if (!isWin() && (snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y))) {
       gameOver();
     }
 
     //eats food
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
       setSnake((prev) => [newSnakeHead, ...(prev ?? [])]);
-      setShouldAnimate(true);
       setCounter(prevCount => prevCount + 1);
       setFood(generateFoodPosition(width, height, unitSize));
     } else {
@@ -191,7 +198,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     [setDirectionFromEvents],
   );
 
-  const paint = useCallback((isWin: boolean) => {
+  const paint = useCallback(() => {
     if (!snake || snake.length === 0) return;
     if (!canvasConfig) {
       return;
@@ -237,25 +244,23 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     if (!ctx) {
       return;
     }
-    if (!isWin) {
+    if (!isWin()) {
       ctx.fillStyle = FOOD_COLOR;
       ctx.fillRect(food.x, food.y, unitSize, unitSize);
     }
-
-    // ctx.backgroundColor = "#111111";
   }, [canvasConfig, food.x, food.y, snake]);
 
+  //to eat last food after collision detected
   useEffect(() => {
-    const isWin = counter === calculateTotalScore(level);
-    paint(isWin);
-    if (isWin) {
+    paint();
+    if(pendingWin) {
+      setPendingWin(false);
       win(counter);
     }
-  }, [snake, food, counter, paint, win]);
-
-  // console.log(calculateTotalScore(level), "calculateTotalScore(level+1)")
+  }, [snake, food, pendingWin, paint]);
 
   const handleTouchMove = (event: React.TouchEvent) => {
+    event.preventDefault();
     if (!startX || !startY) return;
 
     const diffX = event.touches[0].clientX - startX;
@@ -279,30 +284,36 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   }, [onKeyDown]);
 
   useEffect(() => {
-    if (shouldAnimate) {
-      const myReference = canvasRef.current;
-      // myReference.style.backgroundColor = "#202020";
-      setShouldAnimate(false);
-    }
-  }, [shouldAnimate]);
+    let animationFrameId: number;
+    let lastUpdateTime = performance.now();
+    const interval = 120 - LEVEL_SPEED * level;
 
-  useEffect(() => {
-    if (direction.x === 0 && direction.y === 0) {
-      return;
-    }
-    const interval = setInterval(
-      () => {
+    const tick = (now: number) => {
+      const elapsed = now - lastUpdateTime;
+
+      if (elapsed > interval) {
+        lastUpdateTime = now;
         updateSnake();
-      },
-      120 - LEVEL_SPEED * level,
-    );
-    return () => {
-      clearInterval(interval);
+
+        if (isWin()) {
+          setPendingWin(true);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(tick);
     };
-  }, [direction, snake, updateSnake, level]);
+
+    if (direction.x !== 0 || direction.y !== 0) {
+      animationFrameId = requestAnimationFrame(tick);
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [direction, updateSnake, level]);
 
   const handleTouchStart = (event: React.TouchEvent) => {
-    // event.preventDefault();
+    event.preventDefault();
     setStartX(event.touches[0].clientX);
     setStartY(event.touches[0].clientY);
   };
@@ -329,11 +340,8 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
             height={canvasConfig.height}
             style={
               {
-                // border: "8px solid",
-                // borderImage: "linear-gradient(to right, wheat 0%, wheat 100%) 1",
-                // touchAction: "none",
-                // backgroundColor: "rgba(182, 255, 198, 1)",
-                // zIndex: 2,
+                overflow: "hidden",
+                touchAction: "none",
               }
             }
             onTouchStart={handleTouchStart}

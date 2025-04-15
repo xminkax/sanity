@@ -37,7 +37,7 @@ const LorenzAttractor: React.FC = () => {
       mount.appendChild(renderer.domElement);
     }
 
-    const maxPoints: number = 30000;
+    const maxPoints: number = 18000;
     const positions: Float32Array = new Float32Array(maxPoints * 3);
     const colors: Float32Array = new Float32Array(maxPoints * 3);
 

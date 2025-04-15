@@ -39,14 +39,22 @@ export default function Games() {
     if(snakeStats.level > 0) {
       setGameState(GameState.NEXT_LEVEL);
     }
-  }, []);
+  }, [setGameState, snakeStats.level]);
 
   if (!hasLoaded) {
     return null;
   }
 
-  const resetGame = () => {
+  const playAgain = () => {
     setGameState(GameState.PLAYING);
+    setSnakeStats(prev => ({
+      ...prev,
+      level: 0
+    }));
+  };
+
+  const resetGame = () => {
+    setGameState(GameState.START);
     setSnakeStats(prev => ({
       ...prev,
       level: 0
@@ -84,12 +92,11 @@ export default function Games() {
                 setGameState(GameState.GAME_OVER);
                 setSnakeStats(prev => ({
                   ...prev,
-                  level: 1
+                  level: 0
                 }));
               }}
               win={(score) => {
                 setGameState(GameState.NEXT_LEVEL);
-                console.log("win");
                 setSnakeStats(prev => ({
                   level: Number(snakeStats?.level) + 1,
                   highScore: score > prev.highScore ? score : prev.highScore
@@ -111,8 +118,7 @@ export default function Games() {
         )}
         {gameState === GameState.GAME_OVER && (
           <div className="snake-animated-state">
-            <GameOver resetGame={resetGame}/>
-            {/*<GameOverMobile resetGame={resetGame} />*/}
+            <GameOver playAgain={playAgain}/>
           </div>
         )}
       </div>
