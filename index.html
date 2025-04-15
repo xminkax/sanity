@@ -1,37 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake Crawling Text Effect</title>
-  <style>
-    body {
-      background-color: black;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .snake-text {
-      font-size: 2rem;
-      font-weight: bold;
-      position: absolute;
-      white-space: nowrap;
-      animation: snakeMove 5s linear infinite;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Crawling Text Effect</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .snake-text {
+        font-size: 2rem;
+        font-weight: bold;
+        position: absolute;
+        white-space: nowrap;
+        animation: snakeMove 5s linear infinite;
+      }
 
-    @keyframes snakeMove {
-      0% { transform: translateX(-100%) translateY(0); }
-      25% { transform: translateX(25%) translateY(20px); }
-      50% { transform: translateX(50%) translateY(-20px); }
-      75% { transform: translateX(75%) translateY(20px); }
-      100% { transform: translateX(100%) translateY(0); }
-    }
-  </style>
-</head>
-<body>
-<div class="snake-text">🐍 Crawling Text Effect 🐍</div>
-</body>
+      @keyframes snakeMove {
+        0% {
+          transform: translateX(-100%) translateY(0);
+        }
+        25% {
+          transform: translateX(25%) translateY(20px);
+        }
+        50% {
+          transform: translateX(50%) translateY(-20px);
+        }
+        75% {
+          transform: translateX(75%) translateY(20px);
+        }
+        100% {
+          transform: translateX(100%) translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="snake-text">🐍 Crawling Text Effect 🐍</div>
+  </body>
 </html>

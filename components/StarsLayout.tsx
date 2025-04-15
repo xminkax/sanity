@@ -5,14 +5,9 @@ import {usePathname} from "next/navigation";
 import Header from "@/components/Header";
 import LorenzAttractor from "@/components/LorenzAttractor/Index";
 import Nebula from "@/components/Nebula/index";
-import Stars from "@/components/Stars/index";
-// import LorenzAttractor from "@/components/LorenzAttractor";
-import GameOver from "@/components/GameOver";
-// import NightSky from "@/components/NightSky";
 import Aurora from "@/components/Aurora/index";
 import Particles from "@/components/Particles";
 import {useGameState} from "@/context/SnakeGameContext";
-import Panel from "@/components/Panel";
 import {GameState} from "@/constants/snake";
 
 const NUM_STARS: number = 50;
@@ -55,10 +50,6 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
     setHasLoaded(true);
   }, []);
 
-  // const shouldDisplayResetIcon =
-  //   background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
-  console.log(gameState, "gameState");
-
   const reset = () => {
     setSnakeStats(prev => ({
       ...prev,
@@ -95,23 +86,3 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
 };
 
 export default StarsLayout;
-
-
-// <body className="night-sky">
-// <Header shouldDisplayResetIcon={false}/>
-// {level === 0 &&
-//   <div className="stars">
-//     {/*{generateStars()}*/}
-//     {/*<Stars/>*/}
-//     {/*<LorenzAttractor/>*/}
-//   </div>
-// }
-// {level === 1 &&
-//   <Aurora/>
-// }
-// {level === 2 &&
-//   <Particles/>
-// }
-// {level === 3 &&
-//   <Nebula/>
-// }

@@ -1,32 +1,20 @@
 "use client";
-import SnakeGame from "@/components/SnakeGame";
+import SnakeGame from "@/components/Snake/SnakeGame";
 import React, {useEffect, useRef, useState} from "react";
 import {useLocalStorage} from "usehooks-ts";
-// import Index from "@/components/GameOver";
-// import StatusScreen from "@/components/NextLevel";
-import Menu from "@/components/Menu";
-// import GameOverMobile from "@/components/GameOverMobile";
+import Menu from "@/components/Snake/Menu";
 import {GameState, calculateTotalScore} from "@/constants/snake";
-import NextLevel from "@/components/NextLevel";
-import {Press_Start_2P} from "next/font/google";
-import GameOver from "@/components/GameOver/index";
+import NextLevel from "@/components/Snake/NextLevel";
+import GameOver from "@/components/Snake/GameOver";
 import {useGameState} from "@/context/SnakeGameContext";
-
-const pressStart2P = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 type SnakeStats = {
   level: number;
   highScore: number;
 };
 
-
 export default function Games() {
   const { gameState, setGameState } = useGameState();
-  // const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [snakeStats, setSnakeStats, removeSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
     level: 0,

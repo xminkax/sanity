@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import Hero from "@/components/Hero";
-import Panel from "@/components/Panel";
+import Hero from "@/components/Homepage/Hero";
+import Panel from "@/components/Homepage/Panel";
 
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 const aboutMe = {

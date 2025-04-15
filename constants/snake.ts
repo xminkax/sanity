@@ -8,7 +8,7 @@ export enum GameState {
 export function calculateTotalScore(levelNumber) {
   let totalScore = 0;
   for (let i = 1; i <= levelNumber; i++) {
-    totalScore += 1 + i;
+    totalScore += 2;
   }
   return totalScore;
 }
