@@ -15,6 +15,13 @@ const nextConfig = {
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+
+    // fileLoaderRule.exclude = /\.svg$/i;
+    config.module.rules.push({
       test: /\.(glsl|vs|fs|frag|vert)$/, // Match GLSL files
       use: "raw-loader",
     });
