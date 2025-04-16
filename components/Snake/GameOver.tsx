@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import {
   BufferGeometry,
@@ -8,8 +8,8 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
-import {generateSimilarShadeColorForParticles, Color} from "@/lib/snake/color";
-import {Press_Start_2P} from "next/font/google";
+import { generateSimilarShadeColorForParticles, Color } from "@/lib/snake/color";
+import { Press_Start_2P } from "next/font/google";
 
 const pressStart2P = Press_Start_2P({
   weight: "400",
@@ -28,7 +28,7 @@ type props = {
   playAgain: () => void;
 };
 
-const GameOver: React.FC<props> = ({playAgain}: props) => {
+const GameOver: React.FC<props> = ({ playAgain }: props) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef<THREE.Clock>(new THREE.Clock());
   const animationFrameId = useRef<number>(0);
@@ -47,7 +47,7 @@ const GameOver: React.FC<props> = ({playAgain}: props) => {
     );
     camera.position.z = 20;
 
-    const renderer: WebGLRenderer = new WebGLRenderer({alpha: true});
+    const renderer: WebGLRenderer = new WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     const mount = mountRef.current;
@@ -142,20 +142,24 @@ const GameOver: React.FC<props> = ({playAgain}: props) => {
     };
   }, []);
 
-  return <div className={`w-full h-64 ${pressStart2P.className}`}>
-    <div ref={mountRef} className="fixed  top-0 left-0 w-full"/>
-    <div
-      className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
-    >
-      <h1
-        className="text-6xl uppercase  mb-8 font-bold text-center text-[wheat]"
-        style={{textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)"}}
+  return (
+    <div className={`w-full h-64 ${pressStart2P.className}`}>
+      <div ref={mountRef} className="fixed  top-0 left-0 w-full" />
+      <div
+        className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
       >
-        Game over
-      </h1>
-      <button onClick={playAgain} className="mt-6 px-6 py-3 reset-btn text-2xl">Play</button>
+        <h1
+          className="sm:text-5xl text-4xl uppercase  mb-8 font-bold text-center text-[wheat]"
+          style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
+        >
+          Game over
+        </h1>
+        <button onClick={playAgain} className="mt-6 px-6 py-3 reset-btn text-2xl">
+          Play
+        </button>
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default GameOver;

@@ -106,7 +106,6 @@ const ParticleSystem = () => {
         mount.removeChild(renderer.domElement);
       }
       window.removeEventListener("keydown", handleKeyDown);
-
     };
   }, []);
 

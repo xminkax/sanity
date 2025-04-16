@@ -1,9 +1,8 @@
 "use client";
 import "@/app/globals.css";
-import React, {useRef, useEffect, useState, useCallback} from "react";
-import {
-  MOBILE_SIZE_CANCAS, calculateTotalScore
-} from "@/constants/snake";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { MOBILE_SIZE_CANCAS, calculateTotalScore } from "@/constants/snake";
+import Gesture from "@/public/gesture.svg";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
@@ -30,7 +29,7 @@ type props = {
   highScore: number;
 };
 
-export default function SnakeGame({win, gameOver, level, score, highScore}: props) {
+export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState<{
     width: number;
@@ -46,7 +45,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   const [food, setFood] = useState<{
     x: number;
     y: number;
-  }>({x: 0, y: 0});
+  }>({ x: 0, y: 0 });
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -67,7 +66,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       width = unitSize * 50;
       height = unitSize * numberOfCells;
     }
-    setCanvasConfig({width, height, unitSize});
+    setCanvasConfig({ width, height, unitSize });
     setSnake([
       {
         x: defaultSnakePosition * unitSize,
@@ -85,9 +84,9 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     //todo add check that it doesn't exist
     setFood(generateFoodPosition(width, height, unitSize));
 
-    if(canvasRef.current) {
-    canvasRef.current.addEventListener('touchstart', handleTouchStart);
-    canvasRef.current.addEventListener('touchmove', handleTouchMove);
+    if (canvasRef.current) {
+      canvasRef.current.addEventListener("touchstart", handleTouchStart);
+      canvasRef.current.addEventListener("touchmove", handleTouchMove);
     }
   }, []);
 
@@ -96,7 +95,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       return;
     }
     if (!snake || snake.length === 0) return;
-    const {width, height, unitSize} = canvasConfig;
+    const { width, height, unitSize } = canvasConfig;
     const newSnakeHead = {
       x: snake[0].x + direction.x,
       y: snake[0].y + direction.y,
@@ -115,14 +114,14 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     }
 
     //snake collision
-    if (!isWin() && (snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y))) {
+    if (!isWin() && snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
       gameOver();
     }
 
     //eats food
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
       setSnake((prev) => [newSnakeHead, ...(prev ?? [])]);
-      setCounter(prevCount => prevCount + 1);
+      setCounter((prevCount) => prevCount + 1);
       setFood(generateFoodPosition(width, height, unitSize));
     } else {
       setSnake((prev) => {
@@ -151,20 +150,20 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       if (!canvasConfig) {
         return;
       }
-      const {unitSize} = canvasConfig;
+      const { unitSize } = canvasConfig;
       let directionTemp;
       switch (directionText) {
         case "left":
-          directionTemp = {x: -unitSize, y: 0};
+          directionTemp = { x: -unitSize, y: 0 };
           break;
         case "right":
-          directionTemp = {x: unitSize, y: 0};
+          directionTemp = { x: unitSize, y: 0 };
           break;
         case "up":
-          directionTemp = {x: 0, y: -unitSize};
+          directionTemp = { x: 0, y: -unitSize };
           break;
         case "down":
-          directionTemp = {x: 0, y: unitSize};
+          directionTemp = { x: 0, y: unitSize };
           break;
       }
 
@@ -203,7 +202,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     if (!canvasConfig) {
       return;
     }
-    const {width, height, unitSize} = canvasConfig;
+    const { width, height, unitSize } = canvasConfig;
     const ctx = canvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
@@ -253,7 +252,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   //to eat last food after collision detected
   useEffect(() => {
     paint();
-    if(pendingWin) {
+    if (pendingWin) {
       setPendingWin(false);
       win(counter);
     }
@@ -321,32 +320,37 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   return (
     <div className="flex flex-col justify-center h-screen ">
       <div className="flex py-6 justify-self-start">
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           High score: {highScore}
         </div>
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           Level: {level}
         </div>
       </div>
-      <div style={{zIndex: 2, position: "relative"}}>
+      <div style={{ zIndex: 2, position: "relative" }}>
         {canvasConfig && (
-          <canvas
-            className="panel"
-            ref={canvasRef}
-            width={canvasConfig.width}
-            height={canvasConfig.height}
-            style={
-              {
-                overflow: "hidden",
-                touchAction: "none",
-              }
-            }
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-          />
+          <div>
+            <canvas
+              className="panel overflow-hidden touch-none"
+              ref={canvasRef}
+              width={canvasConfig.width}
+              height={canvasConfig.height}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+            />
+            {level === 1 && (
+              <div
+                className={`overlay  ${
+                  direction.x === 0 && direction.y === 0 ? "opacity-100" : "snake-animated-gesture"
+                }`}
+              >
+                <Gesture className="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>

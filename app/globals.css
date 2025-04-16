@@ -297,11 +297,25 @@ body {
   }
 }
 
+@keyframes snakeFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .snake-animated-state {
   /*z-index: 20;*/
   opacity: 0; /* Start hidden */
   animation: snakeFadeIn 2s forwards; /* Apply fade-in animation */
 }
+
+.snake-animated-gesture {
+  animation: snakeFadeOut 0.3s forwards; /* Apply fade-in animation */
+}
+
 
 /* homepage */
 .home__btn--primary,

@@ -7,7 +7,7 @@ interface StringListProps {
 
 const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
   return (
-    <section className="z-10 flex justify-center flex-col items-center mt-[8rem] sm:mt-[11rem] mb-[2rem] sm:mb-[3rem]">
+    <section className="z-10 flex justify-center flex-col items-center mt-[8rem] sm:mt-[11rem] mb-[2rem] sm:mb-[2.8rem]">
       <div className="typewriter relative w-full flex justify-center items-center">
         {welcomeTexts.map((item: string, key: number) => (
           <h1

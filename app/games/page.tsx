@@ -1,12 +1,12 @@
 "use client";
 import SnakeGame from "@/components/Snake/SnakeGame";
-import React, {useEffect, useRef, useState} from "react";
-import {useLocalStorage} from "usehooks-ts";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 import Menu from "@/components/Snake/Menu";
-import {GameState, calculateTotalScore} from "@/constants/snake";
+import { GameState, calculateTotalScore } from "@/constants/snake";
 import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
-import {useGameState} from "@/context/SnakeGameContext";
+import { useGameState } from "@/context/SnakeGameContext";
 
 type SnakeStats = {
   level: number;
@@ -24,7 +24,7 @@ export default function Games() {
 
   useEffect(() => {
     setHasLoaded(true);
-    if(snakeStats.level > 0) {
+    if (snakeStats.level > 0) {
       setGameState(GameState.NEXT_LEVEL);
     }
   }, [setGameState, snakeStats.level]);
@@ -35,17 +35,17 @@ export default function Games() {
 
   const playAgain = () => {
     setGameState(GameState.PLAYING);
-    setSnakeStats(prev => ({
+    setSnakeStats((prev) => ({
       ...prev,
-      level: 0
+      level: 0,
     }));
   };
 
   const resetGame = () => {
     setGameState(GameState.START);
-    setSnakeStats(prev => ({
+    setSnakeStats((prev) => ({
       ...prev,
-      level: 0
+      level: 0,
     }));
   };
   return (
@@ -61,11 +61,11 @@ export default function Games() {
           <div className="snake-animated-state">
             <Menu
               startGame={() => {
-                setSnakeStats(prev => ({
+                setSnakeStats((prev) => ({
                   ...prev,
-                  state: GameState.PLAYING
+                  state: GameState.PLAYING,
                 }));
-                setGameState(GameState.PLAYING)
+                setGameState(GameState.PLAYING);
               }}
             />
           </div>
@@ -78,16 +78,16 @@ export default function Games() {
               level={Number(snakeStats?.level) + 1}
               gameOver={() => {
                 setGameState(GameState.GAME_OVER);
-                setSnakeStats(prev => ({
+                setSnakeStats((prev) => ({
                   ...prev,
-                  level: 0
+                  level: 0,
                 }));
               }}
               win={(score) => {
                 setGameState(GameState.NEXT_LEVEL);
-                setSnakeStats(prev => ({
+                setSnakeStats((prev) => ({
                   level: Number(snakeStats?.level) + 1,
-                  highScore: score > prev.highScore ? score : prev.highScore
+                  highScore: score > prev.highScore ? score : prev.highScore,
                 }));
               }}
             />
@@ -106,7 +106,7 @@ export default function Games() {
         )}
         {gameState === GameState.GAME_OVER && (
           <div className="snake-animated-state">
-            <GameOver playAgain={playAgain}/>
+            <GameOver playAgain={playAgain} />
           </div>
         )}
       </div>

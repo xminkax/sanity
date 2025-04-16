@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   createContext,
   useContext,
@@ -6,11 +6,11 @@ import React, {
   ReactNode,
   Dispatch,
   SetStateAction,
-} from 'react';
-import {GameState} from "@/constants/snake";
+} from "react";
+import { GameState } from "@/constants/snake";
 
 // 1. Types
-export type GameState = 'menu' | 'playing' | 'game_over' | 'win';
+export type GameState = "menu" | "playing" | "game_over" | "win";
 
 interface GameStateContextType {
   gameState: GameState;
@@ -21,9 +21,9 @@ interface GameStateContextType {
 const GameStateContext = createContext<GameStateContextType | undefined>(undefined);
 
 // 3. Provider props
-type GameStateProviderProps ={
+type GameStateProviderProps = {
   children: ReactNode;
-}
+};
 
 // 4. GameStateProvider component
 export const GameStateProvider: React.FC<GameStateProviderProps> = ({ children }) => {
@@ -40,7 +40,7 @@ export const GameStateProvider: React.FC<GameStateProviderProps> = ({ children }
 export const useGameState = (): GameStateContextType => {
   const context = useContext(GameStateContext);
   if (!context) {
-    throw new Error('useGameState must be used within a GameStateProvider');
+    throw new Error("useGameState must be used within a GameStateProvider");
   }
   return context;
 };

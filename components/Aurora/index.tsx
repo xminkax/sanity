@@ -1,8 +1,8 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import fragmentShader from "./IcelandicSky.frag";
 import vertexShader from "./IcelandicSky.vert";
-import {Mesh, PlaneGeometry, Scene, ShaderMaterial} from "three";
+import { Mesh, PlaneGeometry, Scene, ShaderMaterial } from "three";
 
 const Aurora: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -19,7 +19,7 @@ const Aurora: React.FC = () => {
     const camera: THREE.OrthographicCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     camera.position.z = 10;
 
-    const renderer = new THREE.WebGLRenderer({alpha: true});
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -27,8 +27,8 @@ const Aurora: React.FC = () => {
 
     const material: ShaderMaterial = new ShaderMaterial({
       uniforms: {
-        iTime: {value: 0.0},
-        iResolution: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
+        iTime: { value: 0.0 },
+        iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
       },
       transparent: true,
       vertexShader,
@@ -77,7 +77,7 @@ const Aurora: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{position: "fixed", top: 0, right: 0}}/>;
+  return <div ref={mountRef} style={{ position: "fixed", top: 0, right: 0 }} />;
 };
 
 export default Aurora;

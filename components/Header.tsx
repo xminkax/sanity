@@ -1,8 +1,8 @@
 import Link from "next/link";
-import React, {MouseEventHandler} from "react";
+import React, { MouseEventHandler } from "react";
 import Logo from "@/app/icon.svg";
 import UndoIcon from "@/public/undo.svg";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   shouldDisplayResetIcon: boolean;
@@ -10,7 +10,7 @@ interface HeaderProps {
   isResetDisabled: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({shouldDisplayResetIcon, reset, isResetDisabled}) => {
+const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetDisabled }) => {
   const pathname = usePathname();
   return (
     <header
@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({shouldDisplayResetIcon, reset, isResetDi
     >
       <div className="">
         <Link href="/">
-          <Logo/>
+          <Logo />
         </Link>
       </div>
       <nav
@@ -28,31 +28,39 @@ const Header: React.FC<HeaderProps> = ({shouldDisplayResetIcon, reset, isResetDi
       >
         <ul className="flex justify-center sm:space-x-6 space-x-3">
           <li>
-            <a
+            <Link
               className="opacity-100 hover:opacity-80"
-              onClick={() => alert("Coming soon")}
+              href="/games"
               aria-current={pathname === "/games" ? "page" : undefined}
             >
               Games
-            </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#about-me" aria-current={pathname === "/" ? "page" : undefined} className="opacity-100 hover:opacity-80">
+            <Link
+              href="/#about-me"
+              aria-current={pathname === "/" ? "page" : undefined}
+              className="opacity-100 hover:opacity-80"
+            >
               About
             </Link>
           </li>
           <li>
-            <a  href="/resume" className="opacity-100 hover:opacity-80">Resume</a>
+            <a href="/resume" className="opacity-100 hover:opacity-80">
+              Resume
+            </a>
           </li>
         </ul>
       </nav>
 
       {shouldDisplayResetIcon && (
         <div className="ml-auto">
-          <button onClick={reset} disabled={isResetDisabled}
-                  className={`transition-opacity duration-300 ${isResetDisabled ? 'opacity-50 cursor-not-allowed' : 'opacity-100 hover:opacity-80'}`}
+          <button
+            onClick={reset}
+            disabled={isResetDisabled}
+            className={`transition-opacity duration-300 ${isResetDisabled ? "opacity-50 cursor-not-allowed" : "opacity-100 hover:opacity-80"}`}
           >
-            <UndoIcon/>
+            <UndoIcon />
           </button>
         </div>
       )}
