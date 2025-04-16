@@ -62,7 +62,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({children}): JSX.Element => {
   const {level, highScore} = snakeStats;
   return (
     <body>
-    <Header shouldDisplayResetIcon={highScore > 0} reset={reset} isResetDisabled={highScore > 0 && level===0}/>
+    <Header shouldDisplayResetIcon={highScore > 0} reset={reset} isResetDisabled={highScore > 0 && level === 0}/>
 
     {hasLoaded && level === 0 && pathname !== "/games" &&
       <div>
