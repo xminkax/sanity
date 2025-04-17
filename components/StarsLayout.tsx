@@ -84,7 +84,8 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         </div>
       )}
       {level === 2 && shouldDisplayBackgroundFromGame() && <Particles />}
-      {level === 3 && shouldDisplayBackgroundFromGame() && <Nebula />}
+      {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && <div>{generateStars()}</div>}
+      {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula/>}
       {children}
     </body>
   );

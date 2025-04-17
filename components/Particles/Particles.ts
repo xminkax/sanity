@@ -47,7 +47,7 @@ class Particles {
       opacities[i] = 1;
 
       positions[i * 3] = 5;
-      positions[i * 3 + 1] = 11;
+      positions[i * 3 + 1] = 18;
       positions[i * 3 + 2] = 0;
 
       this.velocity[i * 3] = (Math.random() * 50 - 26.0) * 30.0;
@@ -116,7 +116,7 @@ class Particles {
         this.life[i] = 1;
 
         positions[i * 3] = 5;
-        positions[i * 3 + 1] = 11;
+        positions[i * 3 + 1] = 18;
         positions[i * 3 + 2] = 0;
 
         this.velocity[i * 3] = Math.floor(Math.random() * 120) - 32;

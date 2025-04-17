@@ -37,7 +37,7 @@ export default function Home() {
     <main className="flex flex-col">
       <Hero welcomeTexts={welcomeTexts} />
       <Panel texts={aboutMe.texts} title={aboutMe.title} button={aboutMe.button} />
-      <Panel texts={snake.texts} title={snake.title} button={snake.button} />
+      <Panel texts={snake.texts} title={snake.title} button={snake.button} isOffsetAnimation />
     </main>
   );
 }
