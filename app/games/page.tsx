@@ -1,9 +1,9 @@
 "use client";
 import SnakeGame from "@/components/Snake/SnakeGame";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import Menu from "@/components/Snake/Menu";
-import { GameState, calculateTotalScore } from "@/constants/snake";
+import { calculateTotalScore, GameState } from "@/constants/snake";
 import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
 import { useGameState } from "@/context/SnakeGameContext";
@@ -19,7 +19,6 @@ export default function Games() {
   const [snakeStats, setSnakeStats, removeSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
     level: 0,
     highScore: 0,
-    menu: GameState.START,
   });
 
   useEffect(() => {

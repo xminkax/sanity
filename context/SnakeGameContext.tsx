@@ -10,7 +10,7 @@ import React, {
 import { GameState } from "@/constants/snake";
 
 // 1. Types
-export type GameState = "menu" | "playing" | "game_over" | "win";
+// export type GameState = "menu" | "playing" | "game_over" | "win";
 
 interface GameStateContextType {
   gameState: GameState;

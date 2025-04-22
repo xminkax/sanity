@@ -1,7 +1,7 @@
 "use client";
 import "@/app/globals.css";
-import React, {useRef, useEffect, useState, useCallback} from "react";
-import {MOBILE_SIZE_CANCAS, calculateTotalScore} from "@/constants/snake";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import { MOBILE_SIZE_CANCAS, calculateTotalScore } from "@/constants/snake";
 import Gesture from "@/public/gesture.svg";
 
 const SNAKE_COLOR = "#3acfd5";
@@ -12,7 +12,7 @@ const generateFoodPosition = (
   canvasWidth: number,
   canvasHeight: number,
   unitSize: number,
-  snake
+  snake: { x: number; y: number }[],
 ): {
   x: number;
   y: number;
@@ -21,7 +21,7 @@ const generateFoodPosition = (
     x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
     y: Math.floor(Math.random() * (canvasHeight / unitSize)) * unitSize,
   };
-  if(snake && snake.some((unit) => pos.x === unit.x && pos.y === unit.y)) {
+  if (snake && snake.some((unit) => pos.x === unit.x && pos.y === unit.y)) {
     return generateFoodPosition(canvasWidth, canvasHeight, unitSize, snake);
   }
   return pos;
@@ -30,11 +30,12 @@ const generateFoodPosition = (
 type props = {
   win: (counter: number) => void;
   gameOver: () => void;
+  score: number;
   level: number;
   highScore: number;
 };
 
-export default function SnakeGame({win, gameOver, level, score, highScore}: props) {
+export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState<{
     width: number;
@@ -50,7 +51,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   const [food, setFood] = useState<{
     x: number;
     y: number;
-  }>({x: 0, y: 0});
+  }>({ x: 0, y: 0 });
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -71,7 +72,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       width = unitSize * 50;
       height = unitSize * numberOfCells;
     }
-    setCanvasConfig({width, height, unitSize});
+    setCanvasConfig({ width, height, unitSize });
     setSnake([
       {
         x: defaultSnakePosition * unitSize,
@@ -87,7 +88,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       },
     ]);
     //todo add check that it doesn't exist
-    setFood(generateFoodPosition(width, height, unitSize, snake));
+    setFood(generateFoodPosition(width, height, unitSize, snake ?? []));
   }, []);
 
   const updateSnake = useCallback(() => {
@@ -95,7 +96,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       return;
     }
     if (!snake || snake.length === 0) return;
-    const {width, height, unitSize} = canvasConfig;
+    const { width, height, unitSize } = canvasConfig;
     const newSnakeHead = {
       x: snake[0].x + direction.x,
       y: snake[0].y + direction.y,
@@ -150,20 +151,20 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
       if (!canvasConfig) {
         return;
       }
-      const {unitSize} = canvasConfig;
+      const { unitSize } = canvasConfig;
       let directionTemp;
       switch (directionText) {
         case "left":
-          directionTemp = {x: -unitSize, y: 0};
+          directionTemp = { x: -unitSize, y: 0 };
           break;
         case "right":
-          directionTemp = {x: unitSize, y: 0};
+          directionTemp = { x: unitSize, y: 0 };
           break;
         case "up":
-          directionTemp = {x: 0, y: -unitSize};
+          directionTemp = { x: 0, y: -unitSize };
           break;
         case "down":
-          directionTemp = {x: 0, y: unitSize};
+          directionTemp = { x: 0, y: unitSize };
           break;
       }
 
@@ -202,7 +203,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
     if (!canvasConfig) {
       return;
     }
-    const {width, height, unitSize} = canvasConfig;
+    const { width, height, unitSize } = canvasConfig;
     const ctx = canvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
@@ -320,24 +321,24 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
   return (
     <div className="flex flex-col justify-center h-screen ">
       <div className="flex py-6 justify-self-start">
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           High score: {highScore}
         </div>
-        <div style={{marginRight: "2rem"}} className="text-[wheat] uppercase">
+        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
           Level: {level}
         </div>
       </div>
-      <div style={{zIndex: 2, position: "relative"}}>
+      <div style={{ zIndex: 2, position: "relative" }}>
         {canvasConfig && (
           <div>
             <canvas
               className="panel"
               style={{
                 touchAction: "none",
-                overflow: "hidden"
+                overflow: "hidden",
               }}
               ref={canvasRef}
               width={canvasConfig.width}
@@ -353,8 +354,7 @@ export default function SnakeGame({win, gameOver, level, score, highScore}: prop
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
               >
-                <Gesture
-                  className="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"/>
+                <Gesture className="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             )}
           </div>

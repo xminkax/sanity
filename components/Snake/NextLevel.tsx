@@ -1,4 +1,4 @@
-import {Press_Start_2P} from "next/font/google";
+import { Press_Start_2P } from "next/font/google";
 import React from "react";
 
 type props = {
@@ -28,19 +28,22 @@ const dictionary = {
   ],
 };
 
-export default function handleNextLevel({resetGame, handleNextLevel, nextLevel}: props) {
+export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: props) {
   return (
     <div
       className={`game-over-mobile flex flex-col items-center justify-center h-screen ${pressStart2P.className}`}
     >
       <h1
-        className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center ${nextLevel === 4 ? "text-[#9a6faf]": "text-[#F0E6D2]"}`}
+        className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
         style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
       >
         Level:{nextLevel - 1} cleared
       </h1>
-      {dictionary["level_" + (nextLevel - 1)].map((item, _) => (
-        <p key={_} className={`px-2 ${nextLevel === 4 ? "text-[#493552]": "text-[#F0E6D2]"} max-w-xl sm:text-lg text-sm text-center mb-2`}>
+      {dictionary[("level_" + (nextLevel - 1)) as keyof typeof dictionary].map((item, _) => (
+        <p
+          key={_}
+          className={`px-2 ${nextLevel === 4 ? "text-[#493552]" : "text-[#F0E6D2]"} max-w-xl sm:text-lg text-sm text-center mb-2`}
+        >
           {item}
         </p>
       ))}

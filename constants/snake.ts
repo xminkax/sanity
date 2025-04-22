@@ -5,7 +5,7 @@ export enum GameState {
   NEXT_LEVEL = "next_level",
 }
 
-export function calculateTotalScore(levelNumber) {
+export function calculateTotalScore(levelNumber: number) {
   let totalScore = 0;
   for (let i = 1; i <= levelNumber; i++) {
     totalScore += 2;

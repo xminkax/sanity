@@ -53,10 +53,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
   }, []);
 
   const reset = () => {
-    setSnakeStats((prev) => ({
-      ...prev,
-      level: 0,
-    }));
+    removeSnakeStats();
     setGameState(GameState.START);
   };
 
@@ -67,7 +64,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       <Header
         shouldDisplayResetIcon={highScore > 0}
         reset={reset}
-        isResetDisabled={highScore > 0 && level === 0}
+        isResetDisabled={hasLoaded ? highScore > 0 && level === 0 : true}
       />
 
       {hasLoaded && level === 0 && pathname !== "/games" && (
@@ -84,8 +81,10 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         </div>
       )}
       {level === 2 && shouldDisplayBackgroundFromGame() && <Particles />}
-      {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && <div>{generateStars()}</div>}
-      {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula/>}
+      {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && (
+        <div>{generateStars()}</div>
+      )}
+      {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula />}
       {children}
     </body>
   );
