@@ -1,8 +1,12 @@
 "use client";
 import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { MOBILE_SIZE_CANCAS, calculateTotalScore } from "@/constants/snake";
+import { calculateTotalScore } from "@/constants/snake";
 import Gesture from "@/public/gesture.svg";
+import resolveConfig from 'tailwindcss/resolveConfig'
+import tailwindConfig from '../../tailwind.config'
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
@@ -35,6 +39,8 @@ type props = {
   highScore: number;
 };
 
+const parseScreensConfig = (value: string) => parseInt(value, 10);
+
 export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasConfig, setCanvasConfig] = useState<{
@@ -61,16 +67,23 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   const isWin = () => counter === calculateTotalScore(level);
 
   useEffect(() => {
-    let unitSize = 15;
-    let numberOfCells = 18;
-    let width = unitSize * 22;
-    let height = unitSize * numberOfCells;
+    let unitSize, width, height;
     const defaultSnakePosition = 8;
-    if (window.innerWidth > MOBILE_SIZE_CANCAS) {
+    if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.xl)) {
+      // Desktop
       unitSize = 24;
-      numberOfCells = 25;
       width = unitSize * 50;
-      height = unitSize * numberOfCells;
+      height = unitSize * 25;
+    } else if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.md)) {
+      // Tablet
+      unitSize = 20;
+      height = unitSize * 22;
+      width = unitSize * 35;
+    } else {
+      // Mobile
+      unitSize = 15;
+      width = unitSize * 22;
+      height = unitSize * 18;
     }
     setCanvasConfig({ width, height, unitSize });
     setSnake([
@@ -319,15 +332,15 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   };
 
   return (
-    <div className="flex flex-col justify-center h-screen ">
-      <div className="flex py-6 justify-self-start">
-        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">
+        <div className="text-[wheat] uppercase sm:mr-10 mr-4">
           Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
+        <div className="text-[wheat] uppercase sm:mr-10 mr-4">
           High score: {highScore}
         </div>
-        <div style={{ marginRight: "2rem" }} className="text-[wheat] uppercase">
+        <div className="text-[wheat] uppercase sm:mr-10">
           Level: {level}
         </div>
       </div>
@@ -354,7 +367,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
               >
-                <Gesture className="w-[200px] h-[200px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+                <Gesture className="sm:w-[200px] sm:h-[200px] w-[150px] h-[150px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             )}
           </div>

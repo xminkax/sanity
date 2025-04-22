@@ -144,12 +144,12 @@ const GameOver: React.FC<props> = ({ playAgain }: props) => {
 
   return (
     <div className={`w-full h-64 ${pressStart2P.className}`}>
-      <div ref={mountRef} className="fixed  top-0 left-0 w-full" />
+      <div ref={mountRef} className="fixed top-0 left-0 w-full" />
       <div
         className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
       >
         <h1
-          className="sm:text-5xl text-4xl uppercase  mb-8 font-bold text-center text-[wheat]"
+          className="sm:text-5xl text-4xl uppercase  sm:mb-8 mb-2 font-bold text-center text-[wheat]"
           style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
         >
           Game over
