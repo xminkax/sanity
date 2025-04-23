@@ -23,6 +23,8 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import StarsSystem from "@/components/Particles/Stars";
 
+const CLOUDS = 45;
+
 const Nebula: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef(new Clock());
@@ -96,7 +98,7 @@ const Nebula: React.FC = () => {
       cloudParticles.push(cloud);
     };
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < CLOUDS; i++) {
       createCloud();
     }
 

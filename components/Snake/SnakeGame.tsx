@@ -3,14 +3,14 @@ import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { calculateTotalScore } from "@/constants/snake";
 import Gesture from "@/public/gesture.svg";
-import resolveConfig from 'tailwindcss/resolveConfig'
-import tailwindConfig from '../../tailwind.config'
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../tailwind.config";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
-const LEVEL_SPEED = 20;
+const LEVEL_SPEED = 0.1;
 
 const generateFoodPosition = (
   canvasWidth: number,
@@ -43,7 +43,12 @@ const parseScreensConfig = (value: string) => parseInt(value, 10);
 
 export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [canvasConfig, setCanvasConfig] = useState<{
+  const canvasConfigPrevRef = useRef<{
+    width: number;
+    height: number;
+    unitSize: number;
+  } | null>(null);
+  const canvasConfigRef = useRef<{
     width: number;
     height: number;
     unitSize: number;
@@ -58,6 +63,9 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     x: number;
     y: number;
   }>({ x: 0, y: 0 });
+  const snakeRef = useRef(snake);
+  const foodRef = useRef(food);
+
   const [direction, setDirection] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -67,52 +75,111 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   const isWin = () => counter === calculateTotalScore(level);
 
   useEffect(() => {
-    let unitSize, width, height;
-    const defaultSnakePosition = 8;
+    snakeRef.current = snake;
+  }, [snake]);
+
+  useEffect(() => {
+    foodRef.current = food;
+  }, [food]);
+
+  const setupCanvas = useCallback(() => {
+    let unitSize;
+
+    const UNITS_WIDE = 32;
+    const UNITS_TALL = 24;
+
     if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.xl)) {
       // Desktop
-      unitSize = 24;
-      width = unitSize * 50;
-      height = unitSize * 25;
+      unitSize = 28;
     } else if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.md)) {
       // Tablet
-      unitSize = 20;
-      height = unitSize * 22;
-      width = unitSize * 35;
+      unitSize = 22;
     } else {
       // Mobile
-      unitSize = 15;
-      width = unitSize * 22;
-      height = unitSize * 18;
+      unitSize = 12;
     }
-    setCanvasConfig({ width, height, unitSize });
-    setSnake([
-      {
-        x: defaultSnakePosition * unitSize,
-        y: defaultSnakePosition * unitSize,
-      },
-      {
-        x: defaultSnakePosition * unitSize - unitSize,
-        y: defaultSnakePosition * unitSize,
-      },
-      {
-        x: defaultSnakePosition * unitSize - 2 * unitSize,
-        y: defaultSnakePosition * unitSize,
-      },
-    ]);
-    //todo add check that it doesn't exist
-    setFood(generateFoodPosition(width, height, unitSize, snake ?? []));
+
+    if (canvasConfigPrevRef.current?.unitSize === unitSize && snakeRef.current) {
+      return;
+    }
+
+    const width = unitSize * UNITS_WIDE;
+    const height = unitSize * UNITS_TALL;
+    canvasConfigPrevRef.current = { height: 0, unitSize: 0, width: 0, ...canvasConfigRef.current };
+    canvasConfigRef.current = { width, height, unitSize };
+
+    const defaultSnakePosition = 8;
+
+    if (!snakeRef.current) {
+      setSnake([
+        {
+          x: defaultSnakePosition * unitSize,
+          y: defaultSnakePosition * unitSize,
+        },
+        {
+          x: defaultSnakePosition * unitSize - unitSize,
+          y: defaultSnakePosition * unitSize,
+        },
+        {
+          x: defaultSnakePosition * unitSize - 2 * unitSize,
+          y: defaultSnakePosition * unitSize,
+        },
+      ]);
+      setFood(generateFoodPosition(width, height, unitSize, snakeRef.current ?? []));
+    } else {
+      const prevUnitSize = canvasConfigPrevRef.current?.unitSize;
+      setSnake(() => {
+        const newSnake = snakeRef.current?.map(({ x, y }) => ({
+          x: (x / prevUnitSize) * unitSize,
+          y: (y / prevUnitSize) * unitSize,
+        }));
+        return newSnake;
+      });
+
+      setFood(() => {
+        const newFood = {
+          x: Math.floor((foodRef.current.x / prevUnitSize) * unitSize),
+          y: Math.floor((foodRef.current.y / prevUnitSize) * unitSize),
+        };
+        return newFood;
+      });
+    }
   }, []);
 
+  useEffect(() => {
+    setupCanvas();
+  }, [setupCanvas]);
+
+  useEffect(() => {
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const handleResize = () => {
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(() => {
+          setupCanvas();
+          resizeTimeout = null;
+        }, 200); // 200ms throttle delay
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+    };
+  }, [setupCanvas]);
+
   const updateSnake = useCallback(() => {
-    if (!canvasConfig) {
+    if (!canvasConfigRef.current) {
       return;
     }
     if (!snake || snake.length === 0) return;
-    const { width, height, unitSize } = canvasConfig;
+    const { width, height, unitSize } = canvasConfigRef.current;
     const newSnakeHead = {
-      x: snake[0].x + direction.x,
-      y: snake[0].y + direction.y,
+      x: snake[0].x + direction.x * unitSize,
+      y: snake[0].y + direction.y * unitSize,
     };
 
     //wall collision
@@ -144,7 +211,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
         return newSnake;
       });
     }
-  }, [counter, direction.x, direction.y, food.x, food.y, snake, canvasConfig, gameOver]);
+  }, [snake, direction.x, direction.y, food.x, food.y, gameOver]);
 
   type Direction = { x: number; y: number };
   type DirectionText = "left" | "right" | "up" | "down";
@@ -159,37 +226,30 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     return (val1.y < 0 && val2.y > 0) || (val1.y > 0 && val2.y < 0);
   }
 
-  const setDirectionFromEvents = useCallback(
-    (directionText: DirectionText) => {
-      if (!canvasConfig) {
-        return;
-      }
-      const { unitSize } = canvasConfig;
-      let directionTemp;
-      switch (directionText) {
-        case "left":
-          directionTemp = { x: -unitSize, y: 0 };
-          break;
-        case "right":
-          directionTemp = { x: unitSize, y: 0 };
-          break;
-        case "up":
-          directionTemp = { x: 0, y: -unitSize };
-          break;
-        case "down":
-          directionTemp = { x: 0, y: unitSize };
-          break;
-      }
+  const setDirectionFromEvents = useCallback((directionText: DirectionText) => {
+    let directionTemp;
+    switch (directionText) {
+      case "left":
+        directionTemp = { x: -1, y: 0 };
+        break;
+      case "right":
+        directionTemp = { x: 1, y: 0 };
+        break;
+      case "up":
+        directionTemp = { x: 0, y: -1 };
+        break;
+      case "down":
+        directionTemp = { x: 0, y: 1 };
+        break;
+    }
 
-      setDirection((prev) => {
-        if (isOppositeDirection(directionTemp, prev)) {
-          return prev;
-        }
-        return directionTemp;
-      });
-    },
-    [canvasConfig],
-  );
+    setDirection((prev) => {
+      if (isOppositeDirection(directionTemp, prev)) {
+        return prev;
+      }
+      return directionTemp;
+    });
+  }, []);
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -213,10 +273,10 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
 
   const paint = useCallback(() => {
     if (!snake || snake.length === 0) return;
-    if (!canvasConfig) {
+    if (!canvasConfigRef.current) {
       return;
     }
-    const { width, height, unitSize } = canvasConfig;
+    const { width, height, unitSize } = canvasConfigRef.current;
     const ctx = canvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
@@ -229,9 +289,9 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
       ctx.strokeRect(snake[0].x, snake[0].y, unitSize, unitSize);
 
       ctx.fillStyle = "wheat"; // Eye color
-      const eyeSize = 4;
-      const eyeOffsetX = 7;
-      const eyeOffsetY = 7;
+      const eyeSize = 0.16 * unitSize;
+      const eyeOffsetX = 0.3 * unitSize;
+      const eyeOffsetY = 0.3 * unitSize;
 
       // Left eye
       ctx.beginPath();
@@ -261,7 +321,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
       ctx.fillStyle = FOOD_COLOR;
       ctx.fillRect(food.x, food.y, unitSize, unitSize);
     }
-  }, [canvasConfig, food.x, food.y, snake]);
+  }, [food.x, food.y, snake]);
 
   //to eat last food after collision detected
   useEffect(() => {
@@ -332,20 +392,16 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44">
       <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">
           Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div className="text-[wheat] uppercase sm:mr-10 mr-4">
-          High score: {highScore}
-        </div>
-        <div className="text-[wheat] uppercase sm:mr-10">
-          Level: {level}
-        </div>
+        <div className="text-[wheat] uppercase sm:mr-10 mr-4">High score: {highScore}</div>
+        <div className="text-[wheat] uppercase sm:mr-10">Level: {level}</div>
       </div>
       <div style={{ zIndex: 2, position: "relative" }}>
-        {canvasConfig && (
+        {canvasConfigRef.current && (
           <div>
             <canvas
               className="panel"
@@ -354,8 +410,8 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
                 overflow: "hidden",
               }}
               ref={canvasRef}
-              width={canvasConfig.width}
-              height={canvasConfig.height}
+              width={canvasConfigRef.current?.width}
+              height={canvasConfigRef.current?.height}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
             />
@@ -364,6 +420,10 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
                 className={`overlay ${
                   direction.x === 0 && direction.y === 0 ? "opacity-100" : "snake-animated-gesture"
                 }`}
+                style={{
+                  touchAction: "none",
+                  overflow: "hidden",
+                }}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
               >
