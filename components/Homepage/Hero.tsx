@@ -30,7 +30,7 @@ const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
           Do you like the space?
         </p>
         <div className="mt-8 sm:mt-12 mb-1 sm:mb-0 flex items-center justify-center gap-x-6">
-          <Link href="/games" className="home__btn--primary">
+          <Link href="/games" className="home__btn--primary focus-ring">
             Learn more
           </Link>
         </div>

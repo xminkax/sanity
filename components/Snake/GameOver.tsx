@@ -154,7 +154,7 @@ const GameOver: React.FC<props> = ({ playAgain }: props) => {
         >
           Game over
         </h1>
-        <button onClick={playAgain} className="mt-6 px-6 py-3 reset-btn text-2xl">
+        <button onClick={playAgain} className="mt-6 px-6 py-3 reset-btn text-2xl focus-ring">
           Play
         </button>
       </div>

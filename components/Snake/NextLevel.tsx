@@ -48,10 +48,10 @@ export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel 
         </p>
       ))}
       <div className="flex flex-col items-stretch gap-2">
-        <button onClick={handleNextLevel} className="mt-6 px-6 py-3 next-level-btn text-2xl">
+        <button onClick={handleNextLevel} className="mt-6 px-6 py-3 next-level-btn text-2xl focus-ring">
           Level {nextLevel}
         </button>
-        <button onClick={resetGame} className="mt-6 px-6 py-3 reset-btn text-2xl">
+        <button onClick={resetGame} className="mt-6 px-6 py-3 reset-btn text-2xl focus-ring">
           Reset
         </button>
       </div>

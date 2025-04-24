@@ -41,7 +41,7 @@ const Panel: React.FC<Props> = ({ texts, title, button, isOffsetAnimation = fals
       <div className="justify-center flex my-4">
         <a
           href={button.url}
-          className="home__btn--secondary"
+          className="home__btn--secondary focus-ring"
           onClick={(e) => {
             if (button.url) {
               return;

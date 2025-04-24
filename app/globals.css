@@ -774,3 +774,18 @@ body {
   -webkit-transform: rotateZ(45deg);
   transform: rotateZ(45deg);
 }
+
+.focus {
+  @layer utilities {
+    .focus-ring-with-padding {
+      @apply focus-visible:ring-2 px-3 py-1;
+    }
+    .focus-ring {
+      @apply focus-visible:ring-2;
+    }
+  }
+}
+
+.focus-ring, .focus-ring-with-padding {
+  outline-color: rgb(240, 150, 132);
+}

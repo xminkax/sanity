@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetD
       className={`${pathname === "/games" && "text-[#F0E6D2]"} header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-20 backdrop-blur-md sm:h-[4rem] h-[3.4rem]`}
     >
       <div className="">
-        <Link href="/">
+        <Link href="/" className="focus-ring">
           <Logo />
         </Link>
       </div>
@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetD
         <ul className="flex justify-center sm:space-x-6 space-x-3">
           <li>
             <Link
-              className="opacity-100 hover:opacity-80"
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
               href="/games"
               aria-current={pathname === "/games" ? "page" : undefined}
             >
@@ -40,13 +40,14 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetD
             <Link
               href="/#about-me"
               aria-current={pathname === "/" ? "page" : undefined}
-              className="opacity-100 hover:opacity-80"
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
             >
               About
             </Link>
           </li>
           <li>
-            <a href="/resume" className="opacity-100 hover:opacity-80">
+            <a href="/resume" className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+            >
               Resume
             </a>
           </li>
@@ -58,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetD
           <button
             onClick={reset}
             disabled={isResetDisabled}
-            className={`transition-opacity duration-300 ${isResetDisabled ? "opacity-50 cursor-not-allowed" : "opacity-100 hover:opacity-80"}`}
+            className={`transition-opacity duration-300 focus-ring ${isResetDisabled ? "opacity-50 cursor-not-allowed" : "opacity-100 hover:opacity-80"}`}
           >
             <UndoIcon />
           </button>
