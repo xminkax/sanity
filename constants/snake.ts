@@ -6,11 +6,6 @@ export enum GameState {
 }
 
 export function calculateTotalScore(levelNumber: number) {
-  let totalScore = 0;
-  for (let i = 1; i <= levelNumber; i++) {
-    totalScore += 2;
-  }
-  return totalScore;
+  return Math.floor(3 * levelNumber + 0.8 * levelNumber ** 2);
 }
-
 export const MOBILE_SIZE_CANCAS = 640;

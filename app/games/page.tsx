@@ -1,7 +1,6 @@
 "use client";
 import SnakeGame from "@/components/Snake/SnakeGame";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { useLocalStorage } from "usehooks-ts";
 import Menu from "@/components/Snake/Menu";
 import { calculateTotalScore, GameState } from "@/constants/snake";
@@ -17,25 +16,16 @@ type SnakeStats = {
 export default function Games() {
   const { gameState, setGameState } = useGameState();
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [snakeStats, setSnakeStats, removeSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
+  const [snakeStats, setSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
     level: 0,
     highScore: 0,
   });
 
-  // const router = useRouter();
-  //
-  // useEffect(() => {
-  //   if (!router.isReady) return;
-  //   const handleRouteChange = () => {
-  //     setGameState(GameState.START); // Reset when leaving this page
-  //   };
-  //
-  //   router.events.on('routeChangeStart', handleRouteChange);
-  //
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChange);
-  //   };
-  // }, [router.isReady, router.events, setGameState]);
+  useEffect(() => {
+    if (gameState === GameState.GAME_OVER) {
+      setGameState(GameState.START);
+    }
+  }, []);
 
   useEffect(() => {
     setHasLoaded(true);

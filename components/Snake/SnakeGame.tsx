@@ -10,7 +10,7 @@ const fullConfig = resolveConfig(tailwindConfig);
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
-const LEVEL_SPEED = 0.1;
+const LEVEL_SPEED = 20;
 
 const generateFoodPosition = (
   canvasWidth: number,
@@ -390,7 +390,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     setStartX(event.touches[0].clientX);
     setStartY(event.touches[0].clientY);
   };
-
   return (
     <div className="flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44">
       <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">

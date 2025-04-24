@@ -136,7 +136,7 @@ const Nebula: React.FC = () => {
       new Vector2(window.innerWidth, window.innerHeight),
       0.6,
       1.0,
-      0.7,
+      0.9,
     );
     bloomPass.renderToScreen = true;
 
