@@ -26,9 +26,9 @@ const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
         ))}
       </div>
       <div className="fade-in sm:py-12 py-6 fade-in">
-        <p className={`my-4 mx-1 md:text-4xl sm:text-3xl text-2xl leading-8 text-center`}>
+        <h2 className={`my-4 mx-1 md:text-4xl sm:text-3xl text-2xl leading-8 text-center`}>
           Do you like the space?
-        </p>
+        </h2>
         <div className="mt-8 sm:mt-12 mb-1 sm:mb-0 flex items-center justify-center gap-x-6">
           <Link href="/games" className="home__btn--primary focus-ring">
             Learn more
