@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, {FC, ReactNode, useEffect, useMemo, useState} from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
@@ -50,6 +50,8 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
     highScore: 0,
   });
 
+  const memoizedStars = useMemo(() => generateStars(), []);
+
   const shouldDisplayBackgroundFromGame = () =>
     pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL);
 
@@ -73,31 +75,31 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
   }
   return (
     <body>
-      <Header
-        shouldDisplayResetIcon={highScore > 0}
-        reset={reset}
-        isResetDisabled={highScore > 0 && level === 0}
-      />
+    <Header
+      shouldDisplayResetIcon={highScore > 0}
+      reset={reset}
+      isResetDisabled={highScore > 0 && level === 0}
+    />
 
-      {level === 0 && (
-        <div>
-          {generateStars()}
-        </div>
-      )}
-      {(gameState === GameState.PLAYING || gameState === GameState.START) &&
-        pathname === "/games" && <div>{generateStars()}</div>}
-      {level === 1 && shouldDisplayBackgroundFromGame() && (
-        <div>
-          <Aurora />
-        </div>
-      )}
-      {level === 2 && shouldDisplayBackgroundFromGame() && <Particles />}
-      {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && (
-        <div>{generateStars()}</div>
-      )}
-      {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula />}
-      {level === 4 && shouldDisplayBackgroundFromGame() && <LorenzAttractor />}
-      {children}
+    {level === 0 && (
+      <div>
+        {memoizedStars}
+      </div>
+    )}
+    {(gameState === GameState.PLAYING || gameState === GameState.START) &&
+      pathname === "/games" && <div>memoizedStars</div>}
+    {level === 1 && shouldDisplayBackgroundFromGame() && (
+      <div>
+        <Aurora />
+      </div>
+    )}
+    {level === 2 && shouldDisplayBackgroundFromGame() && <Particles />}
+    {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && (
+      <div>{memoizedStars}</div>
+    )}
+    {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula />}
+    {level === 4 && shouldDisplayBackgroundFromGame() && <LorenzAttractor />}
+    {children}
     </body>
   );
 };
