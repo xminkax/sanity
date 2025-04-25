@@ -24,6 +24,9 @@ const dictionary = {
     "Drift through the vast expanse of the cosmos, where swirling nebulae and shifting clouds paint the fabric of space.",
   ],
   level_4: [
+    "The Lorenz attractor guides your path now, its butterfly wings carving chaos into elegant symmetry.",
+  ],
+  level_5: [
     "A new world awaits. Get ready to venture through the stars and beyond. Coming soon...",
   ],
 };

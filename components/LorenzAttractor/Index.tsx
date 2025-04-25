@@ -4,7 +4,7 @@ import fragmentShader from "./LorenzAttractor.frag";
 import vertexShader from "./LorenzAttractor.vert";
 import { BufferGeometry, PerspectiveCamera, Points, Scene, WebGLRenderer } from "three";
 
-const DELAY_ANIMATION = 5000;
+const DELAY_ANIMATION = 0;
 
 const LorenzAttractor: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);

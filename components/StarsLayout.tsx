@@ -26,7 +26,13 @@ const generateStars = (): JSX.Element[] => {
       top: Math.random() * 100 + "vh",
     };
 
-    return <div key={index} className={["star", index % 30 === 0 ? " yellow-star" : ""].join("")} style={starStyle}></div>;
+    return (
+      <div
+        key={index}
+        className={["star", index % 20 === 0 ? " yellow-star" : ""].join("")}
+        style={starStyle}
+      ></div>
+    );
   });
 };
 
@@ -73,7 +79,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         isResetDisabled={highScore > 0 && level === 0}
       />
 
-      {level === 0 && pathname !== "/games" && (
+      {level === 0 && (
         <div>
           {generateStars()}
         </div>
