@@ -10,7 +10,7 @@ import Particles from "@/components/Particles";
 import { useGameState } from "@/context/SnakeGameContext";
 import { GameState } from "@/constants/snake";
 
-const NUM_STARS: number = 50;
+const NUM_STARS: number = 100;
 
 interface StarStyle {
   animationDelay: string;
@@ -26,7 +26,7 @@ const generateStars = (): JSX.Element[] => {
       top: Math.random() * 100 + "vh",
     };
 
-    return <div key={index} className="star" style={starStyle}></div>;
+    return <div key={index} className={["star", index % 30 === 0 ? " yellow-star" : ""].join("")} style={starStyle}></div>;
   });
 };
 
@@ -75,7 +75,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
 
       {level === 0 && pathname !== "/games" && (
         <div>
-          <LorenzAttractor />
+          {generateStars()}
         </div>
       )}
       {(gameState === GameState.PLAYING || gameState === GameState.START) &&
@@ -90,6 +90,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         <div>{generateStars()}</div>
       )}
       {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula />}
+      {level === 4 && shouldDisplayBackgroundFromGame() && <LorenzAttractor />}
       {children}
     </body>
   );

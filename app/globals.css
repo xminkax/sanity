@@ -18,14 +18,7 @@ body {
   color: var(--heading-color);
   margin: 0 !important;
   padding: 0 !important;
-  /*overflow: hidden;*/
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
-  /*background: linear-gradient(10deg, rgba(255, 182, 194, 1) 20%, rgba(50, 152, 138, 1) 40%, rgba(0, 14, 60, 1) 70%) transparent;*/
-}
-
-.games {
-  /*background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;*/
-  /*background: linear-gradient(to bottom right, #000000, #010c1a, #020f2a, #1b1b1b);*/
 }
 
 .star {
@@ -35,7 +28,7 @@ body {
   background: white;
   border-radius: 50%;
   opacity: 0;
-  animation: twinkle 3s infinite ease-in-out;
+  animation: twinkle 5s infinite ease-in-out;
 }
 
 @keyframes twinkle {
