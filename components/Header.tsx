@@ -46,7 +46,10 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetD
             </Link>
           </li>
           <li>
-            <a href="/resume" className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+            <a
+              href="/resume"
+              target="_blank"
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
             >
               Resume
             </a>

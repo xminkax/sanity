@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StarsLayout from "@/components/StarsLayout";
-import { Orbitron } from "next/font/google";
+import { orbitron } from "@/lib/fonts";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { GameStateProvider } from "@/context/SnakeGameContext";
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
 export const metadata: Metadata = {
   title: "Monika Kindernayova",
   description: "I am a software engineer with over 12 years of professional experience.",

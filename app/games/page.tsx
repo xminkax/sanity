@@ -7,6 +7,7 @@ import { calculateTotalScore, GameState } from "@/constants/snake";
 import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
 import { useGameState } from "@/context/SnakeGameContext";
+import { pressStart2P } from "@/lib/fonts";
 
 type SnakeStats = {
   level: number;
@@ -20,7 +21,6 @@ export default function Games() {
     level: 0,
     highScore: 0,
   });
-
   useEffect(() => {
     if (gameState === GameState.GAME_OVER) {
       setGameState(GameState.START);
@@ -61,6 +61,7 @@ export default function Games() {
           justifyContent: "center",
           // padding: "8rem",
         }}
+        className={pressStart2P.className}
       >
         {gameState === GameState.START && (
           <div className="snake-animated-state">
@@ -79,8 +80,8 @@ export default function Games() {
           <div className="snake-animated-state">
             <SnakeGame
               highScore={snakeStats.highScore}
-              score={calculateTotalScore(Number(snakeStats?.level))}
-              level={Number(snakeStats?.level) + 1}
+              score={calculateTotalScore(snakeStats?.level)}
+              level={snakeStats?.level + 1}
               gameOver={() => {
                 setGameState(GameState.GAME_OVER);
                 setSnakeStats((prev) => ({
@@ -91,7 +92,7 @@ export default function Games() {
               win={(score) => {
                 setGameState(GameState.NEXT_LEVEL);
                 setSnakeStats((prev) => ({
-                  level: Number(snakeStats?.level) + 1,
+                  level: snakeStats?.level + 1,
                   highScore: score > prev.highScore ? score : prev.highScore,
                 }));
               }}
@@ -104,7 +105,7 @@ export default function Games() {
               handleNextLevel={() => {
                 setGameState(GameState.PLAYING);
               }}
-              nextLevel={Number(snakeStats?.level) + 1}
+              nextLevel={snakeStats?.level + 1}
               resetGame={resetGame}
             />
           </div>

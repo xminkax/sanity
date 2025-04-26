@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { calculateTotalScore } from "@/constants/snake";
 import Gesture from "@/public/gesture.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
+import { orbitron } from "@/lib/fonts";
 import tailwindConfig from "../../tailwind.config";
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -391,7 +392,9 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
     setStartY(event.touches[0].clientY);
   };
   return (
-    <div className="flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44">
+    <div
+      className={`${orbitron.className} flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44`}
+    >
       <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">
           Score: {counter}/{calculateTotalScore(level)}

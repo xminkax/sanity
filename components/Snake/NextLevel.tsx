@@ -1,4 +1,3 @@
-import { Press_Start_2P } from "next/font/google";
 import React from "react";
 
 type props = {
@@ -6,12 +5,6 @@ type props = {
   handleNextLevel: () => void;
   nextLevel: number;
 };
-
-const pressStart2P = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const dictionary = {
   level_1: ["You have entered the Aurora Borealis. Time slows. Stop and observe."],
@@ -34,7 +27,7 @@ const dictionary = {
 export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: props) {
   return (
     <div
-      className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44 ${pressStart2P.className}`}
+      className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44`}
     >
       <h1
         className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
@@ -51,7 +44,10 @@ export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel 
         </p>
       ))}
       <div className="flex flex-col items-stretch gap-2">
-        <button onClick={handleNextLevel} className="mt-6 px-6 py-3 next-level-btn text-2xl focus-ring">
+        <button
+          onClick={handleNextLevel}
+          className="mt-6 px-6 py-3 next-level-btn text-2xl focus-ring"
+        >
           Level {nextLevel}
         </button>
         <button onClick={resetGame} className="mt-6 px-6 py-3 reset-btn text-2xl focus-ring">

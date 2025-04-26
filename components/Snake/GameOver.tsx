@@ -9,13 +9,6 @@ import {
   WebGLRenderer,
 } from "three";
 import { generateSimilarShadeColorForParticles, Color } from "@/lib/snake/color";
-import { Press_Start_2P } from "next/font/google";
-
-const pressStart2P = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const pastelColors: [number, number, number][] = [
   [1.0, 0.2, 0.5], // Hot pink
@@ -143,7 +136,7 @@ const GameOver: React.FC<props> = ({ playAgain }: props) => {
   }, []);
 
   return (
-    <div className={`w-full h-64 ${pressStart2P.className}`}>
+    <div className={`w-full h-64`}>
       <div ref={mountRef} className="fixed top-0 left-0 w-full" />
       <div
         className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
