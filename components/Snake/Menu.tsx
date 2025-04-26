@@ -20,7 +20,7 @@ export default function Menu({ startGame }: MenuProps) {
         in motion.
       </p>
       <div className="flex flex-col items-stretch gap-2">
-        <button onClick={startGame} className="mt-6 px-6 py-3 next-level-btn text-2xl focus-ring">
+        <button onClick={startGame} className="mt-6 px-6 py-3 snake__btn--next-level text-2xl focus-ring">
           Play
         </button>
       </div>

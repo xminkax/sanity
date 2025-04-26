@@ -419,8 +419,8 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
             />
             {level === 1 && (
               <div
-                className={`overlay ${
-                  direction.x === 0 && direction.y === 0 ? "opacity-100" : "snake-animated-gesture"
+                className={`absolute top-0 left-0 w-full h-full backdrop-blur-[10px] z-30 ${
+                  direction.x === 0 && direction.y === 0 ? "opacity-100" : "snake__animated-gesture"
                 }`}
                 style={{
                   touchAction: "none",

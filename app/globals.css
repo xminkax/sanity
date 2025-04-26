@@ -16,8 +16,6 @@ html {
 
 body {
   color: var(--heading-color);
-  margin: 0 !important;
-  padding: 0 !important;
   background: radial-gradient(circle, rgba(10, 15, 37, 1) 10%, rgba(2, 2, 12, 1) 100%) transparent;
 }
 
@@ -59,6 +57,38 @@ body {
   height: 10px;
 }
 
+.stars::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 50px 80px white,
+  150px 200px white,
+  300px 100px white,
+  400px 50px white,
+  500px 300px white,
+  600px 400px white,
+  700px 250px white,
+  800px 120px white,
+  900px 500px white,
+  100px 600px white,
+  1200px 200px white,
+  1300px 700px white,
+  1400px 300px white,
+  1500px 500px white;
+  animation: twinkleStars 2s infinite alternate ease-in-out;
+}
+
+@keyframes twinkleStars {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* typewriter effect start */
 @keyframes slide {
   50% {
@@ -95,192 +125,18 @@ body {
   }
 }
 
-@keyframes remove-border {
-  to {
-    border-color: rgba(240, 150, 132, 0);
-  }
-}
-
-:root {
-  --color-1: chartreuse;
-  --color-2: magenta;
-  --color-3: cyan;
-  --color-4: black;
-
-  --aura-size: 200%;
-  --aura-speed: 15s;
-
-  --aura-1: var(--color-1);
-  --aura-2: var(--color-2);
-  --aura-3: var(--color-3);
-  --aura-4: var(--color-4);
-}
-
-.play4 {
-}
-
 /* typewriter effect end */
 
-.btn-snake {
-  /*background: linear-gradient(to right, rgb(58, 142, 213), rgb(30, 80, 150));*/
-  position: absolute;
-  /*border: 2px solid #bcc8d0;*/
-  /*box-shadow: none;*/
-  left: 50%;
-  transform: translate(-50%, 7rem);
-  /*top: 10.5rem;*/
-
-  @media only screen and (min-width: 640px) {
-    top: 50%;
-  }
+/* snake */
+.snake__animated-state {
+  opacity: 0;
+  animation: snakeFadeIn 2s forwards;
 }
 
-.btn-snake:hover {
+.snake__animated-gesture {
+  animation: snakeFadeOut 0.3s forwards;
 }
 
-.canvas-snake {
-}
-
-.game-over {
-  top: 70%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.icon-gesture {
-  width: 200px;
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-
-  @media only screen and (min-width: 640px) {
-    top: 20%;
-  }
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
-  z-index: 3;
-}
-
-.overlay-game-over {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 3;
-}
-
-.text-snake {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  white-space: nowrap;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 9rem;
-  margin-bottom: 2rem;
-}
-
-/* Stars */
-.iceland-sky {
-  background: linear-gradient(to bottom, #020111, #191621);
-  height: 100vh;
-}
-
-.stars {
-  background: transparent;
-}
-
-.stars::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  box-shadow:
-    50px 80px white,
-    150px 200px white,
-    300px 100px white,
-    400px 50px white,
-    500px 300px white,
-    600px 400px white,
-    700px 250px white,
-    800px 120px white,
-    900px 500px white,
-    100px 600px white,
-    1200px 200px white,
-    1300px 700px white,
-    1400px 300px white,
-    1500px 500px white;
-  animation: twinkleStars 2s infinite alternate ease-in-out;
-}
-
-@keyframes twinkleStars {
-  0% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Aurora */
-.aurora {
-  /*position: absolute;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*overflow: hidden;*/
-}
-
-.aurora div {
-  /*position: absolute;*/
-  /*width: 40%;*/
-  /*height: 50%;*/
-  /*background: radial-gradient(circle, rgba(0, 255, 150, 0.3), transparent);*/
-  /*border-radius: 50%;*/
-  /*filter: blur(80px);*/
-  animation: moveAurora 6s infinite alternate ease-in-out;
-}
-
-.aurora div:nth-child(1) {
-  top: 10%;
-  left: 20%;
-  animation-delay: 0s;
-}
-
-.aurora div:nth-child(2) {
-  top: 20%;
-  left: 50%;
-  animation-delay: 1s;
-}
-
-.aurora div:nth-child(3) {
-  top: 30%;
-  left: 75%;
-  animation-delay: 2s;
-}
-
-@keyframes moveAurora {
-  0% {
-    transform: translateY(-20px) scaleX(1.2);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(20px) scaleX(1.5);
-    opacity: 1;
-  }
-}
-
-/*snake*/
 @keyframes snakeFadeIn {
   from {
     opacity: 0;
@@ -299,16 +155,45 @@ body {
   }
 }
 
-.snake-animated-state {
-  /*z-index: 20;*/
-  opacity: 0; /* Start hidden */
-  animation: snakeFadeIn 2s forwards; /* Apply fade-in animation */
+.snake__btn--reset {
+  background-color: #80c7ff;
+  color: #2d2d2d;
+  transition: all 0.1s ease;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #5fa7dd; /* Hard shadow offset */
 }
 
-.snake-animated-gesture {
-  animation: snakeFadeOut 0.3s forwards; /* Apply fade-in animation */
+.snake__btn--reset:hover {
+  outline-offset: 5px;
+  outline: 1px solid #5fa7dd;
+  box-shadow: none;
 }
 
+.snake__btn--next-level {
+  background-color: #a8f7b5;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #7ed491; /* Hard shadow offset */
+}
+
+.snake__btn--next-level:hover {
+  outline-offset: 5px;
+  outline: 1px solid #7ed491;
+  box-shadow: none;
+}
+
+.snake__btn--play {
+  background-color: #ffb3b3;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  box-shadow: 5px 5px 0px #ff80a1; /* Hard shadow offset */
+}
+
+.snake__btn--play:hover {
+  outline-offset: 5px;
+  outline: 1px solid #ff80a1;
+  box-shadow: none;
+}
 
 /* homepage */
 .home__btn--primary,
@@ -343,9 +228,8 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow:
-    0 0 10px var(--pastel-orange),
-    0 0 20px var(--border-color);
+  box-shadow: 0 0 10px var(--pastel-orange),
+  0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
@@ -363,9 +247,8 @@ body {
   backdrop-filter: blur(34px);
   -webkit-backdrop-filter: blur(34px);
   transform: scale(1.05);
-  box-shadow:
-    0 0 10px var(--pastel-orange),
-    0 0 20px var(--border-color);
+  box-shadow: 0 0 10px var(--pastel-orange),
+  0 0 20px var(--border-color);
   animation: flicker 0.15s infinite alternate;
 }
 
@@ -383,12 +266,10 @@ body {
   inset: -1px;
   padding: 1px;
   transition: 0.3s;
-  mask:
-    linear-gradient(white, white) content-box,
-    linear-gradient(white, white);
-  -webkit-mask:
-    linear-gradient(white, white) content-box,
-    linear-gradient(white, white);
+  mask: linear-gradient(white, white) content-box,
+  linear-gradient(white, white);
+  -webkit-mask: linear-gradient(white, white) content-box,
+  linear-gradient(white, white);
   mask-composite: exclude;
   -webkit-mask-composite: exclude;
 }
@@ -470,8 +351,6 @@ body {
   animation: 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s 1 normal forwards running moveUp;
 }
 
-/*@media (min-width: theme('screens.sm')) {*/
-
 .panel::before {
   content: "";
   position: absolute;
@@ -518,254 +397,7 @@ body {
 }
 
 .header {
-  box-shadow: rgba(55, 65, 81, 0.1) 0px -0.1rem 0px inset;
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-  20% {
-    transform: translateY(-10px);
-  }
-  40% {
-    transform: translateY(0);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-  80% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.bounce {
-  animation: bounce 1s ease;
-}
-
-.game-over-mobile {
-}
-
-@keyframes snakeMove {
-  0% {
-    transform: translateX(-100%) translateY(0);
-  }
-  25% {
-    transform: translateX(25%) translateY(20px);
-  }
-  50% {
-    transform: translateX(50%) translateY(-10px);
-  }
-  75% {
-    transform: translateX(75%) translateY(10px);
-  }
-  100% {
-    transform: translateX(100%) translateY(0);
-  }
-}
-.animate-snake {
-  animation: snakeMove 5s linear infinite;
-}
-/*animation: snakeMove 5s linear infinite;*/
-
-/*.retro-button:focus {*/
-/*  outline: none;*/
-/*}*/
-
-/*.retro-button:active {*/
-/*  background-color: #ff6680;*/
-/*  !*transform: scale(1.05);*!*/
-/*}*/
-
-.retro-button-next-level {
-  font-family: "Press Start 2P", cursive;
-  background-color: #a7d8ff; /* Pastel blue */
-  border: 2px solid #80c7ff;
-  color: #2d2d2d;
-  font-size: 2rem;
-  padding: 20px 40px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.retro-button-next-level:hover {
-  background-color: #80c7ff; /* Lighten the blue on hover */
-  transform: scale(1.1);
-}
-
-.retro-button-next-level:focus {
-  outline: none;
-}
-
-.retro-button-next-level:active {
-  background-color: #66b3ff; /* Slightly darker blue when clicked */
-  transform: scale(1.05);
-}
-
-/*#c1a1f7*/
-/*#a8f7b5*/
-
-.reset-btn {
-  background-color: #80c7ff;
-  color: #2d2d2d;
-  transition: all 0.1s ease;
-  text-transform: uppercase;
-  box-shadow: 5px 5px 0px #5fa7dd; /* Hard shadow offset */
-}
-
-.reset-btn:hover {
-  outline-offset: 5px;
-  outline: 1px solid #5fa7dd;
-  box-shadow: none;
-}
-
-.next-level-btn {
-  background-color: #a8f7b5;
-  color: #2d2d2d;
-  text-transform: uppercase;
-  box-shadow: 5px 5px 0px #7ed491; /* Hard shadow offset */
-}
-
-.next-level-btn:hover {
-  outline-offset: 5px;
-  outline: 1px solid #7ed491;
-  box-shadow: none;
-}
-
-.play-btn {
-  background-color: #ffb3b3;
-  color: #2d2d2d;
-  text-transform: uppercase;
-  box-shadow: 5px 5px 0px #ff80a1; /* Hard shadow offset */
-}
-
-.play-btn:hover {
-  outline-offset: 5px;
-  outline: 1px solid #ff80a1;
-  box-shadow: none;
-}
-
-.reset-btn-2 {
-  background-color: #ffb3b3;
-  color: #2d2d2d;
-  transition: all 0.1s ease;
-  text-transform: uppercase;
-  box-shadow: 5px 5px 0px #ff80a1; /* Hard shadow offset */
-}
-
-.reset-btn-2:hover {
-  outline-offset: 5px;
-  outline: 1px solid #ff80a1;
-  box-shadow: none;
-}
-
-.star-snake {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 2px;
-  border-radius: 885px;
-  background: linear-gradient(-45deg, rgb(255, 235, 59), rgba(255, 235, 59, 0));
-
-  -webkit-filter: drop-shadow(0 0 6px #eef1f8);
-  filter: drop-shadow(0 0 6px #d7dff0);
-  /*opacity:0;*/
-  animation:
-    tail 3000ms ease-in-out,
-    shooting 3000ms ease-in-out;
-}
-
-/* Here we add before and after effect to star */
-.star-snake::before,
-.star-snake::after {
-  content: "";
-  position: absolute;
-  top: calc(50% - 1px);
-  right: 0;
-  height: 2px;
-  background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgb(255, 235, 59), rgba(0, 0, 255, 0));
-  -webkit-transform: translateX(50%) rotateZ(45deg);
-  transform: translateX(50%) rotateZ(45deg);
-  border-radius: 100%;
-  animation: shining 3000ms ease-in-out 2;
-}
-
-.star-snake::after {
-  -webkit-transform: translateX(50%) rotateZ(-45deg);
-  transform: translateX(50%) rotateZ(-45deg);
-}
-
-/* Here we are adding location of each
-     nth-child, animations, delays, and
-     before and after effects to each
-     and every balls(stars) */
-.star-snake:nth-child(1) {
-  top: calc(50% - -119px);
-  left: calc(50% - 43px);
-  -webkit-animation-delay: 4000ms;
-  animation-delay: 4000ms;
-}
-
-/* This code will help to generate
-  effect in tail of star */
-@keyframes tail {
-  0% {
-    width: 0;
-  }
-
-  30% {
-    width: 100px;
-  }
-
-  100% {
-    width: 0;
-  }
-}
-
-/* This code will generate shining
-  effect in head of star */
-@keyframes shining {
-  0% {
-    width: 0;
-  }
-
-  50% {
-    width: 30px;
-  }
-
-  100% {
-    width: 0;
-  }
-}
-
-/* Here we are adding webkit-animation
-  for shooting effect */
-@keyframes shooting {
-  0% {
-    opacity: 1;
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-
-  100% {
-    -webkit-transform: translateX(270px);
-    transform: translateX(270px);
-    opacity: 0;
-  }
-}
-
-.sky {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  -webkit-transform: rotateZ(45deg);
-  transform: rotateZ(45deg);
+  box-shadow: rgba(55, 65, 81, 0.1) 0 -0.1rem 0 inset;
 }
 
 .focus {
@@ -773,6 +405,7 @@ body {
     .focus-ring-with-padding {
       @apply focus-visible:ring-2 px-3 py-1;
     }
+
     .focus-ring {
       @apply focus-visible:ring-2;
     }
@@ -781,4 +414,11 @@ body {
 
 .focus-ring, .focus-ring-with-padding {
   outline-color: rgb(240, 150, 132);
+}
+
+.visualisation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: -1;
 }

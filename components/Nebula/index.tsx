@@ -206,7 +206,7 @@ const Nebula: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ position: "fixed", top: "0", right: "0" }} />;
+  return <div ref={mountRef} className="visualisation" />;
 };
 
 export default Nebula;

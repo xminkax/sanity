@@ -81,7 +81,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         isResetDisabled={highScore > 0 && level === 0}
       />
 
-      {level === 0 && <div>{memoizedStars}</div>}
+      {level === 0 && <div className="stars">{memoizedStars}</div>}
       {(gameState === GameState.PLAYING || gameState === GameState.START) &&
         pathname === "/games" && <div>memoizedStars</div>}
       {level === 1 && shouldDisplayBackgroundFromGame() && (

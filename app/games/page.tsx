@@ -64,7 +64,7 @@ export default function Games() {
         className={pressStart2P.className}
       >
         {gameState === GameState.START && (
-          <div className="snake-animated-state">
+          <div className="snake__animated-state">
             <Menu
               startGame={() => {
                 setSnakeStats((prev) => ({
@@ -77,7 +77,7 @@ export default function Games() {
           </div>
         )}
         {gameState === GameState.PLAYING && (
-          <div className="snake-animated-state">
+          <div className="snake__animated-state">
             <SnakeGame
               highScore={snakeStats.highScore}
               score={calculateTotalScore(snakeStats?.level)}
@@ -100,7 +100,7 @@ export default function Games() {
           </div>
         )}
         {gameState === GameState.NEXT_LEVEL && (
-          <div className="snake-animated-state">
+          <div className="snake__animated-state">
             <NextLevel
               handleNextLevel={() => {
                 setGameState(GameState.PLAYING);
@@ -111,7 +111,7 @@ export default function Games() {
           </div>
         )}
         {gameState === GameState.GAME_OVER && (
-          <div className="snake-animated-state">
+          <div className="snake__animated-state">
             <GameOver playAgain={playAgain} />
           </div>
         )}

@@ -149,7 +149,7 @@ const LorenzAttractor: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ position: "absolute", top: "0", right: "0", zIndex: -1 }} />;
+  return <div ref={mountRef} className="visualisation" />;
 };
 
 export default LorenzAttractor;
