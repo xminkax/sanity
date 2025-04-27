@@ -8,4 +8,3 @@ export enum GameState {
 export function calculateTotalScore(levelNumber: number) {
   return Math.floor(3 * levelNumber + 0.8 * levelNumber ** 2);
 }
-export const MOBILE_SIZE_CANCAS = 640;
