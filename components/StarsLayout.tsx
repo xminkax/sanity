@@ -67,7 +67,22 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
     setGameState(GameState.START);
   };
 
-  // console.log(snakeStats, 'layout');
+  const renderLevelBackground = () => {
+    if (level === 1 && shouldDisplayBackgroundFromGame()) return <Aurora />;
+    if (level === 2 && shouldDisplayBackgroundFromGame()) return <Particles />;
+    if (level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame())
+      return <div className="stars">{memoizedStars}</div>;
+    if (level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame())
+      return <Nebula />;
+    if (level === 4 && shouldDisplayBackgroundFromGame()) return <LorenzAttractor />;
+    if (
+      (level === 0 && pathname !== "/games") ||
+      gameState === GameState.PLAYING ||
+      gameState === GameState.START
+    )
+      return <div className="stars">{memoizedStars}</div>;
+  };
+
   const { level, highScore } = snakeStats;
 
   if (!hasLoaded) {
@@ -81,20 +96,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
         isResetDisabled={highScore > 0 && level === 0}
       />
 
-      {level === 0 && <div className="stars">{memoizedStars}</div>}
-      {(gameState === GameState.PLAYING || gameState === GameState.START) &&
-        pathname === "/games" && <div>memoizedStars</div>}
-      {level === 1 && shouldDisplayBackgroundFromGame() && (
-        <div>
-          <Aurora />
-        </div>
-      )}
-      {level === 2 && shouldDisplayBackgroundFromGame() && <Particles />}
-      {level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame() && (
-        <div>{memoizedStars}</div>
-      )}
-      {level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame() && <Nebula />}
-      {level === 4 && shouldDisplayBackgroundFromGame() && <LorenzAttractor />}
+      {renderLevelBackground()}
       {children}
     </body>
   );
