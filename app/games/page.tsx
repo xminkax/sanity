@@ -38,77 +38,78 @@ export default function Games() {
     return null;
   }
 
-  const playAgain = () => {
-    setGameState(GameState.PLAYING);
+  const resetStats = () => {
     setSnakeStats((prev) => ({
       ...prev,
       level: 0,
     }));
   };
 
+  const playAgain = () => {
+    setGameState(GameState.PLAYING);
+    resetStats();
+  };
+
   const resetGame = () => {
     setGameState(GameState.START);
+    resetStats();
+  };
+
+  const handleGameOver = () => {
+    setGameState(GameState.GAME_OVER);
+    resetStats();
+  };
+
+  const startGame = () => {
     setSnakeStats((prev) => ({
       ...prev,
-      level: 0,
+      state: GameState.PLAYING,
+    }));
+    setGameState(GameState.PLAYING);
+  };
+
+  const winGame = (score) => {
+    setGameState(GameState.NEXT_LEVEL);
+    setSnakeStats((prev) => ({
+      level: snakeStats?.level + 1,
+      highScore: score > prev.highScore ? score : prev.highScore,
     }));
   };
+
   return (
-    <>
-      <div className={`${pressStart2P.className} flex justify-center`}>
-        {gameState === GameState.START && (
-          <div className="snake__animated-state">
-            <Menu
-              startGame={() => {
-                setSnakeStats((prev) => ({
-                  ...prev,
-                  state: GameState.PLAYING,
-                }));
-                setGameState(GameState.PLAYING);
-              }}
-            />
-          </div>
-        )}
-        {gameState === GameState.PLAYING && (
-          <div className="snake__animated-state">
-            <SnakeGame
-              highScore={snakeStats.highScore}
-              score={calculateTotalScore(snakeStats?.level)}
-              level={snakeStats?.level + 1}
-              gameOver={() => {
-                setGameState(GameState.GAME_OVER);
-                setSnakeStats((prev) => ({
-                  ...prev,
-                  level: 0,
-                }));
-              }}
-              win={(score) => {
-                setGameState(GameState.NEXT_LEVEL);
-                setSnakeStats((prev) => ({
-                  level: snakeStats?.level + 1,
-                  highScore: score > prev.highScore ? score : prev.highScore,
-                }));
-              }}
-            />
-          </div>
-        )}
-        {gameState === GameState.NEXT_LEVEL && (
-          <div className="snake__animated-state">
-            <NextLevel
-              handleNextLevel={() => {
-                setGameState(GameState.PLAYING);
-              }}
-              nextLevel={snakeStats?.level + 1}
-              resetGame={resetGame}
-            />
-          </div>
-        )}
-        {gameState === GameState.GAME_OVER && (
-          <div className="snake__animated-state">
-            <GameOver playAgain={playAgain} />
-          </div>
-        )}
-      </div>
-    </>
+    <div className={`${pressStart2P.className} flex justify-center`}>
+      {gameState === GameState.START && (
+        <div className="snake__animated-state">
+          <Menu startGame={startGame} />
+        </div>
+      )}
+      {gameState === GameState.PLAYING && (
+        <div className="snake__animated-state">
+          <SnakeGame
+            highScore={snakeStats.highScore}
+            score={calculateTotalScore(snakeStats?.level)}
+            level={snakeStats?.level + 1}
+            gameOver={handleGameOver}
+            win={winGame}
+          />
+        </div>
+      )}
+      {gameState === GameState.NEXT_LEVEL && (
+        <div className="snake__animated-state">
+          <NextLevel
+            handleNextLevel={() => {
+              setGameState(GameState.PLAYING);
+            }}
+            nextLevel={snakeStats?.level + 1}
+            resetGame={resetGame}
+          />
+        </div>
+      )}
+      {gameState === GameState.GAME_OVER && (
+        <div className="snake__animated-state">
+          <GameOver playAgain={playAgain} />
+        </div>
+      )}
+    </div>
   );
 }

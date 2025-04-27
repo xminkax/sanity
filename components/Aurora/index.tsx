@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import fragmentShader from "./IcelandicSky.frag";
-import vertexShader from "./IcelandicSky.vert";
+import fragmentShader from "./Aurora.frag";
+import vertexShader from "./Aurora.vert";
 import { Mesh, PlaneGeometry, Scene, ShaderMaterial } from "three";
 
 const Aurora: React.FC = () => {
