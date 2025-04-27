@@ -402,15 +402,11 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">High score: {highScore}</div>
         <div className="text-[wheat] uppercase sm:mr-10">Level: {level}</div>
       </div>
-      <div style={{ zIndex: 2, position: "relative" }}>
+      <div className="relative z-2">
         {canvasConfigRef.current && (
           <div>
             <canvas
-              className="panel"
-              style={{
-                touchAction: "none",
-                overflow: "hidden",
-              }}
+              className="panel touch-none overflow-hidden"
               ref={canvasRef}
               width={canvasConfigRef.current?.width}
               height={canvasConfigRef.current?.height}
@@ -419,13 +415,9 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
             />
             {level === 1 && (
               <div
-                className={`absolute top-0 left-0 w-full h-full backdrop-blur-[10px] z-30 ${
+                className={`absolute top-0 left-0 w-full h-full backdrop-blur-[10px] z-30 touch-none overflow-hidden ${
                   direction.x === 0 && direction.y === 0 ? "opacity-100" : "snake__animated-gesture"
                 }`}
-                style={{
-                  touchAction: "none",
-                  overflow: "hidden",
-                }}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
               >

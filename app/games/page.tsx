@@ -55,14 +55,7 @@ export default function Games() {
   };
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          // padding: "8rem",
-        }}
-        className={pressStart2P.className}
-      >
+      <div className={`${pressStart2P.className} flex justify-center`}>
         {gameState === GameState.START && (
           <div className="snake__animated-state">
             <Menu

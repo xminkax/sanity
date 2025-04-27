@@ -30,8 +30,7 @@ export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel 
       className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44`}
     >
       <h1
-        className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
-        style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
+        className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center text-shadow ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
       >
         Level:{nextLevel - 1} cleared
       </h1>
@@ -50,7 +49,10 @@ export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel 
         >
           Level {nextLevel}
         </button>
-        <button onClick={resetGame} className="mt-6 px-6 py-3 snake__btn--reset text-2xl focus-ring">
+        <button
+          onClick={resetGame}
+          className="mt-6 px-6 py-3 snake__btn--reset text-2xl focus-ring"
+        >
           Reset
         </button>
       </div>

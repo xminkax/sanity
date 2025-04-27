@@ -141,13 +141,13 @@ const GameOver: React.FC<props> = ({ playAgain }: props) => {
       <div
         className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
       >
-        <h1
-          className="sm:text-5xl text-4xl uppercase  sm:mb-8 mb-2 font-bold text-center text-[wheat]"
-          style={{ textShadow: "2px 2px 0px rgba(224, 181, 173, 0.8)" }}
-        >
+        <h1 className="sm:text-5xl text-4xl uppercase  sm:mb-8 mb-2 font-bold text-center text-[wheat] text-shadow">
           Game over
         </h1>
-        <button onClick={playAgain} className="mt-6 px-6 py-3 snake__btn--reset text-2xl focus-ring">
+        <button
+          onClick={playAgain}
+          className="mt-6 px-6 py-3 snake__btn--reset text-2xl focus-ring"
+        >
           Play
         </button>
       </div>

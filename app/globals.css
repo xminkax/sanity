@@ -422,3 +422,7 @@ body {
   right: 0;
   z-index: -1;
 }
+
+.text-shadow {
+  text-shadow: 2px 2px 0 rgba(224, 181, 173, 0.8);
+}
