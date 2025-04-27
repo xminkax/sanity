@@ -68,7 +68,7 @@ export default function Games() {
     setGameState(GameState.PLAYING);
   };
 
-  const winGame = (score) => {
+  const winGame = (score: number) => {
     setGameState(GameState.NEXT_LEVEL);
     setSnakeStats((prev) => ({
       level: snakeStats?.level + 1,
