@@ -212,14 +212,13 @@ body {
     #0A0F28 93.37%,
     #1E2846 178.71%
   );
-  padding: 0.8rem 1.8rem;
+  padding: 0.8rem 1.4rem;
   font-weight: 500;
 }
 
 @media (min-width: theme("screens.sm")) {
   .home__btn--primary {
     font-size: 1.5rem;
-    padding: 0.8rem 2.2rem;
   }
 }
 
