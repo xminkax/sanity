@@ -31,7 +31,7 @@ const Hero = ({ welcomeTexts }: StringListProps) => {
         </h2>
         <div className="mt-8 sm:mt-12 mb-1 sm:mb-0 flex items-center justify-center gap-x-6">
           <Link href="/games" className="home__btn--primary focus-ring">
-            Learn more
+            Explore
           </Link>
         </div>
       </div>
