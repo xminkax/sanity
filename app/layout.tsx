@@ -5,6 +5,7 @@ import { orbitron } from "@/lib/fonts";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { GameStateProvider } from "@/context/SnakeGameContext";
+
 export const metadata: Metadata = {
   title: "Monika Kindernayova",
   description: "I am a software engineer with over 12 years of professional experience.",
@@ -17,14 +18,8 @@ export const metadata: Metadata = {
     ],
   },
 };
-type RootLayoutProps = {
-  children: ReactNode;
-};
 
-export default function RootLayout({
-  children,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={orbitron.className}>
       <GameStateProvider>

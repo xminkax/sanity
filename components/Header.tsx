@@ -10,7 +10,7 @@ interface HeaderProps {
   isResetDisabled: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon, reset, isResetDisabled }) => {
+const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps) => {
   const pathname = usePathname();
   return (
     <header

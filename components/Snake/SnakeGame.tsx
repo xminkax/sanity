@@ -32,17 +32,17 @@ const generateFoodPosition = (
   return pos;
 };
 
-type props = {
+interface SnakeProps {
   win: (counter: number) => void;
   gameOver: () => void;
   score: number;
   level: number;
   highScore: number;
-};
+}
 
 const parseScreensConfig = (value: string) => parseInt(value, 10);
 
-export default function SnakeGame({ win, gameOver, level, score, highScore }: props) {
+export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const canvasConfigPrevRef = useRef<{
     width: number;
@@ -86,7 +86,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: pr
   const setupCanvas = useCallback(() => {
     let unitSize;
 
-    const UNITS_WIDE = 32;
+    const UNITS_WIDE = 31;
     const UNITS_TALL = 24;
 
     if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.xl)) {

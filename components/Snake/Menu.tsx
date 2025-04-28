@@ -1,8 +1,8 @@
 import React from "react";
 
-type MenuProps = {
+interface MenuProps {
   startGame: () => void;
-};
+}
 
 export default function Menu({ startGame }: MenuProps) {
   return (
@@ -13,8 +13,7 @@ export default function Menu({ startGame }: MenuProps) {
         Snake
       </h1>
       <p className="text-[#F0E6D2] max-w-xl mb-4 sm:text-lg text-sm text-center px-2">
-        Step into my memories and come beneath a sky of forgotten effects. Each win reveals the sky
-        in motion.
+        Step into a world beneath a sky of forgotten effects. Each win reveals the sky in motion.
       </p>
       <div className="flex flex-col items-stretch gap-2">
         <button

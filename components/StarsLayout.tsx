@@ -9,14 +9,15 @@ import Aurora from "@/components/Aurora/index";
 import Particles from "@/components/Particles";
 import { useGameState } from "@/context/SnakeGameContext";
 import { GameState } from "@/constants/snake";
+import { SnakeStats } from "@/interfaces";
 
 const NUM_STARS: number = 100;
 
-interface StarStyle {
+type StarStyle = {
   animationDelay: string;
   top: string;
   left: string;
-}
+};
 
 const generateStars = (): JSX.Element[] => {
   return Array.from({ length: NUM_STARS }).map((_, index) => {
@@ -34,11 +35,6 @@ const generateStars = (): JSX.Element[] => {
       ></div>
     );
   });
-};
-
-type SnakeStats = {
-  level: number;
-  highScore: number;
 };
 
 const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => {

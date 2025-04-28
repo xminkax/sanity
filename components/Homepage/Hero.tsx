@@ -5,7 +5,7 @@ interface StringListProps {
   welcomeTexts: string[];
 }
 
-const Hero: React.FC<StringListProps> = ({ welcomeTexts }) => {
+const Hero = ({ welcomeTexts }: StringListProps) => {
   return (
     <section className="z-10 flex justify-center flex-col items-center mt-[8rem] sm:mt-[11rem] mb-[2rem]">
       <div className="typewriter relative w-full flex justify-center items-center">

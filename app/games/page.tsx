@@ -8,11 +8,7 @@ import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
 import { useGameState } from "@/context/SnakeGameContext";
 import { pressStart2P } from "@/lib/fonts";
-
-type SnakeStats = {
-  level: number;
-  highScore: number;
-};
+import { SnakeStats } from "@/interfaces";
 
 export default function Games() {
   const { gameState, setGameState } = useGameState();

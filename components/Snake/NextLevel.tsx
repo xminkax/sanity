@@ -1,10 +1,10 @@
 import React from "react";
 
-type props = {
+interface NextLevelProps {
   resetGame: () => void;
   handleNextLevel: () => void;
   nextLevel: number;
-};
+}
 
 const dictionary = {
   level_1: ["You have entered the Aurora Borealis. Time slows. Stop and observe."],
@@ -24,7 +24,7 @@ const dictionary = {
   ],
 };
 
-export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: props) {
+export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: NextLevelProps) {
   return (
     <div
       className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44`}

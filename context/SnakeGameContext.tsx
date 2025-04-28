@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import {GameState} from "@/constants/snake";
+import { GameState } from "@/constants/snake";
 
 interface GameStateContextType {
   gameState: GameState;
@@ -20,11 +20,11 @@ type GameStateProviderProps = {
   children: ReactNode;
 };
 
-export const GameStateProvider: React.FC<GameStateProviderProps> = ({children}) => {
+export const GameStateProvider: React.FC<GameStateProviderProps> = ({ children }) => {
   const [gameState, setGameState] = useState<GameState>(GameState.START);
 
   return (
-    <GameStateContext.Provider value={{gameState, setGameState}}>
+    <GameStateContext.Provider value={{ gameState, setGameState }}>
       {children}
     </GameStateContext.Provider>
   );

@@ -17,11 +17,11 @@ const pastelColors: [number, number, number][] = [
   [0.7, 0.3, 1.0], // Vibrant violet
 ];
 
-type props = {
+interface GameOverProps {
   playAgain: () => void;
-};
+}
 
-const GameOver: React.FC<props> = ({ playAgain }: props) => {
+const GameOver = ({ playAgain }: GameOverProps) => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const clock = useRef<THREE.Clock>(new THREE.Clock());
   const animationFrameId = useRef<number>(0);

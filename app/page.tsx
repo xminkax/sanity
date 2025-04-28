@@ -20,7 +20,7 @@ const aboutMe = {
 };
 const snake = {
   title: "Snake game",
-  button: { label: "Play", url: "/games" },
+  button: { label: "Play", url: "/games", isInternal: true },
   texts: [
     'I started my coding journey in <a class="panel__link focus-ring" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
       '>Pascal</a> and Ui part with <a class="panel__link focus-ring" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
