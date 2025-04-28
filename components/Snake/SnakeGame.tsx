@@ -91,7 +91,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
     if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.xl)) {
       // Desktop
-      unitSize = 28;
+      unitSize = 30;
     } else if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.md)) {
       // Tablet
       unitSize = 22;
@@ -191,7 +191,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         newSnakeHead.x === -unitSize ||
         newSnakeHead.y === -unitSize)
     ) {
-      gameOver();
+      gameOver(counter);
       return;
     }
 
@@ -399,7 +399,9 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">
           Score: {counter}/{calculateTotalScore(level)}
         </div>
-        <div className="text-[wheat] uppercase sm:mr-10 mr-4">High score: {highScore}</div>
+        <div className="text-[wheat] uppercase sm:mr-10 mr-4">
+          High score: {highScore < counter ? counter : highScore}
+        </div>
         <div className="text-[wheat] uppercase sm:mr-10">Level: {level}</div>
       </div>
       <div className="relative z-2">

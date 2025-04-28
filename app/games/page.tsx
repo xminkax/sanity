@@ -51,9 +51,12 @@ export default function Games() {
     resetStats();
   };
 
-  const handleGameOver = () => {
+  const handleGameOver = (score: number) => {
     setGameState(GameState.GAME_OVER);
-    resetStats();
+    setSnakeStats((prev) => ({
+      ...(prev.highScore > score ? { highScore: prev.highScore } : { highScore: score }),
+      level: 0,
+    }));
   };
 
   const startGame = () => {
