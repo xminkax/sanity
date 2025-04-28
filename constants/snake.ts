@@ -1,23 +1,10 @@
 export enum GameState {
-  MENU = "menu",
+  START = "start",
   PLAYING = "playing",
-  GAME_OVER = "gameOver",
-  WIN = "win",
+  GAME_OVER = "game_over",
+  NEXT_LEVEL = "next_level",
 }
 
-//used for css to define the background
-export enum LevelWinBackgrounds {
-  "level_0" = "night-sky",
-  "level_1" = "shooting-star",
-  "level_2" = "iceland-sky",
-  "level_3" = "black-hole",
+export function calculateTotalScore(levelNumber: number) {
+  return Math.floor(3 * levelNumber + 0.8 * levelNumber ** 2);
 }
-
-//used for the snake window after level is won
-export const levelWinTexts = {
-  [LevelWinBackgrounds["level_1"]]: "Shooting star coming",
-  [LevelWinBackgrounds["level_2"]]: "You got Icelandic sky",
-  [LevelWinBackgrounds["level_3"]]: "You are inside the black hole",
-};
-
-export const MOBILE_SIZE_CANCAS = 640;

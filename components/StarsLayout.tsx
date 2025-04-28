@@ -1,17 +1,23 @@
 "use client";
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { LevelWinBackgrounds } from "@/constants/snake";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
+import LorenzAttractor from "@/components/LorenzAttractor/Index";
+import Nebula from "@/components/Nebula/index";
+import Aurora from "@/components/Aurora/index";
+import Particles from "@/components/Particles";
+import { useGameState } from "@/context/SnakeGameContext";
+import { GameState } from "@/constants/snake";
+import { SnakeStats } from "@/interfaces";
 
 const NUM_STARS: number = 100;
 
-interface StarStyle {
+type StarStyle = {
   animationDelay: string;
   top: string;
   left: string;
-}
+};
 
 const generateStars = (): JSX.Element[] => {
   return Array.from({ length: NUM_STARS }).map((_, index) => {
@@ -32,33 +38,61 @@ const generateStars = (): JSX.Element[] => {
 };
 
 const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => {
+  const { gameState, setGameState } = useGameState();
   const pathname = usePathname();
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [snakeStats, setSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
+    level: 0,
+    highScore: 0,
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [levelWin, setLevelWin, removeValue] = useLocalStorage<string>("levelWin", "level_0");
-  const [background, setBackground] = useState("night-sky");
+  const memoizedStars = useMemo(() => generateStars(), []);
+
+  const shouldDisplayBackgroundFromGame = () =>
+    pathname !== "/games" || (pathname === "/games" && gameState === GameState.NEXT_LEVEL);
+
   useEffect(() => {
-    setBackground(LevelWinBackgrounds[levelWin as keyof typeof LevelWinBackgrounds]);
-  }, [levelWin]);
-  const shouldDisplayResetIcon =
-    background !== LevelWinBackgrounds["level_0"] && pathname !== "/games";
-  return (
-    <body className={background}>
-      <Header shouldDisplayResetIcon={shouldDisplayResetIcon} />
-      {background === LevelWinBackgrounds["level_2"] && (
-        <>
-          <div className="stars"></div>
-          <div className="aurora">
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </>
-      )}
-      {background === LevelWinBackgrounds["level_0"] && (
-        <div className="stars">{generateStars()}</div>
-      )}
+    setHasLoaded(true);
+  }, []);
 
+  const reset = () => {
+    setSnakeStats((prev) => ({
+      ...prev,
+      level: 0,
+    }));
+    setGameState(GameState.START);
+  };
+
+  const renderLevelBackground = () => {
+    if (level === 1 && shouldDisplayBackgroundFromGame()) return <Aurora />;
+    if (level === 2 && shouldDisplayBackgroundFromGame()) return <Particles />;
+    if (level === 3 && pathname !== "/games" && shouldDisplayBackgroundFromGame())
+      return <div className="stars">{memoizedStars}</div>;
+    if (level === 3 && pathname === "/games" && shouldDisplayBackgroundFromGame())
+      return <Nebula />;
+    if (level === 4 && shouldDisplayBackgroundFromGame()) return <LorenzAttractor />;
+    if (
+      (level === 0 && pathname !== "/games") ||
+      gameState === GameState.PLAYING ||
+      gameState === GameState.START
+    )
+      return <div className="stars">{memoizedStars}</div>;
+  };
+
+  const { level, highScore } = snakeStats;
+
+  if (!hasLoaded) {
+    return <body>{children}</body>;
+  }
+  return (
+    <body>
+      <Header
+        shouldDisplayResetIcon={highScore > 0}
+        reset={reset}
+        isResetDisabled={highScore > 0 && level === 0}
+      />
+
+      {renderLevelBackground()}
       {children}
     </body>
   );

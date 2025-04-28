@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StarsLayout from "@/components/StarsLayout";
-import { Orbitron } from "next/font/google";
+import { orbitron } from "@/lib/fonts";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
-
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+import { GameStateProvider } from "@/context/SnakeGameContext";
 
 export const metadata: Metadata = {
   title: "Monika Kindernayova",
@@ -22,20 +18,16 @@ export const metadata: Metadata = {
     ],
   },
 };
-type RootLayoutProps = {
-  children: ReactNode;
-};
 
-export default function RootLayout({
-  children,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={orbitron.className}>
-      <StarsLayout>
-        {children}
-        <Analytics />
-      </StarsLayout>
+      <GameStateProvider>
+        <StarsLayout>
+          {children}
+          <Analytics />
+        </StarsLayout>
+      </GameStateProvider>
     </html>
   );
 }

@@ -1,22 +1,24 @@
 import Link from "next/link";
-import Image from "next/image";
-import undo from "@/public/undo.svg";
-import React from "react";
-import logo from "@/app/icon.svg";
+import React, { MouseEventHandler } from "react";
+import Logo from "@/app/icon.svg";
+import UndoIcon from "@/public/undo.svg";
 import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   shouldDisplayResetIcon: boolean;
+  reset: MouseEventHandler<HTMLButtonElement> | undefined;
+  isResetDisabled: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
+const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps) => {
   const pathname = usePathname();
-
   return (
-    <header className="header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-10 backdrop-blur-md sm:h-[4rem] h-[3.4rem]">
+    <header
+      className={`${pathname === "/games" && "text-[#F0E6D2]"} header flex items-center justify-between sm:px-4 px-2 sm:text-lg text-sm  fixed top-0 w-full z-20 backdrop-blur-md sm:h-[4rem] h-[3.4rem]`}
+    >
       <div className="">
-        <Link href="/">
-          <Image className="sm:w-full w-[2rem]" priority src={logo} alt="homepage" />
+        <Link href="/" className="focus-ring" aria-label="logo">
+          <Logo />
         </Link>
       </div>
       <nav
@@ -26,28 +28,43 @@ const Header: React.FC<HeaderProps> = ({ shouldDisplayResetIcon }) => {
       >
         <ul className="flex justify-center sm:space-x-6 space-x-3">
           <li>
-            <a
-              onClick={() => alert("Coming soon")}
+            <Link
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              href="/games"
               aria-current={pathname === "/games" ? "page" : undefined}
             >
               Games
-            </a>
+            </Link>
           </li>
           <li>
-            <Link href="/#about-me" aria-current={pathname === "/" ? "page" : undefined}>
+            <Link
+              href="/#about-me"
+              aria-current={pathname === "/" ? "page" : undefined}
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+            >
               About
             </Link>
           </li>
           <li>
-            <a href="/resume">Resume</a>
+            <a
+              href="/resume"
+              target="_blank"
+              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+            >
+              Resume
+            </a>
           </li>
         </ul>
       </nav>
 
       {shouldDisplayResetIcon && (
         <div className="ml-auto">
-          <button className="image-button">
-            <Image className="sm:w-full w-[2rem]" priority src={undo} alt="reset background" />
+          <button
+            onClick={reset}
+            disabled={isResetDisabled}
+            className={`transition-opacity duration-300 focus-ring ${isResetDisabled ? "opacity-50 cursor-not-allowed" : "opacity-100 hover:opacity-80"}`}
+          >
+            <UndoIcon />
           </button>
         </div>
       )}

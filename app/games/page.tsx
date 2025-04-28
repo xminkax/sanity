@@ -1,68 +1,111 @@
 "use client";
-// import SnakeGame from "@/components/SnakeGame";
-import React from "react";
-// import { useLocalStorage } from "usehooks-ts";
-// import GameOver from "@/components/GameOver";
-// import { GameState } from "@/constants/snake";
+import SnakeGame from "@/components/Snake/SnakeGame";
+import React, { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
+import Menu from "@/components/Snake/Menu";
+import { calculateTotalScore, GameState } from "@/constants/snake";
+import NextLevel from "@/components/Snake/NextLevel";
+import GameOver from "@/components/Snake/GameOver";
+import { useGameState } from "@/context/SnakeGameContext";
+import { pressStart2P } from "@/lib/fonts";
+import { SnakeStats } from "@/interfaces";
 
 export default function Games() {
-  // const [levelWin, setLevelWin, removeLevelWin] = useLocalStorage<string|undefined>("levelWin", '0');
-  // const [gameState, setGameState] = useState<GameState>(GameState.MENU);
+  const { gameState, setGameState } = useGameState();
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [snakeStats, setSnakeStats] = useLocalStorage<SnakeStats>("snakeStats", {
+    level: 0,
+    highScore: 0,
+  });
+  useEffect(() => {
+    if (gameState === GameState.GAME_OVER) {
+      setGameState(GameState.START);
+    }
+  }, []);
+
+  useEffect(() => {
+    setHasLoaded(true);
+    if (snakeStats.level > 0) {
+      setGameState(GameState.NEXT_LEVEL);
+    }
+  }, [setGameState, snakeStats.level]);
+
+  if (!hasLoaded) {
+    return null;
+  }
+
+  const resetStats = () => {
+    setSnakeStats((prev) => ({
+      ...prev,
+      level: 0,
+    }));
+  };
+
+  const playAgain = () => {
+    setGameState(GameState.PLAYING);
+    resetStats();
+  };
+
+  const resetGame = () => {
+    setGameState(GameState.START);
+    resetStats();
+  };
+
+  const handleGameOver = () => {
+    setGameState(GameState.GAME_OVER);
+    resetStats();
+  };
+
+  const startGame = () => {
+    setSnakeStats((prev) => ({
+      ...prev,
+      state: GameState.PLAYING,
+    }));
+    setGameState(GameState.PLAYING);
+  };
+
+  const winGame = (score: number) => {
+    setGameState(GameState.NEXT_LEVEL);
+    setSnakeStats((prev) => ({
+      level: snakeStats?.level + 1,
+      highScore: score > prev.highScore ? score : prev.highScore,
+    }));
+  };
+
   return (
-    <div>games</div>
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     padding: "8rem",
-    //   }}
-    // >
-    //   {gameState === GameState.MENU && (
-    //     <div className="snake-animated-state">
-    //       <SnakeGame
-    //         gameState={GameState.MENU}
-    //         levelWin={levelWin}
-    //         startGame={() => setGameState(GameState.PLAYING)}
-    //       />
-    //     </div>
-    //   )}
-    //   {gameState === GameState.PLAYING && (
-    //     <div className="snake-animated-state">
-    //       <SnakeGame
-    //         gameState={GameState.PLAYING}
-    //         levelWin={levelWin}
-    //         gameOver={() => {
-    //           setGameState(GameState.GAME_OVER);
-    //           removeLevelWin();
-    //         }}
-    //         win={() => {
-    //           setGameState(GameState.WIN);
-    //           setLevelWin(levelWin + 1);
-    //         }}
-    //       />
-    //     </div>
-    //   )}
-    //   {gameState === GameState.WIN && (
-    //     <div className="snake-animated-state">
-    //       <SnakeGame
-    //         gameState={GameState.WIN}
-    //         startGame={() => setGameState(GameState.PLAYING)}
-    //         levelWin={levelWin}
-    //         restartGame={() => {
-    //           setGameState(GameState.MENU);
-    //           removeLevelWin();
-    //         }}
-    //       />
-    //     </div>
-    //   )}
-    //   {gameState === GameState.GAME_OVER && (
-    //     <div className="snake-animated-state">
-    //       <GameOver
-    //         gameState={GameState.GAME_OVER}
-    //         restartGame={() => setGameState(GameState.PLAYING)}
-    //       />
-    //     </div>
-    //   )}
-    // </div>
+    <div className={`${pressStart2P.className} flex justify-center`}>
+      {gameState === GameState.START && (
+        <div className="snake__animated-state">
+          <Menu startGame={startGame} />
+        </div>
+      )}
+      {gameState === GameState.PLAYING && (
+        <div className="snake__animated-state">
+          <SnakeGame
+            highScore={snakeStats.highScore}
+            score={calculateTotalScore(snakeStats?.level)}
+            level={snakeStats?.level + 1}
+            gameOver={handleGameOver}
+            win={winGame}
+          />
+        </div>
+      )}
+      {gameState === GameState.NEXT_LEVEL && (
+        <div className="snake__animated-state">
+          <NextLevel
+            handleNextLevel={() => {
+              setGameState(GameState.PLAYING);
+            }}
+            nextLevel={snakeStats?.level + 1}
+            resetGame={resetGame}
+          />
+        </div>
+      )}
+      {gameState === GameState.GAME_OVER && (
+        <div className="snake__animated-state">
+          <GameOver playAgain={playAgain} />
+        </div>
+      )}
+    </div>
   );
 }

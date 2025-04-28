@@ -1,32 +1,30 @@
 "use client";
 import React from "react";
-import { Space_Mono } from "next/font/google";
+import { rajdhani } from "@/lib/fonts";
+import Link from "next/link";
 
-const rajdhani = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
-interface Props {
+interface PanelProps {
   texts: string[];
   title: string;
+  isOffsetAnimation?: boolean;
   button: {
     label: string;
     url: string;
+    isInternal?: boolean;
   };
 }
 
-const Panel: React.FC<Props> = ({ texts, title, button }) => {
+const Panel = ({ texts, title, button, isOffsetAnimation = false }: PanelProps) => {
   return (
     <section
-      className={`sm:p-6 p-4 panel relative backdrop-blur-lg backdrop-filter sm:mb-12 mb-7 flex flex-col fade-in mx-4 el max-w-[48rem] self-center`}
+      className={`sm:p-6 p-4 panel relative backdrop-blur-[2px] backdrop-filter sm:mb-12 mb-7 flex flex-col fade-in mx-4 el max-w-[48rem] self-center`}
     >
-      <h2
+      <h3
         className="sm:my-4 my-2 md:text-4xl sm:text-3xl text-2xl  sm:scroll-mt-28 scroll-mt-20 font-bold leading-8 text-center"
         id={title.toLowerCase().replace(/ /g, "-")}
       >
         {title}
-      </h2>
+      </h3>
       {
         // eslint-disable-next-line react/no-unescaped-entities
         texts.map((item, key) => (
@@ -38,21 +36,18 @@ const Panel: React.FC<Props> = ({ texts, title, button }) => {
         ))
       }
       <div className="justify-center flex my-4">
-        <a
-          href={button.url}
-          className="home__btn--secondary"
-          onClick={(e) => {
-            if (button.url) {
-              return;
-            }
-            e.preventDefault();
-            alert("coming soon");
-          }}
-        >
-          {button.label}
-        </a>
+        {button?.isInternal && (
+          <Link href={button.url} className="home__btn--secondary focus-ring">
+            {button.label}
+          </Link>
+        )}
+        {!button?.isInternal && (
+          <a href={button.url} className="home__btn--secondary focus-ring">
+            {button.label}
+          </a>
+        )}
       </div>
-      <div className="border-beam" />
+      {isOffsetAnimation && <div className="border-beam" />}
     </section>
   );
 };

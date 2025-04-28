@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "next dev -p 1000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write '**/*.{frag,vert,js,tsx,ts}'"
   },
   "husky": {
     "hooks": {
@@ -21,16 +21,21 @@
     ]
   },
   "dependencies": {
-    "@types/three": "^0.173.0",
     "@vercel/analytics": "^1.5.0",
+    "@svgr/webpack": "^8.1.0",
+    "@types/three": "^0.164.0",
     "gray-matter": "^4.0.3",
     "next": "15.0.3",
+    "postprocessing": "^6.37.2",
+    "raw-loader": "^4.0.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-fps-stats": "^0.3.1",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
+    "stats.js": "^0.17.0",
     "tailwindcss-gradients": "^3.0.0",
-    "three": "^0.173.0",
+    "three": "^0.164.0",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
@@ -41,7 +46,8 @@
     "eslint-config-next": "^14.2.5",
     "eslint-config-prettier": "^9.1.0",
     "postcss": "^8",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-glsl": "^0.2.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

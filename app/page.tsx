@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import Hero from "@/components/Hero";
-import Panel from "@/components/Panel";
+import Hero from "@/components/Homepage/Hero";
+import Panel from "@/components/Homepage/Panel";
 
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 const aboutMe = {
@@ -20,11 +20,11 @@ const aboutMe = {
 };
 const snake = {
   title: "Snake game",
-  button: { label: "Play", url: "" },
+  button: { label: "Play", url: "/games", isInternal: true },
   texts: [
-    'I started my coding journey in <a class="panel__link" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
-      '>Pascal</a> and Ui part with <a class="panel__link" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
-      '            class="panel__link" href="https://nehe.gamedev.net/tutorial/lessons_01__05/22004/" target="_blank">NeHe</a> tutorials. One of my early attempts was to create\n' +
+    'I started my coding journey in <a class="panel__link focus-ring" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
+      '>Pascal</a> and Ui part with <a class="panel__link focus-ring" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
+      '            class="panel__link focus-ring" href="https://nehe.gamedev.net/tutorial/lessons_01__05/22004/" target="_blank">NeHe</a> tutorials. One of my early attempts was to create\n' +
       "          a Snake game in Pascal and Windows screensaver in OpenGL to animate particle effects. That was a long time\n" +
       "          ago.",
     "I wanted to remind myself of these times and recreate those projects using today's\n" +
@@ -37,7 +37,7 @@ export default function Home() {
     <main className="flex flex-col">
       <Hero welcomeTexts={welcomeTexts} />
       <Panel texts={aboutMe.texts} title={aboutMe.title} button={aboutMe.button} />
-      <Panel texts={snake.texts} title={snake.title} button={snake.button} />
+      <Panel texts={snake.texts} title={snake.title} button={snake.button} isOffsetAnimation />
     </main>
   );
 }
