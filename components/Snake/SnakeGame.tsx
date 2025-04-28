@@ -34,7 +34,7 @@ const generateFoodPosition = (
 
 interface SnakeProps {
   win: (counter: number) => void;
-  gameOver: () => void;
+  gameOver: (counter: number) => void;
   score: number;
   level: number;
   highScore: number;
@@ -197,7 +197,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
     //snake collision
     if (!isWin() && snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
-      gameOver();
+      gameOver(counter);
     }
 
     //eats food
