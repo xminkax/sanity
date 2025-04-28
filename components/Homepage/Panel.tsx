@@ -42,7 +42,7 @@ const Panel = ({ texts, title, button, isOffsetAnimation = false }: PanelProps) 
           </Link>
         )}
         {!button?.isInternal && (
-          <a href={button.url} className="home__btn--secondary focus-ring">
+          <a href={button.url} className="home__btn--secondary focus-ring" target="_blank">
             {button.label}
           </a>
         )}
