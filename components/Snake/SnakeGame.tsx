@@ -1,36 +1,23 @@
 "use client";
 import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { calculateTotalScore } from "@/constants/snake";
+import {
+  calculateTotalScore,
+  generateFoodPosition,
+  parseScreensConfig,
+  isOppositeDirection,
+} from "@/lib/snake/game";
 import Gesture from "@/public/gesture.svg";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { orbitron } from "@/lib/fonts";
 import tailwindConfig from "../../tailwind.config";
 
 const fullConfig = resolveConfig(tailwindConfig);
-
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
 
-const generateFoodPosition = (
-  canvasWidth: number,
-  canvasHeight: number,
-  unitSize: number,
-  snake: { x: number; y: number }[],
-): {
-  x: number;
-  y: number;
-} => {
-  const pos = {
-    x: Math.floor(Math.random() * (canvasWidth / unitSize)) * unitSize,
-    y: Math.floor(Math.random() * (canvasHeight / unitSize)) * unitSize,
-  };
-  if (snake && snake.some((unit) => pos.x === unit.x && pos.y === unit.y)) {
-    return generateFoodPosition(canvasWidth, canvasHeight, unitSize, snake);
-  }
-  return pos;
-};
+type DirectionText = "left" | "right" | "up" | "down";
 
 interface SnakeProps {
   win: (counter: number) => void;
@@ -39,8 +26,6 @@ interface SnakeProps {
   level: number;
   highScore: number;
 }
-
-const parseScreensConfig = (value: string) => parseInt(value, 10);
 
 export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -213,19 +198,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
       });
     }
   }, [snake, direction.x, direction.y, food.x, food.y, gameOver]);
-
-  type Direction = { x: number; y: number };
-  type DirectionText = "left" | "right" | "up" | "down";
-
-  function isOppositeDirection(val1: Direction, val2: Direction): boolean {
-    if (val1.x < 0 && val2.x === 0 && val2.y === 0) {
-      return true; //can't start left
-    }
-    if ((val1.x < 0 && val2.x > 0) || (val1.x > 0 && val2.x < 0)) {
-      return true;
-    }
-    return (val1.y < 0 && val2.y > 0) || (val1.y > 0 && val2.y < 0);
-  }
 
   const setDirectionFromEvents = useCallback((directionText: DirectionText) => {
     let directionTemp;
