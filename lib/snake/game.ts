@@ -1,8 +1,4 @@
 export function calculateTotalScore(levelNumber: number) {
-  if (levelNumber > 4) {
-    const baseSpeedAt4 = Math.floor(3 * levelNumber + 0.8 * levelNumber ** 2);
-    return baseSpeedAt4 + (levelNumber - 5) * 2;
-  }
   return Math.floor(3 * levelNumber + 0.8 * levelNumber ** 2);
 }
 
@@ -30,6 +26,7 @@ export function parseScreensConfig(value: string) {
 }
 
 type Direction = { x: number; y: number };
+
 export function isOppositeDirection(val1: Direction, val2: Direction): boolean {
   if (val1.x < 0 && val2.x === 0 && val2.y === 0) {
     return true; //can't start left

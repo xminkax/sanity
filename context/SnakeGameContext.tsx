@@ -7,7 +7,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { GameState } from "@/constants/snake";
+import { GameState } from "@/constants";
 
 interface GameStateContextType {
   gameState: GameState;

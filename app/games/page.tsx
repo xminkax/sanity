@@ -3,7 +3,7 @@ import SnakeGame from "@/components/Snake/SnakeGame";
 import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import Menu from "@/components/Snake/Menu";
-import { GameState } from "@/constants/snake";
+import { GameState } from "@/constants";
 import { calculateTotalScore } from "@/lib/snake/game";
 import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";

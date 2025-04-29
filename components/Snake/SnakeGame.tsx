@@ -332,7 +332,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   useEffect(() => {
     let animationFrameId: number;
     let lastUpdateTime = performance.now();
-    const interval = 120 - LEVEL_SPEED * level;
+    const interval = 120 - LEVEL_SPEED * Math.log2(level * 3) - level;
 
     const tick = (now: number) => {
       const elapsed = now - lastUpdateTime;
