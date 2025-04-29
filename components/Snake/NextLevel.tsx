@@ -27,7 +27,7 @@ const dictionary = {
 export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: NextLevelProps) {
   return (
     <div
-      className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44`}
+      className={`game-over-mobile flex flex-col items-center justify-center md:h-screen md:mt-0 mt-44 px-3`}
     >
       <h1
         className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center text-shadow ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
@@ -37,7 +37,7 @@ export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel 
       {dictionary[("level_" + (nextLevel - 1)) as keyof typeof dictionary].map((item, _) => (
         <p
           key={_}
-          className={`px-2 ${nextLevel === 4 ? "text-[#493552]" : "text-[#F0E6D2]"} max-w-xl sm:text-lg text-sm text-center mb-2`}
+          className={`${nextLevel === 4 ? "text-[#493552]" : "text-[#F0E6D2]"} max-w-xl sm:text-lg text-sm text-center mb-2`}
         >
           {item}
         </p>

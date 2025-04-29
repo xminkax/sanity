@@ -7,7 +7,7 @@ interface StringListProps {
 
 const Hero = ({ welcomeTexts }: StringListProps) => {
   return (
-    <section className="z-10 flex justify-center flex-col items-center mt-[8rem] sm:mt-[11rem] mb-[2rem]">
+    <section className="z-10 flex justify-center flex-col items-center mt-[8rem] sm:mt-[11rem] mb-[2rem] px-2">
       <div className="typewriter relative w-full flex justify-center items-center">
         {welcomeTexts.map((item: string, key: number) => (
           <h1
@@ -26,10 +26,10 @@ const Hero = ({ welcomeTexts }: StringListProps) => {
         ))}
       </div>
       <div className="fade-in sm:py-12 py-6 fade-in">
-        <h2 className={`my-6 mx-1 md:text-4xl sm:text-3xl text-2xl leading-8 text-center`}>
+        <h2 className={`py-6 md:text-4xl sm:text-3xl text-2xl leading-8 text-center`}>
           Ready to leap into the stars?
         </h2>
-        <div className="mt-8 sm:mt-12 mb-1 sm:mb-0 flex items-center justify-center gap-x-6">
+        <div className="mt-2 sm:mt-6 flex items-center justify-center gap-x-6">
           <Link href="/games" className="home__btn--primary focus-ring">
             Explore
           </Link>
