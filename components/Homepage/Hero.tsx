@@ -12,7 +12,7 @@ const Hero = ({ welcomeTexts }: StringListProps) => {
         {welcomeTexts.map((item: string, key: number) => (
           <h1
             key={item}
-            className="flex absolute invisible font-bold text-[2.75rem] sm:text-7xl pr-2 border-transparent overflow-hidden whitespace-nowrap mr-0"
+            className="flex absolute invisible font-bold text-[2.75rem] sm:text-7xl sm:leading-snug pr-2 border-transparent overflow-hidden whitespace-nowrap mr-0"
             style={{
               borderRightWidth: "4px",
               maxWidth: `calc(${item.length} * 1ch)`,

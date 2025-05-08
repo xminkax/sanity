@@ -23,7 +23,7 @@ const snake = {
   button: { label: "Play", url: "/games", isInternal: true },
   texts: [
     'I started my coding journey in <a class="panel__link focus-ring" target="_blank" href="https://en.wikipedia.org/wiki/Pascal_(programming_language)"\n' +
-      '>Pascal</a> and Ui part with <a class="panel__link focus-ring" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
+      '>Pascal</a> and UI part with <a class="panel__link focus-ring" target="_blank" href="https://www.opengl.org/">OpenGL</a> while learning <a\n' +
       '            class="panel__link focus-ring" href="https://nehe.gamedev.net/tutorial/lessons_01__05/22004/" target="_blank">NeHe</a> tutorials. One of my early attempts was to create\n' +
       "          a Snake game in Pascal and Windows screensaver in OpenGL to animate particle effects. That was a long time\n" +
       "          ago.",
