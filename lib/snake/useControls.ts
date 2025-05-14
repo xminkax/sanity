@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { isOppositeDirection } from "./game";
+import { Position } from "@/types";
 
 type Direction = { x: number; y: number };
 const DIRECTION_TEXT = {
@@ -17,13 +18,13 @@ const directionMap: Record<DIRECTION_TEXT, Direction> = {
 };
 
 export function useControls() {
-  const [direction, setDirection] = useState<{ x: number; y: number }>({
+  const [direction, setDirection] = useState<Position>({
     x: 0,
     y: 0,
   });
-  const [startXY, setStartXY] = useState<{ x: number; y: number } | { x: null; y: null }>({
-    x: null,
-    y: null,
+  const [startXY, setStartXY] = useState<Position>({
+    x: 0,
+    y: 0,
   });
 
   const setDirectionFromText = useCallback((dirText: DIRECTION_TEXT) => {
@@ -75,7 +76,7 @@ export function useControls() {
         setDirectionFromText(diffY > 0 ? DIRECTION_TEXT.DOWN : DIRECTION_TEXT.UP);
       }
 
-      setStartXY({ x: null, y: null });
+      setStartXY({ x: 0, y: 0 });
     },
     [startXY, setDirectionFromText],
   );

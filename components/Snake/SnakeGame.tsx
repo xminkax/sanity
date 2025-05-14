@@ -6,6 +6,7 @@ import Gesture from "@/public/gesture.svg";
 import { orbitron } from "@/lib/fonts";
 import { useCanvasSetup } from "@/lib/snake/useCanvasSetup";
 import { useControls } from "@/lib/snake/useControls";
+import { Position } from "@/types";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
@@ -22,11 +23,8 @@ interface SnakeProps {
 export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [counter, setCounter] = useState<number>(score);
-  const [snake, setSnake] = useState<{ x: number; y: number }[]>();
-  const [food, setFood] = useState<{
-    x: number;
-    y: number;
-  }>({ x: 0, y: 0 });
+  const [snake, setSnake] = useState<Position[]>();
+  const [food, setFood] = useState<Position>({ x: 0, y: 0 });
   const snakeRef = useRef(snake);
   const foodRef = useRef(food);
   const { canvasConfigRef } = useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood);

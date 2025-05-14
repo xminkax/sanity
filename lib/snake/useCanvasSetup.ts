@@ -1,24 +1,29 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, MutableRefObject } from "react";
 import { generateFoodPosition, parseScreensConfig } from "@/lib/snake/game";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
+import { Position } from "@/types";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
 const UNITS_WIDE = 31;
 const UNITS_TALL = 24;
 
-export function useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood) {
-  const canvasConfigPrevRef = useRef<{
-    width: number;
-    height: number;
-    unitSize: number;
-  } | null>(null);
-  const canvasConfigRef = useRef<{
-    width: number;
-    height: number;
-    unitSize: number;
-  } | null>(null);
+type CanvasConfig = {
+  width: number;
+  height: number;
+  unitSize: number;
+};
+
+export function useCanvasSetup(
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>,
+  snakeRef: MutableRefObject<Position[] | null>,
+  foodRef: MutableRefObject<Position>,
+  setSnake: React.Dispatch<React.SetStateAction<Position[]>>,
+  setFood: React.Dispatch<React.SetStateAction<Position>>,
+) {
+  const canvasConfigPrevRef = useRef<CanvasConfig | null>(null);
+  const canvasConfigRef = useRef<CanvasConfig | null>(null);
 
   const setupCanvas = useCallback(() => {
     let unitSize;
@@ -64,7 +69,7 @@ export function useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood) 
     } else {
       const prevUnitSize = canvasConfigPrevRef.current?.unitSize;
       setSnake(() => {
-        const newSnake = snakeRef.current?.map(({ x, y }) => ({
+        const newSnake = snakeRef.current!.map(({ x, y }) => ({
           x: (x / prevUnitSize) * unitSize,
           y: (y / prevUnitSize) * unitSize,
         }));
