@@ -19,7 +19,7 @@ export function useCanvasSetup(
   canvasRef: MutableRefObject<HTMLCanvasElement | null>,
   snakeRef: MutableRefObject<Position[] | null>,
   foodRef: MutableRefObject<Position>,
-  setSnake: React.Dispatch<React.SetStateAction<Position[]>>,
+  setSnake: React.Dispatch<React.SetStateAction<Position[] | null>>,
   setFood: React.Dispatch<React.SetStateAction<Position>>,
 ) {
   const canvasConfigPrevRef = useRef<CanvasConfig | null>(null);

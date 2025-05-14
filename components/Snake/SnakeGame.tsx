@@ -23,7 +23,7 @@ interface SnakeProps {
 export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [counter, setCounter] = useState<number>(score);
-  const [snake, setSnake] = useState<Position[]>();
+  const [snake, setSnake] = useState<Position[] | null>(null);
   const [food, setFood] = useState<Position>({ x: 0, y: 0 });
   const snakeRef = useRef(snake);
   const foodRef = useRef(food);
