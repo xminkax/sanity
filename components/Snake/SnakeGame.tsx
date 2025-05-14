@@ -1,16 +1,15 @@
 "use client";
 import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { calculateTotalScore, generateFoodPosition, isOppositeDirection } from "@/lib/snake/game";
+import { calculateTotalScore, generateFoodPosition } from "@/lib/snake/game";
 import Gesture from "@/public/gesture.svg";
 import { orbitron } from "@/lib/fonts";
 import { useCanvasSetup } from "@/lib/snake/useCanvasSetup";
+import { useControls } from "@/lib/snake/useControls";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-
-type DirectionText = "left" | "right" | "up" | "down";
 
 interface SnakeProps {
   win: (counter: number) => void;
@@ -22,10 +21,6 @@ interface SnakeProps {
 
 export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  //todo join to one
-  const [startX, setStartX] = useState<number | null>(null);
-  const [startY, setStartY] = useState<number | null>(null);
-  // const [startY, setStartY] = useState(null);
   const [counter, setCounter] = useState<number>(score);
   const [snake, setSnake] = useState<{ x: number; y: number }[]>();
   const [food, setFood] = useState<{
@@ -36,10 +31,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   const foodRef = useRef(food);
   const { canvasConfigRef } = useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood);
 
-  const [direction, setDirection] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
+  const { direction, handleTouchStart, handleTouchMove } = useControls();
   const [pendingWin, setPendingWin] = useState(false);
 
   const isWin = () => counter === calculateTotalScore(level);
@@ -93,65 +85,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
       });
     }
   }, [snake, direction.x, direction.y, food.x, food.y, gameOver]);
-
-  //   const DIRECTION = {
-  //     LEFT: 'left',
-  //     TOP: 'top',
-  //     DOWN: 'down',
-  //     RIGHT: 'right',
-  //   } as const;
-  //
-  //   type Direction = typeof DIRECTION[keyof typeof DIRECTION];
-  // // 'left' | 'top' | 'down' | 'right'
-  //
-  // // Usage
-  //   const go = (dir: Direction) => console.log(`Going ${dir}`);
-  //   go(DIRECTION.TOP); // ✅
-
-  const setDirectionFromEvents = useCallback((directionText: DirectionText) => {
-    let directionTemp;
-    switch (directionText) {
-      case "left":
-        directionTemp = { x: -1, y: 0 };
-        break;
-      case "right":
-        directionTemp = { x: 1, y: 0 };
-        break;
-      case "up":
-        directionTemp = { x: 0, y: -1 };
-        break;
-      case "down":
-        directionTemp = { x: 0, y: 1 };
-        break;
-    }
-
-    setDirection((prev) => {
-      if (isOppositeDirection(directionTemp, prev)) {
-        return prev;
-      }
-      return directionTemp;
-    });
-  }, []);
-
-  const onKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowLeft":
-          setDirectionFromEvents("left");
-          break;
-        case "ArrowRight":
-          setDirectionFromEvents("right");
-          break;
-        case "ArrowUp":
-          setDirectionFromEvents("up");
-          break;
-        case "ArrowDown":
-          setDirectionFromEvents("down");
-          break;
-      }
-    },
-    [setDirectionFromEvents],
-  );
 
   const paint = useCallback(() => {
     if (!snake || snake.length === 0) return;
@@ -214,30 +147,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     }
   }, [snake, food, pendingWin, paint]);
 
-  const handleTouchMove = (event: React.TouchEvent) => {
-    event.preventDefault();
-    if (!startX || !startY) return;
-
-    const diffX = event.touches[0].clientX - startX;
-    const diffY = event.touches[0].clientY - startY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      setDirectionFromEvents(diffX > 0 ? "right" : "left");
-    } else {
-      setDirectionFromEvents(diffY > 0 ? "down" : "up");
-    }
-
-    setStartX(null);
-    setStartY(null);
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onKeyDown]);
-
   useEffect(() => {
     let animationFrameId: number;
     let lastUpdateTime = performance.now();
@@ -267,11 +176,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     };
   }, [direction, updateSnake, level]);
 
-  const handleTouchStart = (event: React.TouchEvent) => {
-    event.preventDefault();
-    setStartX(event.touches[0].clientX);
-    setStartY(event.touches[0].clientY);
-  };
   return (
     <div
       className={`${orbitron.className} flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44`}
