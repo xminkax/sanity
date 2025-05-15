@@ -34,14 +34,12 @@ export function useControls() {
   }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    e.preventDefault();
     setStartXY({ x: e.touches[0].clientX, y: e.touches[0].clientY });
   }, []);
 
   // Touch move
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      e.preventDefault();
       if (startXY?.x === null || startXY?.y === null) return;
 
       const diffX = e.touches[0].clientX - startXY?.x;
