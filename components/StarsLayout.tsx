@@ -3,6 +3,7 @@ import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import LorenzAttractor from "@/components/LorenzAttractor/Index";
 import Nebula from "@/components/Nebula/index";
 import Aurora from "@/components/Aurora/index";
@@ -94,6 +95,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
 
       {renderLevelBackground()}
       {children}
+      <Footer />
     </body>
   );
 };
