@@ -1,8 +1,8 @@
 import Link from "next/link";
-import React, { MouseEventHandler } from "react";
+import React, {MouseEventHandler} from "react";
 import Logo from "@/app/icon.svg";
 import UndoIcon from "@/public/undo.svg";
-import { usePathname } from "next/navigation";
+import {usePathname} from "next/navigation";
 
 interface HeaderProps {
   shouldDisplayResetIcon: boolean;
@@ -10,7 +10,7 @@ interface HeaderProps {
   isResetDisabled: boolean;
 }
 
-const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps) => {
+const Header = ({shouldDisplayResetIcon, reset, isResetDisabled}: HeaderProps) => {
   const pathname = usePathname();
   return (
     <header
@@ -18,7 +18,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
     >
       <div className="">
         <Link href="/" className="focus-ring" aria-label="logo">
-          <Logo />
+          <Logo/>
         </Link>
       </div>
       <nav
@@ -29,7 +29,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
         <ul className="flex justify-center sm:space-x-6 space-x-3">
           <li>
             <Link
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              className="link-hover focus-ring-with-padding"
               href="/games"
               aria-current={pathname === "/games" ? "page" : undefined}
             >
@@ -40,7 +40,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
             <Link
               href="/#about-me"
               aria-current={pathname === "/" ? "page" : undefined}
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              className="link-hover focus-ring-with-padding"
             >
               About
             </Link>
@@ -49,7 +49,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
             <a
               href="/resume"
               target="_blank"
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              className="link-hover focus-ring-with-padding"
             >
               Resume
             </a>
@@ -64,7 +64,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
             disabled={isResetDisabled}
             className={`transition-opacity duration-300 focus-ring ${isResetDisabled ? "opacity-50 cursor-not-allowed" : "opacity-100 hover:opacity-80"}`}
           >
-            <UndoIcon />
+            <UndoIcon/>
           </button>
         </div>
       )}
