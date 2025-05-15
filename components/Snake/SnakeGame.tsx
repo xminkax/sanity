@@ -29,7 +29,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   const foodRef = useRef(food);
   const { canvasConfigRef } = useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood);
   const { direction, handleTouchStart, handleTouchMove } = useControls();
-
   const [pendingWin, setPendingWin] = useState(false);
 
   useEffect(() => {
@@ -44,7 +43,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     if (!canvasConfigRef.current) {
       return;
     }
-    if (!snake || snake.length === 0) return;
+    if (snake === null) return;
     const { width, height, unitSize } = canvasConfigRef.current;
     const newSnakeHead = {
       x: snake[0].x + direction.x * unitSize,
@@ -86,7 +85,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   }, [canvasConfigRef, snake, direction, counter, level, food, gameOver]);
 
   const paint = useCallback(() => {
-    if (!snake || snake.length === 0) return;
+    if (snake === null) return;
     if (!canvasConfigRef.current) {
       return;
     }
