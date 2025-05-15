@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback, MutableRefObject } from "react";
 import { generateFoodPosition, parseScreensConfig } from "@/lib/snake/game";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
-import { Position } from "@/interfaces";
+import { Position } from "@/types";
 
 const fullConfig = resolveConfig(tailwindConfig);
 

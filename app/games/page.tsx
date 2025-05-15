@@ -9,7 +9,7 @@ import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
 import { useGameState } from "@/context/SnakeGameContext";
 import { pressStart2P } from "@/lib/fonts";
-import { SnakeStats } from "@/interfaces";
+import { SnakeStats } from "@/types";
 
 export default function Games() {
   const { gameState, setGameState } = useGameState();

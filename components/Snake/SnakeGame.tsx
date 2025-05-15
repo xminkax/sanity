@@ -6,7 +6,7 @@ import Gesture from "@/public/gesture.svg";
 import { orbitron } from "@/lib/fonts";
 import { useCanvasSetup } from "@/lib/snake/useCanvasSetup";
 import { useControls } from "@/lib/snake/useControls";
-import { Position } from "@/interfaces";
+import { Position } from "@/types";
 
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { isOppositeDirection } from "./game";
-import { Position } from "@/interfaces";
+import { Position } from "@/types";
 
 type Direction = { x: number; y: number };
 const DIRECTION_TEXT = {
