@@ -1,7 +1,7 @@
 "use client";
 import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { calculateTotalScore, generateFoodPosition } from "@/lib/snake/game";
+import { calculateTotalScore, generateFoodPosition, isWin } from "@/lib/snake/game";
 import Gesture from "@/public/gesture.svg";
 import { orbitron } from "@/lib/fonts";
 import { useCanvasSetup } from "@/lib/snake/useCanvasSetup";
@@ -32,8 +32,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
   const [pendingWin, setPendingWin] = useState(false);
 
-  const isWin = () => counter === calculateTotalScore(level);
-
   useEffect(() => {
     snakeRef.current = snake;
   }, [snake]);
@@ -55,7 +53,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
     //wall collision
     if (
-      !isWin() &&
+      !isWin(counter, level) &&
       (newSnakeHead.x === width ||
         newSnakeHead.y === height ||
         newSnakeHead.x === -unitSize ||
@@ -66,7 +64,10 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     }
 
     //snake collision
-    if (!isWin() && snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
+    if (
+      !isWin(counter, level) &&
+      snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)
+    ) {
       gameOver(counter);
     }
 
@@ -82,7 +83,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         return newSnake;
       });
     }
-  }, [snake, direction.x, direction.y, food.x, food.y, gameOver]);
+  }, [canvasConfigRef, snake, direction, counter, level, food, gameOver]);
 
   const paint = useCallback(() => {
     if (!snake || snake.length === 0) return;
@@ -130,11 +131,11 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     if (!ctx) {
       return;
     }
-    if (!isWin()) {
+    if (!isWin(counter, level)) {
       ctx.fillStyle = FOOD_COLOR;
       ctx.fillRect(food.x, food.y, unitSize, unitSize);
     }
-  }, [food.x, food.y, snake]);
+  }, [canvasConfigRef, counter, food, level, snake]);
 
   //to eat last food after collision detected
   useEffect(() => {
@@ -143,7 +144,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
       setPendingWin(false);
       win(counter);
     }
-  }, [snake, food, pendingWin, paint]);
+  }, [snake, food, pendingWin, paint, win, counter]);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -157,7 +158,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         lastUpdateTime = now;
         updateSnake();
 
-        if (isWin()) {
+        if (isWin(counter, level)) {
           setPendingWin(true);
         }
       }
@@ -172,7 +173,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [direction, updateSnake, level]);
+  }, [direction, updateSnake, level, counter]);
 
   return (
     <div

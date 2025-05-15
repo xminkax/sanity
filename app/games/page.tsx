@@ -22,6 +22,7 @@ export default function Games() {
     if (gameState === GameState.GAME_OVER) {
       setGameState(GameState.START);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
