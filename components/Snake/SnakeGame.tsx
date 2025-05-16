@@ -176,7 +176,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
   return (
     <div
-      className={`${orbitron.className} flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44`}
+      className={`${orbitron.className} flex flex-col justify-center items-center md:mt-16 mt-36`}
     >
       <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">
