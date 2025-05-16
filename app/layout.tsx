@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StarsLayout from "@/components/StarsLayout";
 import { orbitron } from "@/lib/fonts";
-import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { GameStateProvider } from "@/context/SnakeGameContext";
 

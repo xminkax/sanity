@@ -10,7 +10,7 @@ import Aurora from "@/components/Aurora/index";
 import Particles from "@/components/Particles";
 import { useGameState } from "@/context/SnakeGameContext";
 import { GameState } from "@/constants";
-import { SnakeStats } from "@/interfaces";
+import { SnakeStats } from "@/types";
 
 const NUM_STARS: number = 100;
 
