@@ -6,7 +6,7 @@ interface MenuProps {
 
 export default function Menu({ startGame }: MenuProps) {
   return (
-    <div className={`flex flex-col items-center justify-center md:h-full mt-44 px-4 mb-14`}>
+    <div className={`flex flex-col items-center justify-center xl:h-full mt-44 px-4 mb-14`}>
       <h1 className="sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center text-[wheat] text-shadow">
         Snake
       </h1>

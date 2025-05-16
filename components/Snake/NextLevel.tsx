@@ -27,7 +27,7 @@ const dictionary = {
 export default function handleNextLevel({ resetGame, handleNextLevel, nextLevel }: NextLevelProps) {
   return (
     <div
-      className={`game-over-mobile flex flex-col items-center justify-center md:h-full mt-44 px-3 mb-14`}
+      className={`game-over-mobile flex flex-col items-center justify-center xl:h-full mt-44 px-3 mb-14`}
     >
       <h1
         className={`sm:text-5xl text-3xl uppercase  mb-8 font-bold text-center text-shadow ${nextLevel === 4 ? "text-[#9a6faf]" : "text-[#F0E6D2]"}`}
