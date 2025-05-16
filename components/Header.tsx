@@ -29,7 +29,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
         <ul className="flex justify-center sm:space-x-6 space-x-3">
           <li>
             <Link
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              className="link-hover focus-ring-with-padding"
               href="/games"
               aria-current={pathname === "/games" ? "page" : undefined}
             >
@@ -40,17 +40,13 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
             <Link
               href="/#about-me"
               aria-current={pathname === "/" ? "page" : undefined}
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
+              className="link-hover focus-ring-with-padding"
             >
               About
             </Link>
           </li>
           <li>
-            <a
-              href="/resume"
-              target="_blank"
-              className="opacity-100 hover:opacity-80 focus-ring-with-padding"
-            >
+            <a href="/resume" target="_blank" className="link-hover focus-ring-with-padding">
               Resume
             </a>
           </li>

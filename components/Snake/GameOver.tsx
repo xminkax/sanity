@@ -136,10 +136,10 @@ const GameOver = ({ playAgain }: GameOverProps) => {
   }, []);
 
   return (
-    <div className={`w-full h-64`}>
-      <div ref={mountRef} className="fixed top-0 left-0 w-full" />
+    <div className={`w-full`}>
+      <div ref={mountRef} className="fixed top-0 left-0 pointer-events-none" />
       <div
-        className={`game-over-mobile flex flex-col items-center justify-center h-screen absolute left-1/2 -translate-x-1/2`}
+        className={`flex flex-col items-center justify-center min-h-[calc(100vh-4.5rem)] absolute left-1/2 -translate-x-1/2`}
       >
         <h1 className="sm:text-5xl text-4xl uppercase  sm:mb-8 mb-2 font-bold text-center text-[wheat] text-shadow">
           Game over
