@@ -86,7 +86,7 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
     return <body>{children}</body>;
   }
   return (
-    <body>
+    <body className="flex flex-col">
       <Header
         shouldDisplayResetIcon={highScore > 0}
         reset={reset}
@@ -94,9 +94,9 @@ const StarsLayout: FC<{ children: ReactNode }> = ({ children }): JSX.Element => 
       />
 
       {renderLevelBackground()}
-      <div className="flex flex-col min-h-screen">
-        <main className="flex-grow">{children}</main>
-      </div>
+
+      <main className="flex-1 min-h-[calc(100vh-4.5rem)]">{children}</main>
+
       <Footer />
     </body>
   );

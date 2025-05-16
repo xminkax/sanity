@@ -25,7 +25,6 @@ export default function Footer() {
       <a
         href="https://www.linkedin.com/in/monika-kindernayova-990477a6/"
         target="_blank"
-        rel="noopener noreferrer"
         className="link-hover"
         aria-label="LinkedIn"
       >

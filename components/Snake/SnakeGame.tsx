@@ -306,7 +306,6 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   }, [snake, food, pendingWin, paint]);
 
   const handleTouchMove = (event: React.TouchEvent) => {
-    event.preventDefault();
     if (!startX || !startY) return;
 
     const diffX = event.touches[0].clientX - startX;
@@ -359,13 +358,12 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
   }, [direction, updateSnake, level]);
 
   const handleTouchStart = (event: React.TouchEvent) => {
-    event.preventDefault();
     setStartX(event.touches[0].clientX);
     setStartY(event.touches[0].clientY);
   };
   return (
     <div
-      className={`${orbitron.className} flex flex-col justify-center items-center md:h-screen md:mt-0 mt-44`}
+      className={`${orbitron.className} flex flex-col justify-center items-center md:mt-16 mt-36`}
     >
       <div className="flex sm:py-6 py-4 sm:px-0 sm:text-base text-xs sm:self-start">
         <div className="text-[wheat] uppercase sm:mr-10 mr-4">
