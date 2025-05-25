@@ -9,7 +9,7 @@ export default function Footer() {
       <a
         href="https://github.com/xminkax/sanity"
         target="_blank"
-        className="link-hover"
+        className="link-hover focus-ring"
         aria-label="GitHub"
       >
         <svg
@@ -25,7 +25,7 @@ export default function Footer() {
       <a
         href="https://www.linkedin.com/in/monika-kindernayova-990477a6/"
         target="_blank"
-        className="link-hover"
+        className="link-hove focus-ring"
         aria-label="LinkedIn"
       >
         <svg
