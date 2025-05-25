@@ -1,23 +1,16 @@
 "use client";
 import "@/app/globals.css";
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import {
-  calculateTotalScore,
-  generateFoodPosition,
-  parseScreensConfig,
-  isOppositeDirection,
-} from "@/lib/snake/game";
+import { calculateTotalScore, generateFoodPosition, isWin } from "@/lib/snake/game";
 import Gesture from "@/public/gesture.svg";
-import resolveConfig from "tailwindcss/resolveConfig";
 import { orbitron } from "@/lib/fonts";
-import tailwindConfig from "../../tailwind.config";
+import { useCanvasSetup } from "@/lib/snake/useCanvasSetup";
+import { useControls } from "@/lib/snake/useControls";
+import { Position } from "@/types";
 
-const fullConfig = resolveConfig(tailwindConfig);
 const SNAKE_COLOR = "#3acfd5";
 const FOOD_COLOR = "#ffb3b3";
 const LEVEL_SPEED = 20;
-
-type DirectionText = "left" | "right" | "up" | "down";
 
 interface SnakeProps {
   win: (counter: number) => void;
@@ -29,36 +22,14 @@ interface SnakeProps {
 
 export default function SnakeGame({ win, gameOver, level, score, highScore }: SnakeProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const canvasConfigPrevRef = useRef<{
-    width: number;
-    height: number;
-    unitSize: number;
-  } | null>(null);
-  const canvasConfigRef = useRef<{
-    width: number;
-    height: number;
-    unitSize: number;
-  } | null>(null);
-  //todo join to one
-  const [startX, setStartX] = useState<number | null>(null);
-  const [startY, setStartY] = useState<number | null>(null);
-  // const [startY, setStartY] = useState(null);
   const [counter, setCounter] = useState<number>(score);
-  const [snake, setSnake] = useState<{ x: number; y: number }[]>();
-  const [food, setFood] = useState<{
-    x: number;
-    y: number;
-  }>({ x: 0, y: 0 });
+  const [snake, setSnake] = useState<Position[] | null>(null);
+  const [food, setFood] = useState<Position>({ x: 0, y: 0 });
   const snakeRef = useRef(snake);
   const foodRef = useRef(food);
-
-  const [direction, setDirection] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
+  const { canvasConfigRef } = useCanvasSetup(canvasRef, snakeRef, foodRef, setSnake, setFood);
+  const { direction, handleTouchStart, handleTouchMove } = useControls();
   const [pendingWin, setPendingWin] = useState(false);
-
-  const isWin = () => counter === calculateTotalScore(level);
 
   useEffect(() => {
     snakeRef.current = snake;
@@ -68,100 +39,11 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     foodRef.current = food;
   }, [food]);
 
-  const setupCanvas = useCallback(() => {
-    let unitSize;
-
-    const UNITS_WIDE = 31;
-    const UNITS_TALL = 24;
-
-    if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.xl)) {
-      // Desktop
-      unitSize = 30;
-    } else if (window.innerWidth >= parseScreensConfig(fullConfig.theme.screens.md)) {
-      // Tablet
-      unitSize = 22;
-    } else {
-      // Mobile
-      unitSize = 12;
-    }
-
-    if (canvasConfigPrevRef.current?.unitSize === unitSize && snakeRef.current) {
-      return;
-    }
-
-    const width = unitSize * UNITS_WIDE;
-    const height = unitSize * UNITS_TALL;
-    canvasConfigPrevRef.current = { height: 0, unitSize: 0, width: 0, ...canvasConfigRef.current };
-    canvasConfigRef.current = { width, height, unitSize };
-
-    const defaultSnakePosition = 8;
-
-    if (!snakeRef.current) {
-      setSnake([
-        {
-          x: defaultSnakePosition * unitSize,
-          y: defaultSnakePosition * unitSize,
-        },
-        {
-          x: defaultSnakePosition * unitSize - unitSize,
-          y: defaultSnakePosition * unitSize,
-        },
-        {
-          x: defaultSnakePosition * unitSize - 2 * unitSize,
-          y: defaultSnakePosition * unitSize,
-        },
-      ]);
-      setFood(generateFoodPosition(width, height, unitSize, snakeRef.current ?? []));
-    } else {
-      const prevUnitSize = canvasConfigPrevRef.current?.unitSize;
-      setSnake(() => {
-        const newSnake = snakeRef.current?.map(({ x, y }) => ({
-          x: (x / prevUnitSize) * unitSize,
-          y: (y / prevUnitSize) * unitSize,
-        }));
-        return newSnake;
-      });
-
-      setFood(() => {
-        const newFood = {
-          x: Math.floor((foodRef.current.x / prevUnitSize) * unitSize),
-          y: Math.floor((foodRef.current.y / prevUnitSize) * unitSize),
-        };
-        return newFood;
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    setupCanvas();
-  }, [setupCanvas]);
-
-  useEffect(() => {
-    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-    const handleResize = () => {
-      if (!resizeTimeout) {
-        resizeTimeout = setTimeout(() => {
-          setupCanvas();
-          resizeTimeout = null;
-        }, 200); // 200ms throttle delay
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      if (resizeTimeout) {
-        clearTimeout(resizeTimeout);
-      }
-    };
-  }, [setupCanvas]);
-
   const updateSnake = useCallback(() => {
     if (!canvasConfigRef.current) {
       return;
     }
-    if (!snake || snake.length === 0) return;
+    if (snake === null) return;
     const { width, height, unitSize } = canvasConfigRef.current;
     const newSnakeHead = {
       x: snake[0].x + direction.x * unitSize,
@@ -170,7 +52,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
 
     //wall collision
     if (
-      !isWin() &&
+      !isWin(counter, level) &&
       (newSnakeHead.x === width ||
         newSnakeHead.y === height ||
         newSnakeHead.x === -unitSize ||
@@ -181,7 +63,10 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     }
 
     //snake collision
-    if (!isWin() && snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)) {
+    if (
+      !isWin(counter, level) &&
+      snake.some((unit) => newSnakeHead.x === unit.x && newSnakeHead.y === unit.y)
+    ) {
       gameOver(counter);
     }
 
@@ -197,55 +82,10 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         return newSnake;
       });
     }
-  }, [snake, direction.x, direction.y, food.x, food.y, gameOver]);
-
-  const setDirectionFromEvents = useCallback((directionText: DirectionText) => {
-    let directionTemp;
-    switch (directionText) {
-      case "left":
-        directionTemp = { x: -1, y: 0 };
-        break;
-      case "right":
-        directionTemp = { x: 1, y: 0 };
-        break;
-      case "up":
-        directionTemp = { x: 0, y: -1 };
-        break;
-      case "down":
-        directionTemp = { x: 0, y: 1 };
-        break;
-    }
-
-    setDirection((prev) => {
-      if (isOppositeDirection(directionTemp, prev)) {
-        return prev;
-      }
-      return directionTemp;
-    });
-  }, []);
-
-  const onKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowLeft":
-          setDirectionFromEvents("left");
-          break;
-        case "ArrowRight":
-          setDirectionFromEvents("right");
-          break;
-        case "ArrowUp":
-          setDirectionFromEvents("up");
-          break;
-        case "ArrowDown":
-          setDirectionFromEvents("down");
-          break;
-      }
-    },
-    [setDirectionFromEvents],
-  );
+  }, [canvasConfigRef, snake, direction, counter, level, food, gameOver]);
 
   const paint = useCallback(() => {
-    if (!snake || snake.length === 0) return;
+    if (snake === null) return;
     if (!canvasConfigRef.current) {
       return;
     }
@@ -290,11 +130,11 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     if (!ctx) {
       return;
     }
-    if (!isWin()) {
+    if (!isWin(counter, level)) {
       ctx.fillStyle = FOOD_COLOR;
       ctx.fillRect(food.x, food.y, unitSize, unitSize);
     }
-  }, [food.x, food.y, snake]);
+  }, [canvasConfigRef, counter, food, level, snake]);
 
   //to eat last food after collision detected
   useEffect(() => {
@@ -303,30 +143,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
       setPendingWin(false);
       win(counter);
     }
-  }, [snake, food, pendingWin, paint]);
-
-  const handleTouchMove = (event: React.TouchEvent) => {
-    if (!startX || !startY) return;
-
-    const diffX = event.touches[0].clientX - startX;
-    const diffY = event.touches[0].clientY - startY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      setDirectionFromEvents(diffX > 0 ? "right" : "left");
-    } else {
-      setDirectionFromEvents(diffY > 0 ? "down" : "up");
-    }
-
-    setStartX(null);
-    setStartY(null);
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onKeyDown]);
+  }, [snake, food, pendingWin, paint, win, counter]);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -340,7 +157,7 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
         lastUpdateTime = now;
         updateSnake();
 
-        if (isWin()) {
+        if (isWin(counter, level)) {
           setPendingWin(true);
         }
       }
@@ -355,12 +172,8 @@ export default function SnakeGame({ win, gameOver, level, score, highScore }: Sn
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [direction, updateSnake, level]);
+  }, [direction, updateSnake, level, counter]);
 
-  const handleTouchStart = (event: React.TouchEvent) => {
-    setStartX(event.touches[0].clientX);
-    setStartY(event.touches[0].clientY);
-  };
   return (
     <div
       className={`${orbitron.className} flex flex-col justify-center items-center md:mt-16 mt-36`}

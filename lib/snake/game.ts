@@ -36,3 +36,7 @@ export function isOppositeDirection(val1: Direction, val2: Direction): boolean {
   }
   return (val1.y < 0 && val2.y > 0) || (val1.y > 0 && val2.y < 0);
 }
+
+export function isWin(counter: number, level: number): boolean {
+  return counter === calculateTotalScore(level);
+}

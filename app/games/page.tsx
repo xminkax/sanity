@@ -9,7 +9,7 @@ import NextLevel from "@/components/Snake/NextLevel";
 import GameOver from "@/components/Snake/GameOver";
 import { useGameState } from "@/context/SnakeGameContext";
 import { pressStart2P } from "@/lib/fonts";
-import { SnakeStats } from "@/interfaces";
+import { SnakeStats } from "@/types";
 
 export default function Games() {
   const { gameState, setGameState } = useGameState();
@@ -22,6 +22,7 @@ export default function Games() {
     if (gameState === GameState.GAME_OVER) {
       setGameState(GameState.START);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
