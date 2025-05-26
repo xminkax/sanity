@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, MutableRefObject } from "react";
+import React, { useRef, useEffect, useCallback, useLayoutEffect, MutableRefObject } from "react";
 import { generateFoodPosition, parseScreensConfig } from "@/lib/snake/game";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
@@ -84,9 +84,9 @@ export function useCanvasSetup(
         return newFood;
       });
     }
-  }, []);
+  }, [foodRef, setFood, setSnake, snakeRef]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setupCanvas();
   }, [setupCanvas]);
 
