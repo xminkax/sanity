@@ -1,4 +1,5 @@
 # sanity
+[![Website](https://img.shields.io/badge/Website-https://minka.space-blue?style=flat-square&logo=google-chrome)](https://minka.space)  
 
 Personal website to escape to another world during the maternity leave.
 
