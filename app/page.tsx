@@ -6,7 +6,7 @@ import Panel from "@/components/Homepage/Panel";
 const welcomeTexts: string[] = ["Hello world", "I am Monika", "I enjoy coding"];
 const aboutMe = {
   title: "About me",
-  button: { label: "Resume", url: "/resume" },
+  button: { label: "Resume", url: "/resume.pdf" },
   texts: [
     "I am a software engineer with over 12 years of professional experience.",
     "I am passionate about developing applications that simplify people's everyday lives.",
