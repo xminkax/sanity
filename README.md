@@ -3,6 +3,8 @@
 
 Personal website to escape to another world during the maternity leave.
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/xminkax/sanity)
+
 ## 🧪 Tech Stack
 
 - [Next.js](https://nextjs.org/)
