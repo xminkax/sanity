@@ -1,6 +1,9 @@
 # sanity
+[![Website](https://img.shields.io/badge/Website-https://minka.space-blue?style=flat-square&logo=google-chrome)](https://minka.space)  
 
 Personal website to escape to another world during the maternity leave.
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/xminkax/sanity)
 
 ## 🧪 Tech Stack
 
@@ -31,7 +34,8 @@ npm run dev
 Visit http://localhost:1000 in your browser.
 
 ### TODO
-- refactor react component for Snake game, too messy, too long: WIP [https://github.com/xminkax/sanity/pull/10](https://github.com/xminkax/sanity/pull/10)
+- enhance the mobile experience of the snake game
+- play with speed to improve user experience
 - have a look on react fiber, it seems as the best way to use threejs with react
 - create more visualisations 
 - add sound

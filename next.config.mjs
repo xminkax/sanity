@@ -9,7 +9,7 @@ const nextConfig = {
     return [
       {
         source: "/resume", // Define your own path
-        destination: "https://standardresume.co/r/minka", // The external site
+        destination: "/resume.pdf", // The external site
       },
     ];
   },

@@ -58,6 +58,7 @@ export function useControls() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
       switch (e.key) {
         case "ArrowLeft":
           setDirectionFromEvents(DIRECTION_TEXT.LEFT);

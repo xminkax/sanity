@@ -46,7 +46,7 @@ const Header = ({ shouldDisplayResetIcon, reset, isResetDisabled }: HeaderProps)
             </Link>
           </li>
           <li>
-            <a href="/resume" target="_blank" className="link-hover focus-ring-with-padding">
+            <a href="/resume.pdf" target="_blank" className="link-hover focus-ring-with-padding">
               Resume
             </a>
           </li>
